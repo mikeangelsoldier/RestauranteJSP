@@ -173,7 +173,7 @@
                             data-target="#exampleModalCenter">
                         Pedir
                     </button>
-                    <button class="btn btn-lg btn-danger" disabled>Pagar</button>
+                    <button id="btnPagar" name="btnPagar" class="btn btn-lg btn-danger" disabled>Pagar</button>
                 </div>
             </div>
         </div>

@@ -226,3 +226,7 @@ ul.menuI {
     max-height: 300px;
     overflow-x: auto;
 }
+
+#btnPagar {
+    cursor: not-allowed;
+}
