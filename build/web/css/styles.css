@@ -64,6 +64,10 @@ img.image-user {
     height: 100px;
 }
 
+img.image-admin {
+    border-radius: 50%;
+}
+
 .none {
     display: none;
 }
@@ -130,6 +134,28 @@ input[type=checkbox] {
     background-image: url(imagenes/menuBackground2.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    border-radius: 5px;
+    padding: 12px;
+    width: 23%;
+    overflow-x: hidden;
+}
+
+.menuAdmin{
+    z-index: 1000;
+    position: fixed;
+    left: 175px;
+    top: 60px;
+    bottom: 0px;
+    margin-left: -175px;
+    overflow-y: auto;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    background-color: white;
+    /*background-image: url(imagenes/menuBackground2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;*/
     border-radius: 5px;
     padding: 12px;
     width: 23%;
@@ -261,7 +287,7 @@ ul.menuI {
 }
 
 .heead a {
-  float: right;
+  float: left;
   display: block;
   color: #f2f2f2;
   text-align: center;
@@ -271,12 +297,20 @@ ul.menuI {
 }
 
 .heead a:hover {
+    text-decoration: none;
   background: #ddd;
   color: black;
 }
 
 .heead .username {
     float: right;
+    color: #f2f2f2;
+    padding: 14px 16px;
+    font-size: 17px;
+}
+
+.heead .links {
+    float: left;
     color: #f2f2f2;
     padding: 14px 16px;
     font-size: 17px;

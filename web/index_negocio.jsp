@@ -20,34 +20,47 @@
     <body>
         <div class="container" style="width: 70% !important; display: block">
             <h1>Bienvenido al sistema</h1><br>
-            <div class="buttons"> 
-                <table class="max">
-                    <tr>
-                        <td>
-                            <form>
-                                <input class="btn-login btn-block" type="submit" value="Administrador">
-                            </form>
-                        </td>
-                        <td>
-                            <form>
-                                <input class="btn-login btn-block" type="submit" value="Mesero">
-                            </form>
-                        </td>
-                        <td>
-                            <form>
-                                <input class="btn-login btn-block" type="submit" value="Cocina">
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-
-
-
-
-
-
+            <h4>Selecciona un perfil</h4><br>
+            <div class="row"> 
+                <div class="col-md-4">
+                    <form>
+                        <button type="button" class="btn-image" onclick="loginAdmin();">
+                            <img src="css/imagenes/admin.PNG" width="150px" height="150px" class="btn-content-image">
+                            <label class="text-image">Administrador</label>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form>
+                        <button type="button" class="btn-image" onclick="loginMesero();">
+                            <img src="css/imagenes/mesero2.png" width="150px" height="150px" class="btn-content-image">
+                            <label class="text-image">Mesero</label>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form>
+                        <button type="button" class="btn-image" onclick="loginCocinero();">
+                            <img src="css/imagenes/chef.png" width="150px" height="150px" class="btn-content-image">
+                            <label class="text-image">Cocinero</label>
+                        </button>
+                    </form>
+                </div>
             </div>
-
         </div>
     </body>
+    <script language="javascript" type="text/javascript">
+        function loginAdmin() { 
+            console.log('admin');
+            window.open("loginAdministrador.jsp","_self"); 
+        }
+        
+        function loginMesero() { 
+            window.open("loginMesero.jsp","_self"); 
+        }
+        
+        function loginCocinero() { 
+            window.open("loginCocinero.jsp","_self"); 
+        }
+    </script>
 </html>
