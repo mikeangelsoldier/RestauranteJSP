@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import modelo.GestorUsuarioBD;
-import modelo.Usuario;
+import modelo.GestorClienteBD;
+import modelo.Cliente;
 
 /**
  *
@@ -30,10 +30,10 @@ public class LoginClientes extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            GestorUsuarioBD gestor = new GestorUsuarioBD();
-            Usuario user = gestor.getUserLogin(username, password);
+            GestorClienteBD gestor = new GestorClienteBD();
+            Cliente user = gestor.getClienteLogin(username, password);
             
-            if (user.getUserId() > 0) {
+            if (user.getClientId() > 0) {
                 HttpSession session = request.getSession();
                 session.setAttribute("usr", user);
                 response.sendRedirect(request.getContextPath() + "/pedidos.jsp");
