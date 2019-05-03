@@ -147,6 +147,15 @@ call getLogin('mike','mike123');
 call getLogin('mike','mike12');
 */
 
+DROP PROCEDURE IF EXISTS getClienteNextId;
+CREATE PROCEDURE getClienteNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "cliente";
+/*
+call getClienteNextId();
+*/
 
 
 DROP PROCEDURE IF EXISTS getClientes;
@@ -159,6 +168,16 @@ select * from cliente;
 call getClientes();
 */
 
+DROP PROCEDURE IF EXISTS getCliente;
+CREATE PROCEDURE getCliente(
+clave int
+)
+select * from cliente where cliente.id=clave and status=1;
+
+/*
+select * from cliente;
+call getCliente(1);
+*/
 
  DROP PROCEDURE IF EXISTS insertarCliente;
  CREATE PROCEDURE insertarCliente(
@@ -183,13 +202,12 @@ call getClientes();
     apellidos varchar(100),
 	correo varchar(50) ,
 	usuario varchar(50) ,
-	pass varchar(50) ,
-    tipo varchar(10)
+	pass varchar(50)
  )
- update cliente as c set c.nombre=nombre,c.apellidos=apellidos,c.correo=correo,c.usuario=usuario,c.pass=pass,c.tipo=tipo
+ update cliente as c set c.nombre=nombre,c.apellidos=apellidos,c.correo=correo,c.usuario=usuario,c.pass=pass
  where c.id =clave;
 
-call updateCliente(1,'Miguel','Ramírez Lira','migueram_5@hotmail.com','mike','mike123','1');
+call updateCliente(1,'Miguel','Ramírez Lira','migueram_5@hotmail.com','mike','mike123');
  
  
 DROP PROCEDURE IF EXISTS deleteCliente;
@@ -202,8 +220,7 @@ CREATE PROCEDURE deleteCliente(
  /*
  call deleteCliente(1);
  */
- 
- 
+
 DROP PROCEDURE IF EXISTS getFiltroCliente;
 CREATE PROCEDURE getFiltroCliente( 
 	clave varchar(50),
@@ -225,7 +242,7 @@ CREATE PROCEDURE getFiltroCliente(
     AND status=1;
 
  /*
- call getFiltroCliente('','','','','','','');
+ call getFiltroCliente('','','','','','','1');
   call getFiltroCliente('','Jortt','','','','','');
     call getFiltroCliente('2','J','Gu','','','','');
  */
@@ -244,6 +261,27 @@ call getPlatillos();
 */
 
 
+DROP PROCEDURE IF EXISTS getPlatillo;
+CREATE PROCEDURE getPlatillo(
+clave int
+)
+select * from platillo where platillo.id=clave and status=1;
+
+/*
+call getPlatillo(2);
+*/
+
+
+DROP PROCEDURE IF EXISTS getPlatilloNextId;
+CREATE PROCEDURE getPlatilloNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "platillo";
+/*
+call getPlatilloNextId();
+*/
+
  DROP PROCEDURE IF EXISTS insertarPlatillo;
  CREATE PROCEDURE insertarPlatillo(
     imagen longblob,
@@ -257,8 +295,8 @@ call getPlatillos();
  call insertarPlatillo('','Enchiladas rojas','muy buenas',35.50,'Comida');
  call insertarPlatillo('','Enchiladas verde','tambien muy buenas',36.50,'Comida');
   call insertarPlatillo('','Jugo naranja','muy fresca',10.50,'Bebida');
+  call insertarPlatillo('chhdghdn475','Jugo naranja','muy fresca',10.50,'Bebida');
  
-
  DROP PROCEDURE IF EXISTS updatePlatillo;
  CREATE PROCEDURE updatePlatillo(
 	clave int,
@@ -281,7 +319,7 @@ call getPlatillos();
  )
  select puntuacionTotal,numPuntuaciones from platillo where id =clave;
 /*
- call getPuntaje(1);
+ call getPuntaje();
 */
 
 
