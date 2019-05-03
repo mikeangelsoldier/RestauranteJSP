@@ -32,20 +32,20 @@
             </div> 
 
             <div class="card-body">                
-                <!--%@ page import="Controller.login" %-->
+                <%@ page import="controlador.LoginClientes" %>
                 <h5 class="card-title" style="color: snow"> Introduce tu cuenta y tu contraseña</h5>
-                <form > <!--action="login" method="post"-->
+                <form action="LoginClientes" method="post"> <!---->
                     <table cellspacing="3" cellpadding="3" class="form-login">
                         <tr>                            
                             <td><input class="form-control" type="text" id="username"
-                                       name="cuenta" placeholder="Usuario" 
+                                       name="username" placeholder="Usuario" 
                                        autofocus required>
                             </td>
                         </tr>
                         <tr>
                             
                             <td><input class="form-control" type="password" id="password"
-                                       name="clave" required placeholder="Contraseña">
+                                       name="password" required placeholder="Contraseña">
                             </td>
                         </tr>
 
@@ -94,4 +94,12 @@
             });
         </script>
     </body>
+    <!-- Este mensaje se muestra solo despues que se modificó un registro y se redirecciona a este index.jsp -->
+    <%
+        if (request.getAttribute("resInsert") != null) {
+            out.print("<script>alert(\"" + request.getAttribute("resInsert").toString() + "\")</script>");
+        } else if (request.getAttribute("resLogin") != null) {
+            out.print("<script>alert(\"" + request.getAttribute("resLogin").toString() + "\")</script>");
+        }
+    %>
 </html>

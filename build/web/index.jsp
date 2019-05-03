@@ -21,20 +21,25 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     </head>
     <body>
-        <div class="container">
+        <%@ page import="controlador.*" %><!--Se importan todos los servlet-->
+        <%@ page import="modelo.*" %>
+        <form action="LoginClientesInvitados" method="post" class="container">
             <h1 class="title"><i class="fas fa-drumstick-bite"></i> Bienvenido al sistema </h1>
-            <button class="btn btn-login btn-block btn-primary" onclick="toLogin();" >
+            <button class="btn btn-login btn-block btn-primary" type="button" onclick="toLogin();" >
                 <i class="fas fa-arrow-circle-right"></i>
                 Iniciar sesión</button>
-            <button class="btn btn-login btn-block btn-primary">
+            <button class="btn btn-login btn-block btn-primary" type="submit">
                 <i class="fas fa-arrow-circle-right"></i>
                 Iniciar como cliente general</button>
-        </div>
+        </form>
     </body>
     
     <script language="javascript" type="text/javascript">
         function toLogin() { 
             window.open("loginClientes.jsp","_self"); 
-        } 
+        }
+        /*function toLoginAsInvited() { 
+            window.open("pedidos.jsp","_self"); 
+        }*/
     </script>
 </html>

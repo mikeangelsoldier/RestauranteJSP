@@ -11,7 +11,9 @@
               crossorigin="anonymous">        
     </head>
     <body class="login">
-        <!--%@ page import="Controller.registro" %-->
+        <%@ page import="controlador.*" %><!--Se importan todos los servlet-->
+        <%@ page import="modelo.*" %>
+  
         <div style="margin:10px; margin-bottom: -10px">
             <form action="index.jsp" method="post">
                 <button class="back" type="submit"></button>
@@ -19,34 +21,44 @@
         </div>
         <div class="formulario col-md-7">
             <h3> Registra tus datos</h3><br>
-            <form>
+            <form action="RegistrarUsuario" method="post">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4">Nombre</label>
+                        <label for="inputName">Nombre</label>
                         <input type="text" class="form-control" id="inputName" 
-                               placeholder="Nombre(s)" autofocus required>
+                               placeholder="Nombre(s)" 
+                               name="name"
+                               autofocus required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputPassword4">Apellidos</label>
+                        <label for="inputLastName">Apellidos</label>
                         <input type="text" class="form-control" id="inputLastName" 
-                               placeholder="Apellidos" required>
+                               placeholder="Apellidos" 
+                               name="lastname"
+                               required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail4">Correo</label>
-                        <input type="email" class="form-control" id="inputEmail4" 
-                               placeholder="Correo electrónico" required>
+                    <label for="inputEmail">Correo</label>
+                        <input type="email" class="form-control" id="inputEmail" 
+                               placeholder="Correo electrónico"
+                               name="email"
+                               required>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputAddress">Nombre de usuario</label>
+                        <label for="inputUsername">Nombre de usuario</label>
                         <input type="text" class="form-control" id="inputUsername" 
-                               placeholder="Nombre de usuario" required>                        
+                               placeholder="Nombre de usuario"
+                               name="username"
+                               required>                        
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputPassword4">Contraseña</label>
                         <input type="password" class="form-control" 
-                               id="inputPassword4" placeholder="Contraseña" required>
+                               id="inputPassword4" placeholder="Contraseña"
+                               name="password"
+                               required>
                     </div>
                 </div>
                 
@@ -65,4 +77,9 @@
         </div>
         
     </body>
+    <%
+        if (request.getAttribute("resInsert") != null) {
+            out.print("<script>alert(\"" + request.getAttribute("resInsert").toString() + "\")</script>");
+        }
+    %>
 </html>
