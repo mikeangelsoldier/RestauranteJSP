@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import modelo.GestorUsuarioBD;
-import modelo.Usuario;
+import modelo.GestorClienteBD;
+import modelo.Cliente;
 
 /**
  *
@@ -28,9 +28,9 @@ public class LoginClientesInvitados extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            GestorUsuarioBD gestor = new GestorUsuarioBD();
-            Usuario user = new Usuario(0, "", "", "", "Cliente general", "", "1");
-            gestor.addUsuario(user);
+            GestorClienteBD gestor = new GestorClienteBD();
+            Cliente user = new Cliente(0, "", "", "", "Cliente general", "", "1",1);
+            gestor.addCliente(user);
             
             HttpSession session = request.getSession();
             session.setAttribute("usr", user);

@@ -2,34 +2,38 @@ package modelo;
 
 import java.io.Serializable;
 
-public class Usuario implements Serializable {
-    private int userId;
+public class Cliente implements Serializable {
+    private int clientId;
     private String name;
     private String lastname;
     private String email;
     private String username;
     private String password;
     private String type;
+    private int status;
 
-    public Usuario() {
+    public Cliente() {
     }
 
-    public Usuario(int userId, String name, String lastname, String email, String username, String password, String type) {
-        this.userId = userId;
+    public Cliente(int userId, String name, String lastname, String email, String username, String password, String type, int status) {
+        this.clientId = userId;
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.username = username;
         this.password = password;
         this.type = type;
+        this.status = status;
     }
 
-    public int getUserId() {
-        return userId;
+    
+
+    public int getClientId() {
+        return clientId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setClientId(int userId) {
+        this.clientId = userId;
     }
 
     public String getName() {
@@ -79,4 +83,13 @@ public class Usuario implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
 }
