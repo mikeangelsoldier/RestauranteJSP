@@ -2,16 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/web/css/styles.css</file>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/src/java/controlador/RegistrarUsuario.java</file>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/src/java/controlador/LoginClientes.java</file>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/src/java/controlador/LoginClientesInvitados.java</file>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/src/java/modelo/GestorUsuarioBD.java</file>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/web/index.jsp</file>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/web/loginClientes.jsp</file>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/web/pedidos.jsp</file>
-            <file>file:/C:/Users/Personal/Documents/ITL/8vo%20semestre/Desarrollo%20de%20aplicaciones%20empresariales/Proyectos/Equipo/Restaurante/web/llenaRegistro.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
