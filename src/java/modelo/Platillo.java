@@ -6,14 +6,13 @@
 
 package modelo;
 
-/**
- * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class Platillo {
     
     private int id;
-    private String imagen;
+    private InputStream imagen;
     private String nombre;
     private String descripcion;
     private double precio;
@@ -22,7 +21,7 @@ public class Platillo {
     private int numeroPuntuaciones;
     private int status;
 
-    public Platillo(int id, String imagen, String nombre, String descripcion, double precio, String categoria, double puntuacionTotal, int numeroPuntuaciones, int status) {
+    public Platillo(int id, InputStream imagen, String nombre, String descripcion, double precio, String categoria, double puntuacionTotal, int numeroPuntuaciones, int status) {
         this.id = id;
         this.imagen = imagen;
         this.nombre = nombre;
@@ -45,11 +44,11 @@ public class Platillo {
         this.id = id;
     }
 
-    public String getImagen() {
+    public InputStream getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
+    public void setImagen(InputStream imagen) {
         this.imagen = imagen;
     }
 

@@ -4,6 +4,8 @@
     Author     : Personal
 --%>
 
+<%@page import="java.util.Collection"%>
+<%@page import="modelo.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,31 +13,83 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Pedidos</title>
         <link rel="stylesheet" href="css/stylesAdmin.css">
+        <link rel="stylesheet" href="css/modal-styles.css">
         <link rel="stylesheet" 
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
-              crossorigin="anonymous">       
+              crossorigin="anonymous">   
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" 
+              integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" 
+              crossorigin="anonymous">
     </head>
     <body style="background-color: #ddd">
-        <div class="heead">
-            <!--a href="">Catálogos</a-->
-            <!--div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Catálogos
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="z-index: 12;"> 
+        <!--div class="heead">
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu">
                   <a class="dropdown-item" href="#">Action</a>
                   <a class="dropdown-item" href="#">Another action</a>
                   <a class="dropdown-item" href="#">Something else here</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Separated link</a>
                 </div>
-            </div-->
-            <a href="">Catálogos</a>
-            <a href="">Repotes</a>
+              </div>
+            <!--select>
+                <option selected disabled>Catálogos</option>
+                <option>Platillos</option>
+                <option>Clientes</option>
+                <option>Meseros</option>
+            </select>
+            <a href="">Reportes</a>
             <a href="">Clave de acceso cocina</a>
             <div class="username">
                 Aministrador
             </div>
-        </div>
+        </div-->
+            <ul class="nav nav-tabs navbarAdmin">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catálogos</a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Platillos</a>
+                    <a class="dropdown-item" href="#">Clientes</a>
+                    <a class="dropdown-item" href="#">Meseros</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Otro</a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Reportes</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Clave de acceso cocina</a>
+                </li>
+                <li class="nav-item dropdown" style="float: right">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                      <img src="css/imagenes/admin.PNG" height="20px" style="border-radius: 50%">
+                      <span>Administrador</span>
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">
+                        <!--i class="fas fa-arrow-circle-right"></i-->
+                        <img src="css/imagenes/gear.png" height="15px">
+                        Configuración
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <img src="css/imagenes/star.png" height="15px">
+                        Algo más
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <img src="css/imagenes/plus.png" height="15px">
+                        Ver algo
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="index_negocio.jsp">
+                        <img src="css/imagenes/logout.png" height="15px">
+                        Cerrar sesión
+                    </a>
+                  </div>
+                </li>
+            </ul>
         <div class="row" style="margin: 60px 10px; z-index: 0;">
 
             <aside class="menuAdmin" style="z-index: 8;">
@@ -62,31 +116,43 @@
 
             <!-------------------- SECCION PLATILLOS -------------------------->
             <div class="col-md-9 platillos">
-                <h2>Platillos</h2>
-                <div class="row" style="margin-left: 6px">
+                
+                <!-- ******* AGREGAR PLATILLO ********* -->
+                <div class="agregarPlatillo" 
+                    data-toggle="modal" 
+                    data-target="#modalAgregarPlatillo">
+                    <img src="css/imagenes/plus.png" height="60px" style="position: fixed; top: 75px; right: 60px">
+                </div>
+                <!-- ******* / AGREGAR PLATILLO ********* -->
+                
+                <div>
+                    <h2>Platillos</h2>
+                </div>                
+                <div class="row" style="margin-left: 6px;">
                     <%
-                        for (int i = 0; i < 17; i++) {%>
-
-                    <div class="card platillo" style="display: flex; padding: 2px">
-                        <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
-                            <img src="css/imagenes/platillo1.jpg" width="120px" height="75px">
-                        </div>
-                        <div class="card-body" style="text-align: center">
-                            <h5 class="card-title font-smallN">Platillo <%=i + 1%></h5>
-                            <p class="card-text font-small">Algo de contenido</p>                                
-                            <button class="btn btn-sm btn-primary btn-block" 
-                                    data-toggle="modal" 
-                                    data-target="#modalAgregarPlatillo">
-                                Editar
-                            </button>
-                            <button class="btn btn-sm btn-danger btn-block" >
-                                Eliminar
-                            </button>
-                        </div>
-
-                    </div>
-                    <%    }
+                        Collection<Platillo> platillos = null;
+                        platillos = (Collection<Platillo>) request.getAttribute("Platillos");
                     %>
+                    <%
+                        for(Platillo platillo:platillos) {
+                    %> 
+                        <div class="card platillo" style="display: flex; padding: 2px">
+                            <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
+                                <img src="css/imagenes/platillo1.jpg" width="120px" height="75px">
+                            </div>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title font-smallN"><%=platillo.getNombre()%></h5>
+                                <p class="card-text font-small"><%=platillo.getDescripcion()%></p>                                
+                                <button class="btn btn-sm btn-primary btn-block" >
+                                    Editar
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-block" >
+                                    Eliminar
+                                </button>
+                            </div>
+
+                        </div>
+                    <% }%>
                 </div>
             </div>
         </div>
@@ -115,55 +181,74 @@
         <!-- MODAL AGREGAR PRODUCTO -->
         <div class="modal fade" id="modalAgregarPlatillo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
+                <%@ page import="controlador.*" %><!--Se importan todos los servlet-->
+                <%@ page import="modelo.*" %>
+                <form action="RegistrarPlatillo" method="post" enctype="multipart/form-data" class="modal-content">
+                    <div class="modal-header" >
                         <h4 class="modal-title" id="exampleModalCenterTitle">
-                            Carne con papas 
+                            <span style="position: relative">
+                                Registrar platillo 
+                                <div style="position: absolute; top: 0; right: -50px">
+                                    <span style="margin-top: 0px" class="badge badge-secondary">1</span>
+                                </div>
+                            </span>
+                            
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table>
-                            <tr>
-                                <td class="tabla-agregar-platillo">
-                                    <img src="css/imagenes/platillo1.jpg" width="240" height="150"> <br>
-                                    <div>
-                                        <img src="css/imagenes/star.png" width="22px" height="22px">
-                                        <img src="css/imagenes/star.png" width="22px" height="22px">
-                                        <img src="css/imagenes/star.png" width="22px" height="22px">
-                                        <img src="css/imagenes/star.png" width="22px" height="22px">
-                                        <img src="css/imagenes/star-middle.png" width="22px" height="22px">
-                                        <span class="puntajePlatillo"> (4.4)</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group cantidad">
-                                        <label><b>Cantidad: </b></label>
-                                        <input type="number" class="form-control" style="width: 50%"
-                                               value="1" min="1" max="5"> <br>
-
-                                        <label><b>Precio: </b></label>
-                                        <label class="precio">$150 </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <label style="margin-top: 10px"><b>Descripción: </b></label> <br>
-                                    <label>En este apartado se muestra la descripción del platillo. <br>
-                                        Puede llevar ingredientes, país de origen, y demás información adecuada y no tan larga</label>
-                                </td>
-                            </tr>
-                        </table>
-
+                        <div class="row" style="padding: 5px 10px">
+                            <div class="col-md-12" style="position: relative">
+                                <label>Imagen </label> <br>
+                                <img src="css/imagenes/defaultPlatillo.png" width="150px" height="120px" id="imgg">
+                                <label class="upload" for="foto">
+                                    <img src="css/imagenes/upload.png" height="55px">
+                                    Subir una foto
+                                </label>
+                                <input class="fileUpload" type="file" id="foto" name="foto"
+                                       onchange="document.getElementById('imgg').src = window.URL.createObjectURL(this.files[0])">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" 
+                                       placeholder="Nombre del platillo"
+                                       id="nombre"
+                                       name="nombre"
+                                       required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="nombre">Categoría</label>
+                                <select class="form-control" name="categoria">
+                                    <option value="Comida">Comida</option>
+                                    <option value="Bebida">Bebida</option>
+                                    <option value="Postre">Postre</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="precio">Precio</label>
+                                <input type="number" class="form-control" 
+                                       placeholder="Precio"
+                                       id="precio"
+                                       name="precio"
+                                       step="0.01"
+                                       min="1"
+                                       required>
+                            </div>
+                            
+                            <div class="form-group col-md-12">
+                                <label for="nombre">Descripción</label>
+                                <textarea class="form-control" name="descripcion" placeholder="Descripción"></textarea>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Añadir</button>
+                        <button type="submit" class="btn btn-primary">Añadir</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
@@ -184,4 +269,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
+    <%
+        if (request.getAttribute("resInsert") != null) {
+            out.print("<script>alert(\"" + request.getAttribute("resInsert").toString() + "\")</script>");
+        }
+    %>
 </html>

@@ -1,0 +1,14 @@
+.upload {
+    position: absolute;
+    top: 65px;
+    left: 180px;
+    cursor: pointer;
+}
+
+.upload img:hover {
+    filter: brightness(110%);
+}
+
+.fileUpload {
+    display: none;
+}

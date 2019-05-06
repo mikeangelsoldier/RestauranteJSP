@@ -173,6 +173,7 @@ input[type=checkbox] {
 }
 
 div.platillos {
+    position: relative;
     background-color: #eef;
     border-radius: 5px;
     padding: 15px;
@@ -280,13 +281,13 @@ ul.menuI {
 .heead {
   z-index: 9;
   overflow: hidden;
-  background-color: #333;
+  background-color: #222;
   position: fixed;
   top: 0;
   width: 100%;
 }
 
-.heead a {
+.heead a, .heead select {
   float: left;
   display: block;
   color: #f2f2f2;
@@ -296,13 +297,28 @@ ul.menuI {
   font-size: 17px;
 }
 
-.heead dropdown {
-  float: left;
-  
+.heead select {
+    padding: 15px 0px 15px 16px;
+    margin: auto;
+    cursor: pointer;
+    border: none;
+    background-color: #222;
 }
 
-.heead a:hover {
-    text-decoration: none;
+.heead select option {
+    padding: 10px;
+}
+
+.heead select:focus {
+    outline: none;
+}
+
+.heead .dropdown {
+  float: left;
+}
+
+.heead a:hover, .heead select:hover {
+  text-decoration: none;
   background: #eee;
   color: black;
 }
@@ -319,4 +335,70 @@ ul.menuI {
     color: #f2f2f2;
     padding: 14px 16px;
     font-size: 17px;
+}
+
+.catalogos {
+    cursor: pointer !important;
+    position: relative;
+}
+
+.list-catalogos {
+    z-index: 9;
+    width: inherit;
+    list-style: none;
+    background-color: blue;
+    display: none;
+    position: absolute;
+    margin: auto;
+    top: 30px;
+    left: 200px;
+}
+
+.catalogos:hover .list-catalogos {
+    display: block;
+}
+
+.navbarAdmin {
+    display: block !important;
+    background-color: #111;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9;
+}
+
+.navbarAdmin > li > a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbarAdmin > li > a:hover {
+  text-decoration: none;
+  background: #eee;
+  color: black;
+}
+
+
+
+.navbarAdmin > li > div a:hover {
+  color: white;
+  background-color: #222;
+}
+
+.dropdown-item img {
+    margin-top: -3px;
+}
+
+.agregarPlatillo {
+    cursor: pointer;
+}
+
+.agregarPlatillo img:hover {
+    filter: brightness(120%);
+    transform: scale(1.05, 1.05);
 }

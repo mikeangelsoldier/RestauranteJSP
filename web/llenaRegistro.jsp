@@ -14,11 +14,10 @@
         <%@ page import="controlador.*" %><!--Se importan todos los servlet-->
         <%@ page import="modelo.*" %>
   
-        <div style="margin:10px; margin-bottom: -10px">
-            <form action="index.jsp" method="post">
-                <button class="back" type="submit"></button>
-            </form>
-        </div>
+        <form action="loginClientes.jsp" class="backContainer">
+            <button class="back" type="submit" onclick="back()">  
+            </button>
+        </form>
         <div class="formulario col-md-7">
             <h3> Registra tus datos</h3><br>
             <form action="RegistrarUsuario" method="post">

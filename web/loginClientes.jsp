@@ -21,7 +21,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     </head>
     <body class="login animated fadeInDown">
-        
+        <div class="backContainer">
+            <button class="back" onclick="back()">  
+            </button>
+        </div>
         
         <div class="login-container ">
             <div class="title row" style="display: inline">
@@ -65,14 +68,6 @@
             var user = document.getElementById("username");
             var pass = document.getElementById("password");
 
-            /*function aceptar() {
-                var text1, text2;
-                text1 = document.getElementById("username").value;
-                text2 = document.getElementById("password").value;
-                console.log('Username: ', text1);
-                console.log('Password ', text2);
-            }*/
-
             user.addEventListener("keyup", function(event) {
                 // Number 13 is the "Enter" key on the keyboard
                 if (event.keyCode === 13) {
@@ -92,6 +87,10 @@
                     document.getElementById("signin").click();
                 }
             });
+            
+            function back() {
+                window.open("index.jsp","_self")
+            }
         </script>
     </body>
     <!-- Este mensaje se muestra solo despues que se modificó un registro y se redirecciona a este index.jsp -->

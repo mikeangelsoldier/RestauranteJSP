@@ -31,11 +31,11 @@
                 <img src="css/imagenes/admin.PNG" class="image-admin" width="200px" height="200px">
             </div> 
 
-            <div class="card-body">                
-                <!-- %@ page import="controlador.LoginClientes" % -->
+            <div class="card-body">
+                <%@ page import="controlador.ListarPlatillos" %>
                 <h5 class="card-title" style="color: snow; text-align: center"> 
                     Introduce tu contraseña</h5>
-                <form action="" method="post"> <!---->
+                <form action="ListarPlatillos" method="post"> <!---->
                     <table cellspacing="3" cellpadding="3" class="form-login">
                         <tr>
                             

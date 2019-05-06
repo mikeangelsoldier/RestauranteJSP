@@ -6,6 +6,10 @@
 
 package modelo;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 
 
 public class GestorPlatilloBD {
@@ -37,7 +42,7 @@ public class GestorPlatilloBD {
             while (rs.next()) {
                 Platillo platillo = new Platillo();
                 platillo.setId(rs.getInt(1));
-                platillo.setImagen(rs.getString(2));
+                platillo.setImagen(rs.getBinaryStream(2));
                 platillo.setNombre(rs.getString(3));
                 platillo.setDescripcion(rs.getString(4));
                 platillo.setPrecio(rs.getDouble(5));
@@ -65,7 +70,7 @@ public class GestorPlatilloBD {
 
         try {
             PreparedStatement st = conexion.prepareStatement("call insertarPlatillo (?, ?, ?, ?, ?);");
-            st.setString(1, platillo.getImagen());
+            st.setBlob(1, platillo.getImagen());
             st.setString(2, platillo.getNombre());
             st.setString(3, platillo.getDescripcion());
             st.setDouble(4, platillo.getPrecio());
@@ -89,8 +94,8 @@ public class GestorPlatilloBD {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             rs.next();
-        platillo.setId(rs.getInt(1));
-                platillo.setImagen(rs.getString(2));
+                platillo.setId(rs.getInt(1));
+                platillo.setImagen(rs.getBinaryStream(2));
                 platillo.setNombre(rs.getString(3));
                 platillo.setDescripcion(rs.getString(4));
                 platillo.setPrecio(rs.getDouble(5));
@@ -117,7 +122,7 @@ public class GestorPlatilloBD {
             PreparedStatement st = conexion.prepareStatement(
                     "call updatePlatillo(?,?,?,?,?,?);");
             st.setInt(1, platillo.getId());
-            st.setString(2, platillo.getImagen());
+            st.setBlob(2, platillo.getImagen());
             st.setString(3, platillo.getNombre());
             st.setString(4, platillo.getDescripcion());
             st.setDouble(5, platillo.getPrecio());
@@ -179,7 +184,7 @@ public class GestorPlatilloBD {
             while (rs.next()) {
                 Platillo platillo = new Platillo();
                 platillo.setId(rs.getInt(1));
-                platillo.setImagen(rs.getString(2));
+                platillo.setImagen(rs.getBinaryStream(2));
                 platillo.setNombre(rs.getString(3));
                 platillo.setDescripcion(rs.getString(4));
                 platillo.setPrecio(rs.getDouble(5));
@@ -218,7 +223,7 @@ public class GestorPlatilloBD {
             while (rs.next()) {
                 Platillo platillo = new Platillo();
                 platillo.setId(rs.getInt(1));
-                platillo.setImagen(rs.getString(2));
+                platillo.setImagen(rs.getBinaryStream(2));
                 platillo.setNombre(rs.getString(3));
                 platillo.setDescripcion(rs.getString(4));
                 platillo.setPrecio(rs.getDouble(5));
@@ -290,5 +295,28 @@ public class GestorPlatilloBD {
         }
     }
      
+    public void listarImg(int id, HttpServletResponse response) {
+        String sql = "select * from platillo where id=" + id;
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        BufferedInputStream bufferedInputStream = null;
+        BufferedOutputStream bufferedOutputStream = null;
+        response.setContentType("image/*");
+        try {
+            outputStream = response.getOutputStream();
+            PreparedStatement st = conexion.prepareStatement(sql);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                inputStream = rs.getBinaryStream(2);
+            }
+            bufferedInputStream = new BufferedInputStream(inputStream);
+            bufferedOutputStream = new BufferedOutputStream(outputStream);
+            int i = 0;
+            while ((i = bufferedInputStream.read()) != -1) {
+                bufferedOutputStream.write(i);
+            }
+        } catch (Exception e) {
+        }
+    }
 
 }

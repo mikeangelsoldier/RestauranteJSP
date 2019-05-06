@@ -313,6 +313,19 @@ call getPlatilloNextId();
  
  
  
+  DROP PROCEDURE IF EXISTS updatePlatilloNoImage;
+ CREATE PROCEDURE updatePlatillo(
+	clave int,
+    nombre varchar(100),
+    descripcion text,
+    precio double,
+    categoria varchar(50)
+ )
+ update platillo as p set p.nombre=nombre,p.descripcion=precio,p.precio=precio,p.categoria=categoria
+ where p.id =clave;
+ 
+ 
+ 
  DROP PROCEDURE IF EXISTS getPuntaje;
  CREATE PROCEDURE getPuntaje(
 	clave int
@@ -373,7 +386,10 @@ CREATE PROCEDURE getPlatilloPorCategoria(
  call getPlatilloPorCategoria('Bebi');
  */
 
-
-
-
-
+/* *********** BORRAR TODO LO DE ABAJO *****************/
+select * from cliente;
+select * from administrador;
+delete from cliente where id = 3;
+insert into administrador values(null,'José Cervera','jose@mail.com','admin','admin', 1);
+select *from platillo;
+call getPlatilloNextId();

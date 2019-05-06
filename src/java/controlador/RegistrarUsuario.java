@@ -36,7 +36,7 @@ public class RegistrarUsuario extends HttpServlet {
             String password = request.getParameter("password");
             
             //Se crea el objeto y se colocan sus atributos de acuerdo a lo recibido desde la página jsp
-            Cliente user = new Cliente(0, name, lastname, email, username, password, "2",1);
+            Cliente user = new Cliente(0, name, lastname, email, username, password, "1",1);
             
             //Se utiliza el gestor de usuarios para realizar la inserción de este objeto en la BD:
             GestorClienteBD gestor = new GestorClienteBD();
