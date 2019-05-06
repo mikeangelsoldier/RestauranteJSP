@@ -31,14 +31,14 @@ public class RegistrarPlatillo extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             //Datos recibidos desde la pagina jsp
-            Part foto = request.getPart("nombre");
+            Part foto = request.getPart("foto");
             String nombre = request.getParameter("nombre");
             String categoria = request.getParameter("categoria");
             Double precio = Double.parseDouble(request.getParameter("precio"));
             String descripcion = request.getParameter("descripcion");
             
             InputStream imagen = foto.getInputStream();
-            //Se crea el objeto y se colocan sus atributos de acuerdo a lo recibido desde la página jsp
+            // Se crea el objeto y se colocan sus atributos de acuerdo a lo recibido desde la página jsp
             Platillo platillo = new Platillo(0, imagen, nombre, descripcion, precio, categoria, 5, 1, 1);
             
             //Se utiliza el gestor de usuarios para realizar la inserción de este objeto en la BD:
@@ -46,9 +46,11 @@ public class RegistrarPlatillo extends HttpServlet {
             gestor.addPlatillo(platillo);
 
             request.setAttribute("resInsert", "¡Felicidades! Se ha registrado el platillo");
-            request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);
+            request.getRequestDispatcher("/ListarPlatillos").forward(request, response);
         } finally {
             out.close();
         }
     }
+    
+    
 }

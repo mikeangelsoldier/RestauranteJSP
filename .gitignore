@@ -22,6 +22,7 @@
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
+nbproject/private/
 build/
 nbbuild/
 dist/

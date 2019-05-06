@@ -296,7 +296,7 @@ public class GestorPlatilloBD {
     }
      
     public void listarImg(int id, HttpServletResponse response) {
-        String sql = "select * from platillo where id=" + id;
+        String sql = "call getPlatillo("+id+");";
         InputStream inputStream = null;
         OutputStream outputStream = null;
         BufferedInputStream bufferedInputStream = null;

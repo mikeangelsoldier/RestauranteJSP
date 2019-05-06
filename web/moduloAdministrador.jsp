@@ -138,7 +138,7 @@
                     %> 
                         <div class="card platillo" style="display: flex; padding: 2px">
                             <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
-                                <img src="css/imagenes/platillo1.jpg" width="120px" height="75px">
+                                <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="120px" height="75px">
                             </div>
                             <div class="card-body" style="text-align: center">
                                 <h5 class="card-title font-smallN"><%=platillo.getNombre()%></h5>
