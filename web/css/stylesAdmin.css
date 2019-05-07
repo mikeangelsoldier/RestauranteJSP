@@ -34,7 +34,7 @@ div.formulario {
 div.login-container {
     background-color: rgba(0, 0, 30, 0.65);
     border-radius: 30px;
-    border: 2px solid window;
+    border: 2px solid white;
     box-shadow: 0px 0px 68px black;
     padding: 10px;
     width: 400px;
@@ -383,7 +383,11 @@ ul.menuI {
   color: black;
 }
 
-
+.navbarAdmin > li > .active{
+    text-decoration: none;
+    background: #eee;
+    color: black;
+  }
 
 .navbarAdmin > li > div a:hover {
   color: white;

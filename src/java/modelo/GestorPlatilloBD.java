@@ -135,6 +135,27 @@ public class GestorPlatilloBD {
 
         }
     }
+    
+    public void updatePlatilloNoImage(Platillo platillo) {
+        /*Modifica un objeto en la base de datos, 
+         cada atributo se utiliza en la posición que le corresponde 
+         de la instrucción SQL */
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call updatePlatilloNoImage(?,?,?,?,?);");
+            st.setInt(1, platillo.getId());
+            st.setString(3, platillo.getNombre());
+            st.setString(4, platillo.getDescripcion());
+            st.setDouble(5, platillo.getPrecio());
+            st.setString(6, platillo.getCategoria());
+            st.execute();
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
 
     public void DeletePlatillo(int id) {
         /*Elimina un registro en la base de datos de acuerdo a su llave primaria */

@@ -33,7 +33,6 @@ public class ListarPlatillos extends HttpServlet {
             GestorPlatilloBD gestorPlatilloBD=new GestorPlatilloBD();
             platillos=gestorPlatilloBD.getPlatillos();
             
-            
             if (platillos != null){
                 request.setAttribute("Platillos",platillos);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"
                 request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);//Se envia
@@ -57,7 +56,11 @@ public class ListarPlatillos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        // Obtenemos los valor que vienen de la URL
+        /*String section = request.getParameter("section");
+        String subsection = request.getParameter("subsection");
+        request.setAttribute("Section",section); //Se coloca la sección con el nombre de parámetro "Section"
+        request.setAttribute("Subsection",section); //Se coloca la subsección con el nombre de parámetro "Subsection"*/
     }
 
     /**

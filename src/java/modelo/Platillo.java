@@ -32,6 +32,17 @@ public class Platillo {
         this.numeroPuntuaciones = numeroPuntuaciones;
         this.status = status;
     }
+    
+    public Platillo(int id, String nombre, String descripcion, double precio, String categoria, double puntuacionTotal, int numeroPuntuaciones, int status) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.puntuacionTotal = puntuacionTotal;
+        this.numeroPuntuaciones = numeroPuntuaciones;
+        this.status = status;
+    }
 
     public Platillo() {
     }
