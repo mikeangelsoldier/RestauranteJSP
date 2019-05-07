@@ -22,15 +22,15 @@
         <div class="container">
             <div>
                 <form action="ActualizarPlatillo" 
-                      method="post" enctype="multipart/form-data" class="modal-content">
+                      method="post" class="modal-content"> <!--enctype="multipart/form-data" -->
                     <div class="modal-header">
                         <h4 class="modal-title">
                             <span style="position: relative">
                                 Editar platillo
                                 <div style="position: absolute; top: 0; right: -50px">
-                                    <input type="hidden" name="id" value="<%=platillo.getId()%>">
+                                    <input type="hidden" name="id" value="<%= platillo.getId()%>">
                                     <span style="margin-top: 0px" class="badge badge-secondary">
-                                        <%=platillo.getId()%> </span>
+                                        <%= platillo.getId()%> </span>
                                 </div>
                             </span>
 
@@ -42,42 +42,38 @@
                             <div class="col-md-12" style="position: relative">
                                 <label>Imagen </label>
                                 <br>
-                                <img id="imgg" src="ObtenerImagenes?id=<%=platillo.getId()%>" width="120px" height="75px">
+                                <!--img id="imgg" src="ObtenerImagenes?id=< %= platillo.getId()%>" width="120px" height="75px"-->
                                 <label class="upload" for="foto2">
                                     <img src="css/imagenes/upload.png" height="55px"> Cambiar foto
                                 </label>
-                                <input class="fileUpload" type="file" id="foto2" name="foto2" onchange="document.getElementById('imgg').src = window.URL.createObjectURL(this.files[0])">
+                                <!--input class="fileUpload" type="file" id="foto2" name="foto2" onchange="document.getElementById('imgg').src = window.URL.createObjectURL(this.files[0])"-->
                             </div>
 
                             <div class="form-group col-md-12">
                                 <label for="nombre2">Nombre</label>
                                 <input type="text" class="form-control" placeholder="Nombre del platillo" id="nombre2" 
-                                       name="nombre2" value="<%=platillo.getNombre()%>" required>
+                                       name="nombre2" value="<%= platillo.getNombre()%>" required>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="categoria2">Categoría</label>
                                 <select class="form-control" name="categoria2" id="categoria2">
-                                    <%!
-                                        String selectOutput() {
-                                            return "\"selected\"";
-                                        }
-                                    %>
-                                    <option value="Comida" <% if (platillo.getCategoria().equals("Comida")) selectOutput(); %>>Comida</option>
-                                    <option value="Bebida" <% if (platillo.getCategoria().equals("Bebida")) selectOutput(); %>>Bebida</option>
-                                    <option value="Postre" <% if (platillo.getCategoria().equals("Postre")) selectOutput(); %>>Postre</option>
+
+                                    <option value="Comida" <% if (platillo.getCategoria().equals("Comida")) out.print("selected"); %>>Comida</option>
+                                    <option value="Bebida" <% if (platillo.getCategoria().equals("Bebida")) out.print("selected"); %>>Bebida</option>
+                                    <option value="Postre" <% if (platillo.getCategoria().equals("Postre")) out.print("selected"); %>>Postre</option>
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="precio2">Precio</label>
                                 <input type="number" class="form-control" placeholder="Precio" id="precio2" 
-                                       name="precio2" step="0.01" min="1" value="<%=platillo.getPrecio()%>" required>
+                                       name="precio2" step="0.01" min="1" value="<%= platillo.getPrecio()%>" required>
                             </div>
 
                             <div class="form-group col-md-12">
                                 <label for="descripcion2">Descripción</label>
-                                <textarea class="form-control" name="descripcion2" id="descripcion2" placeholder="Descripción" required><%=platillo.getDescripcion()%></textarea>
+                                <textarea class="form-control" name="descripcion2" id="descripcion2" placeholder="Descripción" required><%= platillo.getDescripcion()%></textarea>
                             </div>
                         </div>
 
@@ -85,7 +81,7 @@
                     <div class="modal-footer">
                         <a href="ListarPlatillos" 
                            class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" name="guardar" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
             </div>

@@ -29,9 +29,16 @@ public class ActualizarPlatillo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+        if (request.getParameter("guardar") != null) {
+            System.out.println("ENTRO GUARDAR");
+        } else {
+            System.out.println("No entro");
+        }
         try {
-            Part foto;
-            InputStream imagen = null;
+            
+            
+            //Part foto;
+            //InputStream imagen = null;
 
             //foto = request.getPart("foto2");
             //imagen = foto.getInputStream();
@@ -41,18 +48,19 @@ public class ActualizarPlatillo extends HttpServlet {
             String categoria = request.getParameter("categoria2");
             Double precio = Double.parseDouble(request.getParameter("precio2"));
             String descripcion = request.getParameter("descripcion2");
-            
+            System.out.println("Nombre:" + nombre);
+            System.out.println("Descripcion:" + descripcion);
             GestorPlatilloBD gestor = new GestorPlatilloBD();
             
             // Se crea el objeto y se colocan sus atributos de acuerdo a lo recibido desde la página jsp
             // Editar con imagen
-            if (imagen != null) {
+            /*if (imagen != null) {
                 Platillo platillo = new Platillo(id, imagen, nombre, descripcion, precio, categoria, 5, 1, 1);
                 gestor.updatePlatillo(platillo);
-            } else {
-                Platillo platillo = new Platillo(id, nombre, descripcion, precio, categoria, 5, 1, 1);
+            } else {*/
+                Platillo platillo = new Platillo(id, nombre, descripcion, precio, categoria);
                 gestor.updatePlatilloNoImage(platillo);
-            }
+            //}
             
             request.setAttribute("resInsert", "¡Felicidades! Se ha actualizado el platillo");
             request.getRequestDispatcher("/ListarPlatillos").forward(request, response);

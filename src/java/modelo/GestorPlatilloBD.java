@@ -144,10 +144,10 @@ public class GestorPlatilloBD {
             PreparedStatement st = conexion.prepareStatement(
                     "call updatePlatilloNoImage(?,?,?,?,?);");
             st.setInt(1, platillo.getId());
-            st.setString(3, platillo.getNombre());
-            st.setString(4, platillo.getDescripcion());
-            st.setDouble(5, platillo.getPrecio());
-            st.setString(6, platillo.getCategoria());
+            st.setString(2, platillo.getNombre());
+            st.setString(3, platillo.getDescripcion());
+            st.setDouble(4, platillo.getPrecio());
+            st.setString(5, platillo.getCategoria());
             st.execute();
             st.close();
 
