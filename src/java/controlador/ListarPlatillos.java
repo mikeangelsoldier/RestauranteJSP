@@ -31,36 +31,51 @@ public class ListarPlatillos extends HttpServlet {
         try {
             Collection <Platillo> platillos = new ArrayList<Platillo>();
             GestorPlatilloBD gestorPlatilloBD = new GestorPlatilloBD();
-            
+
             // Para los filtros
-            if (request.getParameter("filter") != null) {
+            boolean filtroCategoria = false;
+            boolean filtroNombre = false;
+            String filter = null;
+
+            // Filtro por nombre
+            if (request.getParameter("search") != null) {
+                String filterName = request.getParameter("search");
+                filtroNombre = true;
+                platillos = gestorPlatilloBD.getPlatillosPorNombre(filterName);
                 
-                String filter = request.getParameter("filter");
+                // Filtro por categoría
+            } else if (request.getParameter("filter") != null) {
+                filter = request.getParameter("filter");
+                filtroCategoria = true;
                 switch (filter) {
                     case "Comida":
                         platillos = gestorPlatilloBD.getPlatillosPorCategoria("Comida");
-                        System.out.println("Comidas");
                         break;
                     case "Bebida":
                         platillos = gestorPlatilloBD.getPlatillosPorCategoria("Bebida");
-                        System.out.println("Bebidas");
                         break;
                     case "Postre":
                         platillos = gestorPlatilloBD.getPlatillosPorCategoria("Postre");
-                        System.out.println("Postres");
                         break;
                     default:
-                        System.out.println("Todos");
                         platillos = gestorPlatilloBD.getPlatillos();
                 }
+                
             } else {
+                // Sin filtros
                 System.out.println("Todos");
                 platillos = gestorPlatilloBD.getPlatillos();
             }
             
             if (platillos != null){
                 request.setAttribute("Platillos",platillos);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"
-                request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);//Se envia
+                // Si no hay filtros
+                if (!filtroCategoria && !filtroNombre) {
+                    request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);//Se envia
+                } else if (filtroCategoria && !filtroNombre) {
+                    request.getRequestDispatcher("/moduloAdministrador.jsp?filter="+filter).forward(request, response);//Se envia
+                }
+                
             }else{
                 // request.getRequestDispatcher("/noHayRegistros.jsp").forward(request, response);
             }

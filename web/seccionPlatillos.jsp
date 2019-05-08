@@ -5,16 +5,21 @@
     <aside class="menuAdmin" style="z-index: 8;">
         <div class="logo"></div>
         <nav class="row navbar navbar-light">
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
-                <button class="btn btn-dark my-2 my-sm-0" type="submit">Buscar</button>
+            <form action="ListarPlatillos" method="post" class="form-inline">
+                <input class="form-control mr-sm-2" type="search" 
+                    placeholder="Buscar..." aria-label="Search" id="searchInput" name="search">
+                <button class="btn btn-dark my-2 my-sm-0" id="searchButton" type="submit">Buscar</button>
             </form>
         </nav>
         <div id="menuCliente" class="nav flex-column menuI" >
-            <button class="nav-link item active" onclick="console.log('inicio')">Todos</button>
-            <button class="nav-link item" onclick="console.log('bebidas')">Bebidas</button>
-            <button class="nav-link item" onclick="console.log('postres')">Postres</button>
-            <button class="nav-link item" onclick="console.log('desayunos')">Desayunos</button>
+            <a class="nav-link item" 
+                href="ListarPlatillos">Todos</a>
+            <a class="nav-link item" 
+                href="ListarPlatillos?filter=Comida">Comidas</a>
+            <a class="nav-link item" 
+                href="ListarPlatillos?filter=Bebida">Bebidas</a>
+            <a class="nav-link item" 
+                href="ListarPlatillos?filter=Postre">Postres</a>
 
         </div>
     </aside>
@@ -55,7 +60,16 @@
                 </div>
                 <div class="card-body" style="text-align: center">
                     <h5 class="card-title font-smallN"><%=platillo.getNombre()%></h5>
-                    <p class="card-text font-small"><%=platillo.getDescripcion()%></p>                                
+                    <%  //Limitar texto descripción
+                        String desc = "";
+                        if (platillo.getDescripcion().length() > 35) {
+                            desc = platillo.getDescripcion().substring(0, 35);
+                            desc += "...";
+                        } else {
+                            desc = platillo.getDescripcion();
+                        }
+                    %>
+                    <p class="card-text font-small"><%=desc%></p>                                
                     <div>
                         <a href="modificarPlatillo.jsp?id=<%=platillo.getId()%>" 
                           class="btn btn-sm btn-primary btn-block">
@@ -148,3 +162,17 @@
         </form>
     </div>
 </div>
+        
+<!-- Script para el evento [ENTER] en la búsqueda por nombre -->
+<script>
+  var search = document.getElementById("searchInput");
+  search.addEventListener("keyup", function(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      document.getElementById("searchButton").click();
+    }
+  });
+</script>
