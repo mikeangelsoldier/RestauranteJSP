@@ -21,7 +21,7 @@
         %>
         <div class="container">
             <div>
-                <form action="ActualizarPlatillo" 
+                <form action="ActualizarPlatillo" enctype="multipart/form-data"
                       method="post" class="modal-content"> <!--enctype="multipart/form-data" -->
                     <div class="modal-header">
                         <h4 class="modal-title">
@@ -42,22 +42,22 @@
                             <div class="col-md-12" style="position: relative">
                                 <label>Imagen </label>
                                 <br>
-                                <!--img id="imgg" src="ObtenerImagenes?id=< %= platillo.getId()%>" width="120px" height="75px"-->
-                                <label class="upload" for="foto2">
+                                <img id="imgg" src="ObtenerImagenes?id=<%= platillo.getId()%>" width="120px" height="75px">
+                                <label class="upload" for="foto">
                                     <img src="css/imagenes/upload.png" height="55px"> Cambiar foto
                                 </label>
-                                <!--input class="fileUpload" type="file" id="foto2" name="foto2" onchange="document.getElementById('imgg').src = window.URL.createObjectURL(this.files[0])"-->
+                                <input class="fileUpload" type="file" id="foto" name="foto" onchange="document.getElementById('imgg').src = window.URL.createObjectURL(this.files[0])">
                             </div>
 
                             <div class="form-group col-md-12">
                                 <label for="nombre2">Nombre</label>
                                 <input type="text" class="form-control" placeholder="Nombre del platillo" id="nombre2" 
-                                       name="nombre2" value="<%= platillo.getNombre()%>" required>
+                                       name="nombre" value="<%= platillo.getNombre()%>" required>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="categoria2">Categoría</label>
-                                <select class="form-control" name="categoria2" id="categoria2">
+                                <select class="form-control" name="categoria" id="categoria2">
 
                                     <option value="Comida" <% if (platillo.getCategoria().equals("Comida")) out.print("selected"); %>>Comida</option>
                                     <option value="Bebida" <% if (platillo.getCategoria().equals("Bebida")) out.print("selected"); %>>Bebida</option>
@@ -68,12 +68,12 @@
                             <div class="form-group col-md-6">
                                 <label for="precio2">Precio</label>
                                 <input type="number" class="form-control" placeholder="Precio" id="precio2" 
-                                       name="precio2" step="0.01" min="1" value="<%= platillo.getPrecio()%>" required>
+                                       name="precio" step="0.01" min="1" value="<%= platillo.getPrecio()%>" required>
                             </div>
 
                             <div class="form-group col-md-12">
                                 <label for="descripcion2">Descripción</label>
-                                <textarea class="form-control" name="descripcion2" id="descripcion2" placeholder="Descripción" required><%= platillo.getDescripcion()%></textarea>
+                                <textarea class="form-control" name="descripcion" id="descripcion2" placeholder="Descripción" required><%= platillo.getDescripcion()%></textarea>
                             </div>
                         </div>
 

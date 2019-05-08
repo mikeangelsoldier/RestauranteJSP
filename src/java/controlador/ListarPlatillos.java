@@ -29,9 +29,34 @@ public class ListarPlatillos extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-          Collection <Platillo> platillos = new ArrayList<Platillo>();
-            GestorPlatilloBD gestorPlatilloBD=new GestorPlatilloBD();
-            platillos=gestorPlatilloBD.getPlatillos();
+            Collection <Platillo> platillos = new ArrayList<Platillo>();
+            GestorPlatilloBD gestorPlatilloBD = new GestorPlatilloBD();
+            
+            // Para los filtros
+            if (request.getParameter("filter") != null) {
+                
+                String filter = request.getParameter("filter");
+                switch (filter) {
+                    case "Comida":
+                        platillos = gestorPlatilloBD.getPlatillosPorCategoria("Comida");
+                        System.out.println("Comidas");
+                        break;
+                    case "Bebida":
+                        platillos = gestorPlatilloBD.getPlatillosPorCategoria("Bebida");
+                        System.out.println("Bebidas");
+                        break;
+                    case "Postre":
+                        platillos = gestorPlatilloBD.getPlatillosPorCategoria("Postre");
+                        System.out.println("Postres");
+                        break;
+                    default:
+                        System.out.println("Todos");
+                        platillos = gestorPlatilloBD.getPlatillos();
+                }
+            } else {
+                System.out.println("Todos");
+                platillos = gestorPlatilloBD.getPlatillos();
+            }
             
             if (platillos != null){
                 request.setAttribute("Platillos",platillos);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"

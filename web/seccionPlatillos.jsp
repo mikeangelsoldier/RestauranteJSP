@@ -46,7 +46,10 @@
             <%
                 for (Platillo platillo : platillos) {
             %> 
-            <div class="card platillo" style="display: flex; padding: 2px">
+            <div class="card platillo" style="display: flex; padding: 2px; position: relative">
+                <div style="position: absolute; top: 0; left: 0">
+                    <span class="badge badge-secondary"><%=platillo.getId()%></span>
+                  </div>
                 <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
                     <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="120px" height="75px">
                 </div>

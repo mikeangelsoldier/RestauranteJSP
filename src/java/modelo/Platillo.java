@@ -7,7 +7,6 @@
 package modelo;
 
 import java.io.InputStream;
-import java.sql.Blob;
 
 public class Platillo {
     
@@ -35,7 +34,7 @@ public class Platillo {
     
     public Platillo(int id, InputStream image, String nombre, String descripcion, double precio, String categoria) {
         this.id = id;
-        this.imagen = imagen;
+        this.imagen = image;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
