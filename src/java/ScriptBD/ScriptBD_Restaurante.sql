@@ -306,7 +306,7 @@ call getPlatilloNextId();
     precio double,
     categoria varchar(50)
  )
- update platillo as p set p.imagen=imagen,p.nombre=nombre,p.descripcion=precio,p.precio=precio,p.categoria=categoria
+ update platillo as p set p.imagen=imagen,p.nombre=nombre,p.descripcion=descripcion,p.precio=precio,p.categoria=categoria
  where p.id =clave;
 
  call updatePlatillo(1,'','Gringas','muy buenas',34.50,'Comida');
@@ -314,14 +314,14 @@ call getPlatilloNextId();
  
  
   DROP PROCEDURE IF EXISTS updatePlatilloNoImage;
- CREATE PROCEDURE updatePlatillo(
+ CREATE PROCEDURE updatePlatilloNoImage(
 	clave int,
     nombre varchar(100),
     descripcion text,
     precio double,
     categoria varchar(50)
  )
- update platillo as p set p.nombre=nombre,p.descripcion=precio,p.precio=precio,p.categoria=categoria
+ update platillo as p set p.nombre=nombre,p.descripcion=descripcion,p.precio=precio,p.categoria=categoria
  where p.id =clave;
  
  
@@ -362,8 +362,8 @@ CREATE PROCEDURE deletePlatillo(
  */
  
  
-DROP PROCEDURE IF EXISTS getPlatilloPorNombre;
-CREATE PROCEDURE getPlatilloPorNombre( 
+DROP PROCEDURE IF EXISTS getPlatillosPorNombre;
+CREATE PROCEDURE getPlatillosPorNombre( 
     nombre varchar(100)
 )
 	SELECT * from platillo AS p
@@ -374,8 +374,8 @@ CREATE PROCEDURE getPlatilloPorNombre(
  call getPlatilloPorNombre('enchi');
  */
  
-DROP PROCEDURE IF EXISTS getPlatilloPorCategoria;
-CREATE PROCEDURE getPlatilloPorCategoria( 
+DROP PROCEDURE IF EXISTS getPlatillosPorCategoria;
+CREATE PROCEDURE getPlatillosPorCategoria( 
     categoria varchar(50)
 )
 	SELECT * from platillo AS p
@@ -386,10 +386,7 @@ CREATE PROCEDURE getPlatilloPorCategoria(
  call getPlatilloPorCategoria('Bebi');
  */
 
-/* *********** BORRAR TODO LO DE ABAJO *****************/
-select * from cliente;
-select * from administrador;
-delete from cliente where id = 3;
-insert into administrador values(null,'José Cervera','jose@mail.com','admin','admin', 1);
-select *from platillo;
-call getPlatilloNextId();
+
+
+
+

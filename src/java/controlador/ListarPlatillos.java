@@ -33,20 +33,16 @@ public class ListarPlatillos extends HttpServlet {
             GestorPlatilloBD gestorPlatilloBD = new GestorPlatilloBD();
 
             // Para los filtros
-            boolean filtroCategoria = false;
-            boolean filtroNombre = false;
             String filter = null;
 
             // Filtro por nombre
             if (request.getParameter("search") != null) {
                 String filterName = request.getParameter("search");
-                filtroNombre = true;
                 platillos = gestorPlatilloBD.getPlatillosPorNombre(filterName);
                 
                 // Filtro por categoría
             } else if (request.getParameter("filter") != null) {
                 filter = request.getParameter("filter");
-                filtroCategoria = true;
                 switch (filter) {
                     case "Comida":
                         platillos = gestorPlatilloBD.getPlatillosPorCategoria("Comida");
@@ -67,15 +63,11 @@ public class ListarPlatillos extends HttpServlet {
                 platillos = gestorPlatilloBD.getPlatillos();
             }
             
+            System.out.println("search: " + request.getParameter("search"));
+            
             if (platillos != null){
                 request.setAttribute("Platillos",platillos);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"
-                // Si no hay filtros
-                if (!filtroCategoria && !filtroNombre) {
-                    request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);//Se envia
-                } else if (filtroCategoria && !filtroNombre) {
-                    request.getRequestDispatcher("/moduloAdministrador.jsp?filter="+filter).forward(request, response);//Se envia
-                }
-                
+                request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);//Se envia                
             }else{
                 // request.getRequestDispatcher("/noHayRegistros.jsp").forward(request, response);
             }
