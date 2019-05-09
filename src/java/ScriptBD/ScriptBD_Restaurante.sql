@@ -193,7 +193,7 @@ call getCliente(1);
  )
  insert into cliente  values(null,nombre,apellidos,correo,usuario,pass,tipo,1);
  
- call insertarCliente('','','','','','2');
+ call insertarCliente('','','','Invitado','','2');
  
  
  call insertarCliente('Miguel Ángel','Ramírez Lira','migueram_5@hotmail.com','mike','mike123','1');
@@ -580,6 +580,102 @@ SELECT * from mesero AS m
 
 
 
+/****************************************PROCEDIMIENTOS DE ADMINISTRADOR**********/
+
+DROP PROCEDURE IF EXISTS getAdministradorLogin;
+CREATE PROCEDURE getAdministradorLogin(
+usuario varchar(50),
+password varchar(50)
+)
+select * from administrador where administrador.usuario=usuario and administrador.pass =password and administrador.status=1;
+
+call getAdministradorLogin('1', '1');
+
+
+DROP PROCEDURE IF EXISTS getAadministradores;
+CREATE PROCEDURE getAadministradores(
+)
+select * from administrador where status=1;
+
+/*
+select * from administrador;
+call getAadministradores();
+*/
+
+
+DROP PROCEDURE IF EXISTS getAdministrador;
+CREATE PROCEDURE getAdministrador(
+clave int
+)
+select * from administrador where administrador.id=clave and status=1;
+
+/*
+call getAadministrador(2);
+*/
+
+
+DROP PROCEDURE IF EXISTS getAdministradorNextId;
+CREATE PROCEDURE getAdministradorNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "administrador";
+/*
+call getAadministradorNextId();
+*/
+
+  DROP PROCEDURE IF EXISTS insertarAdministrador;
+ CREATE PROCEDURE insertarAdministrador(
+    nombre varchar(50),
+    correo varchar(50),
+    usuario varchar(50),
+    password varchar(50)
+ )
+ insert into administrador values(null,nombre, correo, usuario, password,1);
+ 
+ call insertarAdministrador('Juana','juan85@hotmail.com', 'juan','pass987');
+ call insertarAdministrador('Cinthia','navachin8@outlook.com', 'cinthia','13791379');
+ call insertarAdministrador('Natalia','natymendez20@gmail.com', 'naty','abc');
+ call insertarAdministrador('Georgina','georagua12@hotmail.com','gio','123');
+ 
+ DROP PROCEDURE IF EXISTS updateAdministrador;
+ CREATE PROCEDURE updateAdministrador(
+    clave int,
+	  nombre varchar(50),
+    correo varchar(50),
+    usuario varchar(50),
+    pass varchar(50)
+ )
+ update administrador as p set p.nombre=nombre,p.correo=correo,p.usuario=usuario,p.pass=pass
+ where p.id =clave;
+
+ call updateAdministrador(1, 'Juan','juan85@hotmail.com', 'juan','pass987');
+
+ 
+DROP PROCEDURE IF EXISTS deleteAdministrador;
+CREATE PROCEDURE deleteAdministrador(
+	clave int
+)
+ update administrador as p set p.status=0
+ where p.id =clave;
+ 
+ /*
+ call deleteAadministrador(2);
+ */
+ 
+ DROP PROCEDURE IF EXISTS getFiltroAdministrador;
+CREATE PROCEDURE getFiltroAdministrador( 
+	filtro varchar(50)
+)
+SELECT * from administrador AS m
+	where (CONVERT(m.id ,CHAR)  like (CONCAT('%',filtro,'%'))/*Uso convert para comparar el valor char recibido con un int o double*/
+    OR m.nombre  like (CONCAT('%',filtro,'%'))
+	OR m.correo like (CONCAT('%',filtro,'%'))
+	OR m.usuario like (CONCAT('%',filtro,'%')))
+    AND status=1;
+
+call getFiltroAdministrador('a');
+  
 
 
 
@@ -956,6 +1052,4 @@ CREATE PROCEDURE deleteClaveAcceso(
  /*
  call deleteClaveAcceso();
  */
-
-
 
