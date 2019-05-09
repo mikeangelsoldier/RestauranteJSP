@@ -56,14 +56,6 @@
         <script>
             var pass = document.getElementById("password");
 
-            /*function aceptar() {
-                var text1, text2;
-                text1 = document.getElementById("username").value;
-                text2 = document.getElementById("password").value;
-                console.log('Username: ', text1);
-                console.log('Password ', text2);
-            }*/
-
             pass.addEventListener("keyup", function(event) {
                 // Number 13 is the "Enter" key on the keyboard
                 if (event.keyCode === 13) {
