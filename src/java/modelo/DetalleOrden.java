@@ -1,32 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package modelo;
 
-/**
- * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
 public class DetalleOrden {
 
-      private int id;
-        private int fk_orden;
-          private int fk_platillo;
-            private int puntajePlatillo;
-              private int status;
+    private int id;
+    private int fk_orden;
+    private int fk_platillo;
+    private double puntajePlatillo;
+    private int status;
 
-    public DetalleOrden(int id, int fk_orden, int fk_platillo, int puntajePlatillo, int status) {
+    public DetalleOrden() {
+    }
+
+    public DetalleOrden(int id, int fk_orden, int fk_platillo, double puntajePlatillo, int status) {
         this.id = id;
         this.fk_orden = fk_orden;
         this.fk_platillo = fk_platillo;
         this.puntajePlatillo = puntajePlatillo;
         this.status = status;
-    }
-
-    public DetalleOrden() {
     }
 
     public int getId() {
@@ -53,11 +43,11 @@ public class DetalleOrden {
         this.fk_platillo = fk_platillo;
     }
 
-    public int getPuntajePlatillo() {
+    public double getPuntajePlatillo() {
         return puntajePlatillo;
     }
 
-    public void setPuntajePlatillo(int puntajePlatillo) {
+    public void setPuntajePlatillo(double puntajePlatillo) {
         this.puntajePlatillo = puntajePlatillo;
     }
 
@@ -68,6 +58,6 @@ public class DetalleOrden {
     public void setStatus(int status) {
         this.status = status;
     }
-              
-              
+    
+    
 }

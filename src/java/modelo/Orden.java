@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo;
 
-
 public class Orden {
-    
+
     private int id;
     private int fk_servicio;
-    private  int status;
+    private int status;
 
     public Orden(int id, int fk_servicio, int status) {
         this.id = id;
@@ -45,7 +43,5 @@ public class Orden {
     public void setStatus(int status) {
         this.status = status;
     }
-    
-    
 
 }

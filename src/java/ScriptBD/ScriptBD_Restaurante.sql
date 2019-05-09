@@ -5,6 +5,7 @@ CREATE DATABASE restaurante;
 use restaurante;
 
 CREATE TABLE cocina(
+	id int PRIMARY KEY,
 	claveAcceso varchar(50) not null
 )ENGINE=InnoDB;
 
@@ -54,10 +55,11 @@ CREATE TABLE sesion_servicio(
     fk_cliente int not null,
     fk_mesero int not null,
     numMesa int not null,
-    puntajeMeseroServicio int null,
+    puntajeMeseroServicio double null,
     totalVenta double null,
     tipoPago varchar(15) null,
-	status int not null
+    estadoSesion int null, /*Sesion inciada/finalizada*//*Sesiones activas*//*1=Iniciada,   0=Finalizada*/
+	status int not null/*Agregada/eliminada*//*Conocer si esta eliminada o no de la BD*/
 )ENGINE=InnoDB;
 
 
@@ -73,7 +75,7 @@ CREATE TABLE det_orden(
 	id INT PRIMARY KEY AUTO_INCREMENT not null,
     fk_orden int not null,
     fk_platillo int not null,
-    puntajePlatillo int null,
+    puntajePlatillo double null,
 	status int not null
 )ENGINE=InnoDB;
 
@@ -134,17 +136,18 @@ REFERENCES platillo (id)
 									PROCEDIMIENTOS ALMACENADOS
 ****************************************************************************************/
 
-/****************************************PROCEDIMIENTOS DE usuario**********/
-DROP PROCEDURE IF EXISTS getLogin;
-CREATE PROCEDURE getLogin(
+
+/****************************************PROCEDIMIENTOS DE cliente**********/
+DROP PROCEDURE IF EXISTS getClienteLogin;
+CREATE PROCEDURE getClienteLogin(
 usuario varchar(50),
 password varchar(50)
 )
 select * from cliente where cliente.usuario=usuario and cliente.pass =password and cliente.status=1;
 
 /*
-call getLogin('mike','mike123');
-call getLogin('mike','mike12');
+call getClienteLogin('mike','mike123');
+call getClienteLogin('mike','mike12');
 */
 
 DROP PROCEDURE IF EXISTS getClienteNextId;
@@ -190,9 +193,11 @@ call getCliente(1);
  )
  insert into cliente  values(null,nombre,apellidos,correo,usuario,pass,tipo,1);
  
+ call insertarCliente('','','','Invitado','','2');
+ 
+ 
  call insertarCliente('Miguel Ángel','Ramírez Lira','migueram_5@hotmail.com','mike','mike123','1');
  call insertarCliente('jorge','Guani','jorge@hotmail.com','jorge','123','1');
- 
  
 
  DROP PROCEDURE IF EXISTS updateCliente;
@@ -207,7 +212,7 @@ call getCliente(1);
  update cliente as c set c.nombre=nombre,c.apellidos=apellidos,c.correo=correo,c.usuario=usuario,c.pass=pass
  where c.id =clave;
 
-call updateCliente(1,'Miguel','Ramírez Lira','migueram_5@hotmail.com','mike','mike123');
+call updateCliente(2,'Miguel','Ramírez Lira','migueram_5@hotmail.com','mike','mike123');
  
  
 DROP PROCEDURE IF EXISTS deleteCliente;
@@ -223,23 +228,16 @@ CREATE PROCEDURE deleteCliente(
 
 DROP PROCEDURE IF EXISTS getFiltroCliente;
 CREATE PROCEDURE getFiltroCliente( 
-	clave varchar(50),
-    nombre varchar(50),
-    apellidos varchar(100),
-	correo varchar(50) ,
-	usuario varchar(50) ,
-	pass varchar(50) ,
-    tipo varchar(10)
+	filtro varchar(50)
 )
-	SELECT * from cliente AS c
-	where CONVERT(c.id ,CHAR)  like (CONCAT('%',clave,'%'))/*Uso convert para comparar el valor char recibido con un int o double*/
-    AND c.usuario  like (CONCAT('%',usuario,'%'))
-    AND c.nombre like (CONCAT('%',nombre,'%'))
-	AND c.apellidos like (CONCAT('%',apellidos,'%'))
-	AND c.correo like (CONCAT('%',correo,'%'))
-	AND c.pass like (CONCAT('%',pass,'%'))
-    AND c.tipo like (CONCAT('%',tipo,'%'))
+SELECT * from cliente AS c
+	where (CONVERT(c.id ,CHAR)  like (CONCAT('%',filtro,'%'))/*Uso convert para comparar el valor char recibido con un int o double*/
+    OR c.usuario  like (CONCAT('%',filtro,'%'))
+    OR c.nombre like (CONCAT('%',filtro,'%'))
+	OR c.apellidos like (CONCAT('%',filtro,'%'))
+	OR c.correo like (CONCAT('%',filtro,'%')))
     AND status=1;
+
 
  /*
  call getFiltroCliente('','','','','','','1');
@@ -254,7 +252,6 @@ DROP PROCEDURE IF EXISTS getPlatillos;
 CREATE PROCEDURE getPlatillos(
 )
 select * from platillo where status=1;
-
 /*
 select * from platillo;
 call getPlatillos();
@@ -266,7 +263,6 @@ CREATE PROCEDURE getPlatillo(
 clave int
 )
 select * from platillo where platillo.id=clave and status=1;
-
 /*
 call getPlatillo(2);
 */
@@ -326,18 +322,18 @@ call getPlatilloNextId();
  
  
  
- DROP PROCEDURE IF EXISTS getPuntaje;
- CREATE PROCEDURE getPuntaje(
+ DROP PROCEDURE IF EXISTS getPuntajePlatillo;
+ CREATE PROCEDURE getPuntajePlatillo(
 	clave int
  )
  select puntuacionTotal,numPuntuaciones from platillo where id =clave;
 /*
- call getPuntaje();
+ call getPuntajePlatillo(1);
 */
 
 
- DROP PROCEDURE IF EXISTS updatePuntaje;
- CREATE PROCEDURE updatePuntaje(
+ DROP PROCEDURE IF EXISTS updatePuntajePlatillo;
+ CREATE PROCEDURE updatePuntajePlatillo(
 	clave int,
     puntuacionTotal double,
     numPuntuaciones int
@@ -345,7 +341,7 @@ call getPlatilloNextId();
  update platillo as p set p.puntuacionTotal=puntuacionTotal,p.numPuntuaciones=numPuntuaciones
  where p.id =clave;
 
- call updatePuntaje(1,4,32);
+ call updatePuntajePlatillo(1,4,32);
 
 
  
@@ -385,8 +381,675 @@ CREATE PROCEDURE getPlatillosPorCategoria(
  /*
  call getPlatilloPorCategoria('Bebi');
  */
+ 
+ 
+
+/****************************************PROCEDIMIENTOS DE categoriaPlatillo**********/
+
+DROP PROCEDURE IF EXISTS getCategoriasPlatillos;
+CREATE PROCEDURE getCategoriasPlatillos(
+)
+select * from categoriaPlatillo where status=1;
+
+/*
+select * from categoriaPlatillo;
+call getCategoriasPlatillos();
+*/
+
+
+DROP PROCEDURE IF EXISTS getCategoriaPlatilloPorId;
+CREATE PROCEDURE getCategoriaPlatilloPorId(
+clave int
+)
+select * from categoriaPlatillo where categoriaPlatillo.id=clave and status=1;
+
+/*
+call getCategoriaPlatilloPorId(1);
+*/
+
+
+DROP PROCEDURE IF EXISTS getCategoriaPlatilloNextId;
+CREATE PROCEDURE getCategoriaPlatilloNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "categoriaPlatillo";
+/*
+call getCategoriaPlatilloNextId();
+*/
+
+ DROP PROCEDURE IF EXISTS insertarCategoriaPlatillo;
+ CREATE PROCEDURE insertarCategoriaPlatillo(
+	categoria varchar(50)
+ )
+ insert into categoriaPlatillo  values(null,categoria,1);
+ 
+ call insertarCategoriaPlatillo('Todos');
+call insertarCategoriaPlatillo('Comidas');
+call insertarCategoriaPlatillo('Bebidas');
+call insertarCategoriaPlatillo('Postres');
+    
+ 
+ DROP PROCEDURE IF EXISTS updateCategoriaPlatillo;
+ CREATE PROCEDURE updateCategoriaPlatillo(
+	clave int,
+    categoria varchar(50)
+ )
+ update categoriaPlatillo as cp set cp.categoria=categoria
+ where cp.id =clave;
+
+/*
+ call updateCategoriaPlatillo(1,'Postre');
+ */
+ 
+
+DROP PROCEDURE IF EXISTS deleteCategoriaPlatillo;
+CREATE PROCEDURE deleteCategoriaPlatillo(
+	clave int
+)
+ update categoriaPlatillo as cp set cp.status=0
+ where cp.id =clave;
+ 
+ /*
+ call deleteCategoriaPlatillo(2);
+ */
+ 
+    
+    
+    
+/****************************************PROCEDIMIENTOS DE MESEROS**********/
+DROP PROCEDURE IF EXISTS getMeseroLogin;
+CREATE PROCEDURE getMeseroLogin(
+usuario varchar(50),
+password varchar(50)
+)
+select * from mesero where mesero.usuario=usuario and mesero.pass =password and mesero.status=1;
+
+/*
+call getMeseroLogin('naty','abc');
+call getMeseroLogin('naty','4545');
+*/
+
+DROP PROCEDURE IF EXISTS getMeseros;
+CREATE PROCEDURE getMeseros(
+)
+select * from mesero where status=1;
+
+/*
+select * from mesero;
+call getMeseros();
+*/
+
+
+DROP PROCEDURE IF EXISTS getMesero;
+CREATE PROCEDURE getMesero(
+clave int
+)
+select * from mesero where mesero.id=clave and status=1;
+
+/*
+call getMesero(2);
+*/
+
+
+DROP PROCEDURE IF EXISTS getMeseroNextId;
+CREATE PROCEDURE getMeseroNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "mesero";
+/*
+call getMeseroNextId();
+*/
+
+  DROP PROCEDURE IF EXISTS insertarMesero;
+ CREATE PROCEDURE insertarMesero(
+    nombre varchar(50),
+    apellidos varchar(100),
+    correo varchar(50),
+    usuario varchar(50),
+    password varchar(50)
+ )
+ insert into mesero  values(null,nombre, apellidos, correo, usuario, password, 5, 1,1);
+ 
+ call insertarMesero('Juana','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
+ call insertarMesero('Cinthia','Nava verde','navachin8@outlook.com', 'cinthia','13791379');
+  call insertarMesero('Natalia','Méndez','natymendez20@gmail.com', 'naty','abc');
+  call insertarMesero('Georgina','Aguada','georagua12@hotmail.com','gio','123');
+ 
+ DROP PROCEDURE IF EXISTS updateMesero;
+ CREATE PROCEDURE updateMesero(
+    clave int,
+	  nombre varchar(50),
+    apellidos varchar(100),
+    correo varchar(50),
+    usuario varchar(50),
+    pass varchar(50)
+ )
+ update mesero as p set p.nombre=nombre,p.apellidos=apellidos,p.correo=correo,p.usuario=usuario,p.pass=pass
+ where p.id =clave;
+
+ call updateMesero(1, 'Juan','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
+
+ 
+DROP PROCEDURE IF EXISTS deleteMesero;
+CREATE PROCEDURE deleteMesero(
+	clave int
+)
+ update mesero as p set p.status=0
+ where p.id =clave;
+ 
+ /*
+ call deleteMesero(2);
+ */
+ 
+ DROP PROCEDURE IF EXISTS getFiltroMesero;
+CREATE PROCEDURE getFiltroMesero( 
+	filtro varchar(50)
+)
+SELECT * from mesero AS m
+	where (CONVERT(m.id ,CHAR)  like (CONCAT('%',filtro,'%'))/*Uso convert para comparar el valor char recibido con un int o double*/
+    OR m.nombre  like (CONCAT('%',filtro,'%'))
+    OR m.apellidos like (CONCAT('%',filtro,'%'))
+	OR m.correo like (CONCAT('%',filtro,'%'))
+	OR m.usuario like (CONCAT('%',filtro,'%')))
+    AND status=1;
+
+
+ 
+ DROP PROCEDURE IF EXISTS getPuntajeMesero;
+ CREATE PROCEDURE getPuntajeMesero(
+	clave int
+ )
+ select puntuacionTotal,numPuntuaciones from mesero where id =clave;
+/*
+ call getPuntajeMesero(1);
+*/
+
+
+ DROP PROCEDURE IF EXISTS updatePuntajeMesero;
+ CREATE PROCEDURE updatePuntajeMesero(
+	clave int,
+    puntuacionTotal double,
+    numPuntuaciones int
+ )
+ update mesero as m set m.puntuacionTotal=puntuacionTotal,m.numPuntuaciones=numPuntuaciones
+ where m.id =clave;
+
+ call updatePuntajeMesero(1,4,32);
 
 
 
+/****************************************PROCEDIMIENTOS DE ADMINISTRADOR**********/
 
+DROP PROCEDURE IF EXISTS getAdministradorLogin;
+CREATE PROCEDURE getAdministradorLogin(
+usuario varchar(50),
+password varchar(50)
+)
+select * from administrador where administrador.usuario=usuario and administrador.pass =password and administrador.status=1;
+
+call getAdministradorLogin('1', '1');
+
+
+DROP PROCEDURE IF EXISTS getAadministradores;
+CREATE PROCEDURE getAadministradores(
+)
+select * from administrador where status=1;
+
+/*
+select * from administrador;
+call getAadministradores();
+*/
+
+
+DROP PROCEDURE IF EXISTS getAdministrador;
+CREATE PROCEDURE getAdministrador(
+clave int
+)
+select * from administrador where administrador.id=clave and status=1;
+
+/*
+call getAadministrador(2);
+*/
+
+
+DROP PROCEDURE IF EXISTS getAdministradorNextId;
+CREATE PROCEDURE getAdministradorNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "administrador";
+/*
+call getAadministradorNextId();
+*/
+
+  DROP PROCEDURE IF EXISTS insertarAdministrador;
+ CREATE PROCEDURE insertarAdministrador(
+    nombre varchar(50),
+    correo varchar(50),
+    usuario varchar(50),
+    password varchar(50)
+ )
+ insert into administrador values(null,nombre, correo, usuario, password,1);
+ 
+ call insertarAdministrador('Juana','juan85@hotmail.com', 'juan','pass987');
+ call insertarAdministrador('Cinthia','navachin8@outlook.com', 'cinthia','13791379');
+ call insertarAdministrador('Natalia','natymendez20@gmail.com', 'naty','abc');
+ call insertarAdministrador('Georgina','georagua12@hotmail.com','gio','123');
+ 
+ DROP PROCEDURE IF EXISTS updateAdministrador;
+ CREATE PROCEDURE updateAdministrador(
+    clave int,
+	  nombre varchar(50),
+    correo varchar(50),
+    usuario varchar(50),
+    pass varchar(50)
+ )
+ update administrador as p set p.nombre=nombre,p.correo=correo,p.usuario=usuario,p.pass=pass
+ where p.id =clave;
+
+ call updateAdministrador(1, 'Juan','juan85@hotmail.com', 'juan','pass987');
+
+ 
+DROP PROCEDURE IF EXISTS deleteAdministrador;
+CREATE PROCEDURE deleteAdministrador(
+	clave int
+)
+ update administrador as p set p.status=0
+ where p.id =clave;
+ 
+ /*
+ call deleteAadministrador(2);
+ */
+ 
+ DROP PROCEDURE IF EXISTS getFiltroAdministrador;
+CREATE PROCEDURE getFiltroAdministrador( 
+	filtro varchar(50)
+)
+SELECT * from administrador AS m
+	where (CONVERT(m.id ,CHAR)  like (CONCAT('%',filtro,'%'))/*Uso convert para comparar el valor char recibido con un int o double*/
+    OR m.nombre  like (CONCAT('%',filtro,'%'))
+	OR m.correo like (CONCAT('%',filtro,'%'))
+	OR m.usuario like (CONCAT('%',filtro,'%')))
+    AND status=1;
+
+call getFiltroAdministrador('a');
+  
+
+
+
+ /****************************************PROCEDIMIENTOS DE SESION**********/
+ DROP PROCEDURE IF EXISTS getSesiones;
+CREATE PROCEDURE getSesiones(
+)
+select * from sesion_servicio where  status=1;
+
+/*
+SELECT * FROM sesion_servicio;
+call getSesiones();
+*/
+
+DROP PROCEDURE IF EXISTS getSesionPorId;
+CREATE PROCEDURE getSesionPorId(
+	clave int
+)
+select * from sesion_servicio where sesion_servicio.id=clave and status=1;
+
+/*
+SELECT * FROM sesion_servicio;
+call getSesionPorId(1);
+call getClientes();
+call getMeseros();
+*/
+
+
+DROP PROCEDURE IF EXISTS getSesionNextId;
+CREATE PROCEDURE getSesionNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "sesion_servicio";
+/*
+call getSesionNextId();
+*/
+
+ DROP PROCEDURE IF EXISTS insertarNuevaSesion;/*cuando un usuario inicia sesion se crea esto*/
+ CREATE PROCEDURE insertarNuevaSesion(
+    fk_cliente int,
+    fk_mesero int,
+    numMesa int
+ )
+ insert into sesion_servicio (id,fk_cliente,fk_mesero,numMesa,estadoSesion,status)  values(null,fk_cliente,fk_mesero,numMesa,1,1);
+ 
+ call insertarNuevaSesion(1,1,1);/*Cada que inicia sesion un usuario*/
+ call insertarNuevaSesion(2,1,2);
+ 
+ DROP PROCEDURE IF EXISTS updatePuntajeMeseroSesion;
+ CREATE PROCEDURE updatePuntajeMeseroSesion(/*Puntaje del mesero en una sesion especifica*/
+	claveSesion int,
+    puntaje int
+ )
+ update sesion_servicio as ss set ss.puntajeMeseroServicio=puntaje
+ where ss.id =claveSesion;
+
+/*
+ call updatePuntajeMeseroSesion(1,5);
+ */
+ 
+  DROP PROCEDURE IF EXISTS updateTotalVentaYTipoPagoSesion;
+ CREATE PROCEDURE updateTotalVentaYTipoPagoSesion(/*Puntaje del mesro en una sesion especifica*/
+ 	claveSesion int,
+    totalVenta double,
+    tipoPago varchar(15)
+ )
+ update sesion_servicio as ss set ss.totalVenta=totalVenta, ss.tipoPago=tipoPago
+ where ss.id =claveSesion;
+
+ call updateTotalVentaYTipoPagoSesion(1,25.5,'EFECTIVO');
+ 
+DROP PROCEDURE IF EXISTS deleteSesion;
+CREATE PROCEDURE deleteSesion(
+	clave int
+)
+ update sesion_servicio as ss set ss.status=0
+ where ss.id =clave;
+ 
+ /*
+ call deleteSesion(1);
+ */
+ 
+ DROP PROCEDURE IF EXISTS calcularTotalPorOrdenEnVentaDeUnaSesion;
+ CREATE PROCEDURE calcularTotalPorOrdenEnVentaDeUnaSesion(/*Puntaje del mesro en una sesion especifica*/
+ 	idSesion int
+ )
+select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.puntajeMeseroServicio,
+	ss.totalVenta,ss.tipoPago,ss.estadoSesion, o.id as idOrden,
+    sum(p.precio) as totalPorOrden 
+    from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
+	JOIN det_orden as dt ON o.id=dt.fk_orden 
+    JOIN platillo as p ON dt.fk_platillo=p.id
+where ss.status=1 and o.status=1 and dt.status=1 and p.status=1 and ss.id=idSesion
+group by o.id;
+
+ call calcularTotalPorOrdenEnVentaDeUnaSesion(1);
+ call calcularTotalPorOrdenEnVentaDeUnaSesion(2);
+
+ DROP PROCEDURE IF EXISTS calcularTotalGeneralEnVentaDeUnaSesion;
+ CREATE PROCEDURE calcularTotalGeneralEnVentaDeUnaSesion(/*Puntaje del mesro en una sesion especifica*/
+ 	idSesion int
+ )
+select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.puntajeMeseroServicio,
+	ss.totalVenta,ss.tipoPago,ss.estadoSesion, 
+    sum(p.precio) as totalPorSesion
+    from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
+	JOIN det_orden as dt ON o.id=dt.fk_orden 
+    JOIN platillo as p ON dt.fk_platillo=p.id
+where ss.status=1 and o.status=1 and dt.status=1 and p.status=1 and ss.id=idSesion
+group by ss.id;
+
+ call calcularTotalGeneralEnVentaDeUnaSesion(1);
+ call calcularTotalGeneralEnVentaDeUnaSesion(2);
+ 
+/****************************************PROCEDIMIENTOS DE ORDENES**********/
+ DROP PROCEDURE IF EXISTS getOrdenes;
+CREATE PROCEDURE getOrdenes(
+)
+select * from orden where  status=1;
+
+/*
+SELECT * FROM orden;
+call getOrdenes();
+*/
+
+DROP PROCEDURE IF EXISTS getOrdenNextId;
+CREATE PROCEDURE getOrdenNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "orden";
+/*
+call getOrdenNextId();
+*/
+
+ DROP PROCEDURE IF EXISTS insertarNuevaOrden;
+ CREATE PROCEDURE insertarNuevaOrden(
+    fk_sesion int
+ )
+ insert into orden values(null,fk_sesion,1);
+ 
+ call insertarNuevaOrden(1);/*Agrega una nueva orden a la sesion N */
+ call insertarNuevaOrden(1);/*Agrega una nueva orden a la sesion N */
+ call insertarNuevaOrden(2);/*Agrega una nueva orden a la sesion N */
+ 
+DROP PROCEDURE IF EXISTS deleteOrden;
+CREATE PROCEDURE deleteOrden(
+	clave int
+)
+ update orden as o set o.status=0
+ where o.id =clave;
+ 
+ /*
+ call deleteOrden(1);
+ */
+ 
+/****************************************PROCEDIMIENTOS DE det_orden**********/
+ DROP PROCEDURE IF EXISTS getDetallesOrdenes;
+CREATE PROCEDURE getDetallesOrdenes(
+)
+select * from det_orden where status=1;
+
+/*
+SELECT * FROM det_orden;
+call getDetallesOrdenes();
+*/
+
+ DROP PROCEDURE IF EXISTS getDetallesDeUnaOrden;
+CREATE PROCEDURE getDetallesDeUnaOrden(
+	claveOrden int
+)
+select * from det_orden where det_orden.fk_orden=claveOrden and det_orden.status=1;
+
+/*
+call getDetallesDeUnaOrden(1);
+*/
+
+DROP PROCEDURE IF EXISTS getDetOrdenNextId;
+CREATE PROCEDURE getDetOrdenNextId()
+  SELECT AUTO_INCREMENT
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = "restaurante"
+  AND TABLE_NAME = "det_orden";
+/*
+call getDetOrdenNextId();
+*/
+
+ DROP PROCEDURE IF EXISTS insertarNuevoDetOrden;
+ CREATE PROCEDURE insertarNuevoDetOrden(
+    fk_orden int,
+    fk_platillo int
+ )
+ insert into det_orden (id,fk_orden,fk_platillo,status) values(null,fk_orden,fk_platillo,1);
+ 
+ call insertarNuevoDetOrden(1,2);
+  call insertarNuevoDetOrden(1,1);
+   call insertarNuevoDetOrden(2,2);
+  call insertarNuevoDetOrden(2,4);
+  call insertarNuevoDetOrden(3,3);
+  call insertarNuevoDetOrden(3,4);
+  
+
+ DROP PROCEDURE IF EXISTS updatePuntajePlatilloEnOrden;
+ CREATE PROCEDURE updatePuntajePlatilloEnOrden(/*Puntaje del mesero en una sesion especifica*/
+	claveOrden int,
+    puntaje int
+ )
+ update det_orden as dt set dt.puntajePlatillo=puntaje
+ where dt.id =claveOrden;
+
+/*
+ call updatePuntajePlatilloEnOrden(1,4);
+  call updatePuntajePlatilloEnOrden(2,5);
+ */
+ 
+DROP PROCEDURE IF EXISTS deleteDetOrden;
+CREATE PROCEDURE deleteDetOrden(
+	clave int
+)
+ update det_orden as deto set deto.status=0
+ where deto.id =clave;
+ 
+ /*
+ call deleteDetOrden(1);
+ */
+
+
+
+/****************************************PROCEDIMIENTOS DE JOIN sesion, orden, y platillos**********/
+/*
+select * from sesion_servicio;
+select * from orden;
+select * from det_orden;
+select * from platillo; 
+*/
+
+DROP PROCEDURE IF EXISTS getTodasSesionesYSusOrdenes;/*Regresa cada sesion con el id de todas sus ordenes*/
+CREATE PROCEDURE getTodasSesionesYSusOrdenes(
+)
+select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.puntajeMeseroServicio,
+	ss.totalVenta,ss.tipoPago,ss.estadoSesion, o.id as idOrden	from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
+where ss.status=1 and o.status=1;
+/*select * from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
+where ss.status=1 and o.status=1;*/
+
+/*
+call getTodasSesionesYSusOrdenes();
+*/
+
+DROP PROCEDURE IF EXISTS getSesionYSusOrdenes;/*Regresa datos de la sesion especificada, incluyendo el id de todas sus ordenes*/
+CREATE PROCEDURE getSesionYSusOrdenes(
+clave_sesion int
+)
+select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.puntajeMeseroServicio,
+	ss.totalVenta,ss.tipoPago,ss.estadoSesion, o.id as idOrden	from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
+where ss.status=1 and o.status=1 and ss.id=clave_sesion;
+
+
+/*
+call getSesionYSusOrdenes(1);
+call getSesionYSusOrdenes(2);
+*/
+
+
+DROP PROCEDURE IF EXISTS getTodasSesionesYSusOrdenesYPlatillos;/*Regresa cada sesion con el id de todas sus ordenes y platillos de cada orden*/
+CREATE PROCEDURE getTodasSesionesYSusOrdenesYPlatillos(
+)
+select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.puntajeMeseroServicio,
+	ss.totalVenta,ss.tipoPago,ss.estadoSesion, o.id as idOrden, dt.id as idDetOrden,
+    dt.puntajePlatillo,p.id as idPlatillo,p.imagen,p.nombre,p.descripcion,
+    p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones
+    from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
+	JOIN det_orden as dt ON o.id=dt.fk_orden 
+    JOIN platillo as p ON dt.fk_platillo=p.id
+where ss.status=1 and o.status=1 and dt.status=1 and p.status=1;
+/*select * from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
+	JOIN det_orden as dt ON o.id=dt.fk_orden 
+    JOIN platillo as p ON dt.fk_platillo=p.id
+where ss.status=1 and o.status=1 and dt.status=1 and p.status=1;*/
+
+/*
+call getTodasSesionesYSusOrdenesYPlatillos();
+*/
+
+DROP PROCEDURE IF EXISTS getSesionYSusOrdenesYPlatillos;/*Regresa datos de la sesion especificada, incluyendo el id de todas sus ordenes y platillos de cada orden*/
+CREATE PROCEDURE getSesionYSusOrdenesYPlatillos(
+clave_sesion int
+)
+select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.puntajeMeseroServicio,
+	ss.totalVenta,ss.tipoPago,ss.estadoSesion, o.id as idOrden, dt.id as idDetOrden,
+    dt.puntajePlatillo,p.id as idPlatillo,p.imagen,p.nombre,p.descripcion,
+    p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones
+    from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
+	JOIN det_orden as dt ON o.id=dt.fk_orden 
+    JOIN platillo as p ON dt.fk_platillo=p.id
+where ss.status=1 and o.status=1 and dt.status=1 and p.status=1 and ss.id=clave_sesion;
+
+
+/*
+call getSesionYSusOrdenesYPlatillos(1);
+call getSesionYSusOrdenesYPlatillos(2);
+*/
+
+DROP PROCEDURE IF EXISTS getTodasOrdenesEnGeneralYPlatillos;/*Regresa ordenes en general y platillos de cada orden*/
+CREATE PROCEDURE getTodasOrdenesEnGeneralYPlatillos(
+)
+select o.id as idOrden,o.fk_sesionservicio, dt.id as idDetOrden,
+    dt.puntajePlatillo,p.id as idPlatillo,p.imagen,p.nombre,p.descripcion,
+    p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones
+    from orden as o JOIN det_orden as dt ON o.id=dt.fk_orden 
+    JOIN platillo as p ON dt.fk_platillo=p.id
+where o.status=1 and dt.status=1 and p.status=1;
+/*select * from orden as o JOIN det_orden as dt ON o.id=dt.fk_orden 
+    JOIN platillo as p ON dt.fk_platillo=p.id
+where o.status=1 and dt.status=1 and p.status=1;*/
+
+/*
+call getTodasOrdenesEnGeneralYPlatillos();
+*/
+
+DROP PROCEDURE IF EXISTS getOrdenEspecificaYPlatillos;/*Regresa datos de la orden especificada, y platillos de la orden*/
+CREATE PROCEDURE getOrdenEspecificaYPlatillos(
+clave_sesion int
+)
+select o.id as idOrden,o.fk_sesionservicio, dt.id as idDetOrden,
+    dt.puntajePlatillo,p.id as idPlatillo,p.imagen,p.nombre,p.descripcion,
+    p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones
+    from orden as o JOIN det_orden as dt ON o.id=dt.fk_orden 
+    JOIN platillo as p ON dt.fk_platillo=p.id
+where o.status=1 and dt.status=1 and p.status=1 and o.id=clave_sesion;
+
+
+/*
+call getOrdenEspecificaYPlatillos(1);
+call getOrdenEspecificaYPlatillos(2);
+call getOrdenEspecificaYPlatillos(3);
+*/
+
+
+/****************************************PROCEDIMIENTOS DE Cocina**********/
+ DROP PROCEDURE IF EXISTS getClaveAcceso;
+CREATE PROCEDURE getClaveAcceso(
+)
+select * from cocina;
+
+/*
+call getClaveAcceso();
+*/
+
+ DROP PROCEDURE IF EXISTS crearClaveAcceso;
+ CREATE PROCEDURE crearClaveAcceso(
+    claveAcceso varchar(50)
+ )
+ insert into cocina values(1,claveAcceso);
+ 
+ call crearClaveAcceso('12458');
+ 
+  DROP PROCEDURE IF EXISTS updateClaveAcceso;
+ CREATE PROCEDURE updateClaveAcceso(
+    claveAccess varchar(50)
+ )
+update cocina as c set c.claveAcceso=claveAccess
+ where c.id =1;
+ /*
+ call updateClaveAcceso('458685');
+ */
+ 
+DROP PROCEDURE IF EXISTS deleteClaveAcceso;
+CREATE PROCEDURE deleteClaveAcceso(
+)
+ Delete from cocina where id=1;
+ 
+ /*
+ call deleteClaveAcceso();
+ */
 

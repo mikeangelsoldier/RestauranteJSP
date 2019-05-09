@@ -3,22 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo;
-
 
 public class SesionServicio {
 
-     private int id;
+    private int id;
     private int fk_cliente;
-    private  int fk_mesero;
-    private  int numMesa;
-    private  int puntajeMeseroServicio;
+    private int fk_mesero;
+    private int numMesa;
+    private double puntajeMeseroServicio;
     private double totalVenta;
-     private String tipoPago;
-     private int status;
+    private String tipoPago;
+    private String estadoSesion;
+    private int status;
 
-    public SesionServicio(int id, int fk_cliente, int fk_mesero, int numMesa, int puntajeMeseroServicio, double totalVenta, String tipoPago, int status) {
+    public SesionServicio() {
+    }
+
+    public SesionServicio(int id, int fk_cliente, int fk_mesero, int numMesa, double puntajeMeseroServicio, double totalVenta, String tipoPago, String estadoSesion, int status) {
         this.id = id;
         this.fk_cliente = fk_cliente;
         this.fk_mesero = fk_mesero;
@@ -26,10 +28,8 @@ public class SesionServicio {
         this.puntajeMeseroServicio = puntajeMeseroServicio;
         this.totalVenta = totalVenta;
         this.tipoPago = tipoPago;
+        this.estadoSesion = estadoSesion;
         this.status = status;
-    }
-
-    public SesionServicio() {
     }
 
     public int getId() {
@@ -64,11 +64,11 @@ public class SesionServicio {
         this.numMesa = numMesa;
     }
 
-    public int getPuntajeMeseroServicio() {
+    public double getPuntajeMeseroServicio() {
         return puntajeMeseroServicio;
     }
 
-    public void setPuntajeMeseroServicio(int puntajeMeseroServicio) {
+    public void setPuntajeMeseroServicio(double puntajeMeseroServicio) {
         this.puntajeMeseroServicio = puntajeMeseroServicio;
     }
 
@@ -88,6 +88,14 @@ public class SesionServicio {
         this.tipoPago = tipoPago;
     }
 
+    public String getEstadoSesion() {
+        return estadoSesion;
+    }
+
+    public void setEstadoSesion(String estadoSesion) {
+        this.estadoSesion = estadoSesion;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -96,5 +104,5 @@ public class SesionServicio {
         this.status = status;
     }
     
-     
+    
 }
