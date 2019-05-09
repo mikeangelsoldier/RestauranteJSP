@@ -19,8 +19,29 @@
         <jsp:include page="menuAdministrador.jsp" />
         
         <!--  Contenido -->
-        <div style="margin-top: 60px">
-            <h3>Clave acceso cocina</h3>
+        <div style="margin-top: 120px">
+            <div class="container contClave">
+              <img src="css/imagenes/chef-hat.png" height="100px" class="chef-hat">
+              <h1>Clave de acceso cocina</h1>
+              <h5 style="text-align:center; margin: 15px">Cambiar clave</h5>
+              <%@ page import="controlador.CambiarPasswordCocina" %>
+              <form action="CambiarPasswordCocina" method="post" class="col-md-12">
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">
+                      <img src="css/imagenes/candado.png" height="24px">
+                    </span>
+                  </div>
+                  <input type="password" class="form-control" aria-label="Sizing example input" name="clave"
+                    aria-describedby="inputGroup-sizing-default" placeholder="Escribe la nueva clave">
+                  <button class="btn btn-primary" type="submit">Cambiar</button>
+                </div>
+
+
+
+              </form>
+            </div>
         </div>
         <!--  / Contenido -->
        
