@@ -259,7 +259,7 @@ public class GestorPlatilloBD {
         }
     }
 
-    public List<Object> getPlatillosPuntaje(int idPlatillo) {/*Arreglo, en posicion [0]=puntajeTotal, [1]=numPuntuaciones*/
+    public List<Object> getPuntajeDePlatillo(int idPlatillo) {/*Arreglo, en posicion [0]=puntajeTotal, [1]=numPuntuaciones*/
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
 
