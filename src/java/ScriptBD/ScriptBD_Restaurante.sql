@@ -1,4 +1,4 @@
-
+/*JSP*/
 DROP SCHEMA IF EXISTS restaurante;
 CREATE DATABASE restaurante;
 
@@ -728,7 +728,7 @@ call getSesionNextId();
  DROP PROCEDURE IF EXISTS updatePuntajeMeseroSesion;
  CREATE PROCEDURE updatePuntajeMeseroSesion(/*Puntaje del mesero en una sesion especifica*/
 	claveSesion int,
-    puntaje int
+    puntaje double
  )
  update sesion_servicio as ss set ss.puntajeMeseroServicio=puntaje
  where ss.id =claveSesion;
@@ -748,6 +748,10 @@ call getSesionNextId();
 
  call updateTotalVentaYTipoPagoSesion(1,25.5,'EFECTIVO');
  
+ 
+  /*Aqui falta un proc para actualizar el estado de la sesion a 0=finalizada cuando se termine de pagar*/
+  
+  
 DROP PROCEDURE IF EXISTS deleteSesion;
 CREATE PROCEDURE deleteSesion(
 	clave int
@@ -763,7 +767,7 @@ CREATE PROCEDURE deleteSesion(
  CREATE PROCEDURE calcularTotalPorOrdenEnVentaDeUnaSesion(/*Puntaje del mesro en una sesion especifica*/
  	idSesion int
  )
-select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.puntajeMeseroServicio,
+select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.numMesa ,ss.puntajeMeseroServicio,
 	ss.totalVenta,ss.tipoPago,ss.estadoSesion, o.id as idOrden,
     sum(p.precio) as totalPorOrden 
     from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
@@ -779,7 +783,7 @@ group by o.id;
  CREATE PROCEDURE calcularTotalGeneralEnVentaDeUnaSesion(/*Puntaje del mesro en una sesion especifica*/
  	idSesion int
  )
-select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.puntajeMeseroServicio,
+select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.numMesa ,ss.puntajeMeseroServicio,
 	ss.totalVenta,ss.tipoPago,ss.estadoSesion, 
     sum(p.precio) as totalPorSesion
     from sesion_servicio as ss JOIN orden as o on ss.id=o.fk_sesionservicio 
@@ -791,6 +795,8 @@ group by ss.id;
  call calcularTotalGeneralEnVentaDeUnaSesion(1);
  call calcularTotalGeneralEnVentaDeUnaSesion(2);
  
+
+ 
 /****************************************PROCEDIMIENTOS DE ORDENES**********/
  DROP PROCEDURE IF EXISTS getOrdenes;
 CREATE PROCEDURE getOrdenes(
@@ -800,6 +806,21 @@ select * from orden where  status=1;
 /*
 SELECT * FROM orden;
 call getOrdenes();
+*/
+
+
+
+DROP PROCEDURE IF EXISTS getOrdenPorId;
+CREATE PROCEDURE getOrdenPorId(
+	clave int
+)
+select * from orden where orden.id=clave and orden.status=1;
+
+/*
+SELECT * FROM orden;
+call getOrdenPorId(1);
+call getOrdenPorId(2);
+call getOrdenPorId(3);
 */
 
 DROP PROCEDURE IF EXISTS getOrdenNextId;
@@ -879,17 +900,17 @@ call getDetOrdenNextId();
   call insertarNuevoDetOrden(3,4);
   
 
- DROP PROCEDURE IF EXISTS updatePuntajePlatilloEnOrden;
- CREATE PROCEDURE updatePuntajePlatilloEnOrden(/*Puntaje del mesero en una sesion especifica*/
-	claveOrden int,
+ DROP PROCEDURE IF EXISTS updatePuntajePlatilloEnDetOrden;
+ CREATE PROCEDURE updatePuntajePlatilloEnDetOrden(/*Puntaje del mesero en una sesion especifica*/
+	claveDetOrden int,
     puntaje int
  )
  update det_orden as dt set dt.puntajePlatillo=puntaje
- where dt.id =claveOrden;
+ where dt.id =claveDetOrden;
 
 /*
- call updatePuntajePlatilloEnOrden(1,4);
-  call updatePuntajePlatilloEnOrden(2,5);
+ call updatePuntajePlatilloEnDetOrden(1,4);
+  call updatePuntajePlatilloEnDetOrden(2,5);
  */
  
 DROP PROCEDURE IF EXISTS deleteDetOrden;

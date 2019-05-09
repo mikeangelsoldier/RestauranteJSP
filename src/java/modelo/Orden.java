@@ -8,12 +8,12 @@ package modelo;
 public class Orden {
 
     private int id;
-    private int fk_servicio;
+    private int fk_sesionServicio;
     private int status;
 
     public Orden(int id, int fk_servicio, int status) {
         this.id = id;
-        this.fk_servicio = fk_servicio;
+        this.fk_sesionServicio = fk_servicio;
         this.status = status;
     }
 
@@ -28,12 +28,12 @@ public class Orden {
         this.id = id;
     }
 
-    public int getFk_servicio() {
-        return fk_servicio;
+    public int getFk_sesionServicio() {
+        return fk_sesionServicio;
     }
 
-    public void setFk_servicio(int fk_servicio) {
-        this.fk_servicio = fk_servicio;
+    public void setFk_sesionServicio(int fk_sesionServicio) {
+        this.fk_sesionServicio = fk_sesionServicio;
     }
 
     public int getStatus() {

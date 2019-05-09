@@ -14,13 +14,18 @@ public class SesionServicio {
     private double puntajeMeseroServicio;
     private double totalVenta;
     private String tipoPago;
-    private String estadoSesion;
+    private int estadoSesion;
     private int status;
+    
+    private int IdOrden;
+    private double totalPorOrdenCalculado;
+    
+    private double totalPorSesionCalculado;
 
     public SesionServicio() {
     }
 
-    public SesionServicio(int id, int fk_cliente, int fk_mesero, int numMesa, double puntajeMeseroServicio, double totalVenta, String tipoPago, String estadoSesion, int status) {
+    public SesionServicio(int id, int fk_cliente, int fk_mesero, int numMesa, double puntajeMeseroServicio, double totalVenta, String tipoPago, int estadoSesion, int status) {
         this.id = id;
         this.fk_cliente = fk_cliente;
         this.fk_mesero = fk_mesero;
@@ -88,11 +93,11 @@ public class SesionServicio {
         this.tipoPago = tipoPago;
     }
 
-    public String getEstadoSesion() {
+    public int getEstadoSesion() {
         return estadoSesion;
     }
 
-    public void setEstadoSesion(String estadoSesion) {
+    public void setEstadoSesion(int estadoSesion) {
         this.estadoSesion = estadoSesion;
     }
 
@@ -103,6 +108,32 @@ public class SesionServicio {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public int getIdOrden() {
+        return IdOrden;
+    }
+
+    public void setIdOrden(int IdOrden) {
+        this.IdOrden = IdOrden;
+    }
+
+    public double getTotalPorOrdenCalculado() {
+        return totalPorOrdenCalculado;
+    }
+
+    public void setTotalPorOrdenCalculado(double totalPorOrdenCalculado) {
+        this.totalPorOrdenCalculado = totalPorOrdenCalculado;
+    }
+
+    public double getTotalPorSesionCalculado() {
+        return totalPorSesionCalculado;
+    }
+
+    public void setTotalPorSesionCalculado(double totalPorSesionCalculado) {
+        this.totalPorSesionCalculado = totalPorSesionCalculado;
+    }
+
+    
     
     
 }
