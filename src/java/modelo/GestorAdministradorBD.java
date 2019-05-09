@@ -28,6 +28,197 @@ public class GestorAdministradorBD {
         conexion = ConectaBD.obtenerConexion();
     }
 
-    
+    public Administrador getAdministradorLogin(String username, String password) {
+        /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
 
+        Administrador administrador = new Administrador();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getAdministradorLogin(?,?);");
+            ps.setString(1, username);
+            ps.setString(2, password);
+
+            rs = ps.executeQuery();
+            rs.next();
+            administrador.setId(rs.getInt(1));
+            administrador.setNombre(rs.getString(2));
+            administrador.setCorreo(rs.getString(3));
+            administrador.setUsuario(rs.getString(4));
+            administrador.setPassword(rs.getString(5));
+            administrador.setStatus(rs.getInt(6));
+
+            rs.close();
+            ps.close();
+            return administrador;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return administrador;
+        }
+    }
+
+    public List<Administrador> getAdministrador() {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+
+        List<Administrador> listaAdministrador = new ArrayList<>();
+
+        try {
+            st = conexion.createStatement();
+            rs = st.executeQuery("call getAdministradores();");
+            while (rs.next()) {
+                Administrador administrador = new Administrador();
+                administrador.setId(rs.getInt(1));
+                administrador.setNombre(rs.getString(2));
+                administrador.setCorreo(rs.getString(3));
+                administrador.setUsuario(rs.getString(4));
+                administrador.setPassword(rs.getString(5));
+                administrador.setStatus(rs.getInt(6));
+
+                listaAdministrador.add(administrador);
+
+            }
+            rs.close();
+            st.close();
+            return listaAdministrador;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    public Administrador getAdministrador(int id) {
+        /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
+
+        Administrador administrador = new Administrador();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getAdministrador(?);");
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            rs.next();
+            administrador.setId(rs.getInt(1));
+            administrador.setNombre(rs.getString(2));
+            administrador.setCorreo(rs.getString(3));
+            administrador.setUsuario(rs.getString(4));
+            administrador.setPassword(rs.getString(5));
+            administrador.setStatus(rs.getInt(6));
+
+            rs.close();
+            ps.close();
+            return administrador;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return administrador;
+        }
+    }
+
+    public int getAdministradorNextId() {
+        /*Devuelve el siguiente número de ID a utilizar*/
+        int nextId = 0;
+        try {
+            st = conexion.createStatement();
+            rs = st.executeQuery("CALL getAdministradorNextId();");
+            rs.next();
+            nextId = rs.getInt(1);
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return nextId;
+    }
+
+    public void addAdministrador(Administrador administrador) {
+        /*Almacena un objeto en la base de datos, 
+         cada atributo se utiliza en la posición que le corresponde 
+         de la instrucción SQL */
+
+        try {
+            PreparedStatement st = conexion.prepareStatement("call insertarAdministrador(?, ?, ?, ?);");
+            st.setString(1, administrador.getNombre());
+            st.setString(2, administrador.getCorreo());
+            st.setString(3, administrador.getUsuario());
+            st.setString(4, administrador.getPassword());
+
+            st.execute();
+            st.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateAdministrador(Administrador administrador) {
+        /*Modifica un objeto en la base de datos, 
+         cada atributo se utiliza en la posición que le corresponde 
+         de la instrucción SQL */
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call updateAdministrador(?,?,?,?,?);");
+            st.setInt(1, administrador.getId());
+            st.setString(2, administrador.getNombre());
+            st.setString(3, administrador.getCorreo());
+            st.setString(4, administrador.getUsuario());
+            st.setString(5, administrador.getPassword());
+            st.execute();
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void deleteAdministrador(int id) {
+        /*Elimina un registro en la base de datos de acuerdo a su llave primaria */
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call deleteAdministrador(?);");
+            st.setInt(1, id);
+            st.execute();
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public List<Administrador> getFiltroAdministrador(String filtro) {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+
+        List<Administrador> listaAdministrador = new ArrayList<>();
+
+        try {
+            PreparedStatement prest = conexion.prepareStatement("call getFiltroAdministrador(?);");
+
+            prest.setString(1, filtro);
+
+            rs = prest.executeQuery();
+
+            while (rs.next()) {
+                Administrador administrador = new Administrador();
+                administrador.setId(rs.getInt(1));
+                administrador.setNombre(rs.getString(2));
+                administrador.setCorreo(rs.getString(3));
+                administrador.setUsuario(rs.getString(4));
+                administrador.setPassword(rs.getString(5));
+                administrador.setStatus(rs.getInt(6));
+
+                listaAdministrador.add(administrador);
+
+            }
+            rs.close();
+            prest.close();
+            return listaAdministrador;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
 }
+

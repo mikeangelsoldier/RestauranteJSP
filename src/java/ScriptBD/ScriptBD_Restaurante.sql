@@ -592,14 +592,14 @@ select * from administrador where administrador.usuario=usuario and administrado
 call getAdministradorLogin('1', '1');
 
 
-DROP PROCEDURE IF EXISTS getAadministradores;
-CREATE PROCEDURE getAadministradores(
+DROP PROCEDURE IF EXISTS getAdministradores;
+CREATE PROCEDURE getAdministradores(
 )
 select * from administrador where status=1;
 
 /*
 select * from administrador;
-call getAadministradores();
+call getAdministradores();
 */
 
 

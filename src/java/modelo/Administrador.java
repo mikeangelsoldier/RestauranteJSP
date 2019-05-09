@@ -60,11 +60,11 @@ public class Administrador {
         this.usuario = usuario;
     }
 
-    public String getPasssword() {
+    public String getPassword() {
         return passsword;
     }
 
-    public void setPasssword(String passsword) {
+    public void setPassword(String passsword) {
         this.passsword = passsword;
     }
 
