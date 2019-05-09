@@ -104,7 +104,7 @@ public class GestorDetalleOrdenBD {
         return nextId;
     }
 
-    public void addSesionServicio(DetalleOrden detalleOrden) {
+    public void addDetalleOrden(DetalleOrden detalleOrden) {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
@@ -123,7 +123,7 @@ public class GestorDetalleOrdenBD {
 
     }
 
-    public void updatePuntajePlatilloEnOrden(DetalleOrden detalleOrden) {//Agregar y actualizar puntaje
+    public void updatePuntajePlatilloEnDetOrden(DetalleOrden detalleOrden) {//Agregar y actualizar puntaje
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
