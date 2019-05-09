@@ -33,9 +33,9 @@
                       <img src="css/imagenes/candado.png" height="24px">
                     </span>
                   </div>
-                  <input type="password" class="form-control" aria-label="Sizing example input" name="clave"
+                  <input type="password" class="form-control" aria-label="Sizing example input" name="clave" id="password"
                     aria-describedby="inputGroup-sizing-default" placeholder="Escribe la nueva clave">
-                  <button class="btn btn-primary" type="submit">Cambiar</button>
+                  <button class="btn btn-primary" type="submit" id="change">Cambiar</button>
                 </div>
 
 
@@ -48,6 +48,23 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    </body>
+        <script>
+            var pass = document.getElementById("password");
 
+            pass.addEventListener("keyup", function(event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    document.getElementById("change").click();
+                }
+            });
+        </script>
+    </body>
+    <%
+        if (request.getAttribute("resClave") != null) {
+            out.print("<script>alert(\"" + request.getAttribute("resClave").toString() + "\")</script>");
+        }
+    %>
 </html>

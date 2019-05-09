@@ -7,11 +7,16 @@ package controlador;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Cocina;
+import modelo.GestorCocinaBD;
+import modelo.Platillo;
 
 /**
  *
@@ -33,14 +38,22 @@ public class LoginCocina extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String clave = request.getParameter("clave");
+            Collection <Cocina> getCocina = new ArrayList<Cocina>();
+            String clavePost = request.getParameter("password");
             
-            // GestorCocinaBD cocina = new GestorCocinaBD();
-            // claveBD = cocina.getClaveAcceso(clave);
-            if (clave.equals("claveBD")) {
+            GestorCocinaBD cocina = new GestorCocinaBD();
+            getCocina = cocina.getClaveAcceso();
+            
+            String claveAcceso = "";
+            for (Cocina c : getCocina) {
+                claveAcceso = c.getClaveAcceso();
+            }
+            
+            if (clavePost.equals(claveAcceso)) {
                 request.getRequestDispatcher("/cocina.jsp").forward(request, response);
             } else {
                 request.setAttribute("resClave", "¡Error, clave incorrecta!");
+                request.getRequestDispatcher("/loginCocinero.jsp").forward(request, response);
             }
             
         }

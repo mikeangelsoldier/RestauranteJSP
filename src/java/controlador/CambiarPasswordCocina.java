@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.GestorCocinaBD;
 
 /**
  *
@@ -35,9 +36,9 @@ public class CambiarPasswordCocina extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String clave = request.getParameter("clave");
             
-            // GestorCocinaBD cocina = new GestorCocinaBD();
-            // cocina.updateClaveAcceso(clave);
-            request.setAttribute("resInsert", "¡Felicidades! Se ha modificado la platillo");
+            GestorCocinaBD cocina = new GestorCocinaBD();
+            cocina.updateClaveAcceso(clave);
+            request.setAttribute("resClave", "¡Felicidades! Se ha modificado la contraseña");
             request.getRequestDispatcher("/seccionClaveAccesoCocina.jsp").forward(request, response);
         }
     }
