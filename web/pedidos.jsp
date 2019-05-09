@@ -16,7 +16,7 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
               crossorigin="anonymous">       
     </head>
-    <body style="background-color: orange">
+    <body style="background-color: black">
         <div class="heead">
             <div class="username">
                 ${usr.username}
@@ -63,7 +63,7 @@
                         <div class="card-body" style="text-align: center">
                             <h5 class="card-title font-smallN">Platillo <%=i + 1%></h5>
                             <p class="card-text font-small">Algo de contenido</p>                                
-                            <button class="btn btn-sm btn-success" 
+                            <button class="btn btn-sm btn-dark" 
                                     data-toggle="modal" 
                                     data-target="#modalAgregarPlatillo">
                                 Agregar
@@ -89,7 +89,7 @@
                         <div class="card-body" style="text-align: center">
                             <h5 class="card-title font-smallN">Platillo <%=i + 1%></h5>
                             <p class="card-text font-small">Algo de contenido</p>                                
-                            <button class="btn btn-sm btn-success">Agregar</button>
+                            <button class="btn btn-sm btn-dark">Agregar</button>
                         </div>
 
                     </div>
@@ -111,7 +111,7 @@
                         <div class="card-body" style="text-align: center">
                             <h5 class="card-title font-smallN">Platillo <%=i + 1%></h5>
                             <p class="card-text font-small">Algo de contenido</p>                                
-                            <button class="btn btn-sm btn-success">Agregar</button>
+                            <button class="btn btn-sm btn-dark">Agregar</button>
                         </div>
 
                     </div>
@@ -143,10 +143,10 @@
                     <h3>Factura</h3>
                     <table class="table table-borderless table-light table-striped contentTable" >
                         <tr>
-                            <th style="background-color: #4CAF50; color: white">Nombre</th>
-                            <th style="background-color: #4CAF50; color: white">Cantidad</th>
-                            <th style="background-color: #4CAF50; color: white">Precio</th>
-                            <th style="background-color: #4CAF50; color: white">Total</th>
+                            <th style="background-color: orange; color: white">Nombre</th>
+                            <th style="background-color: orange; color: white">Cantidad</th>
+                            <th style="background-color: orange; color: white">Precio</th>
+                            <th style="background-color: orange; color: white">Total</th>
                         </tr>
                         <tr>
                             <td>Chilaquiles</td>
@@ -175,7 +175,7 @@
                     <b>TOTAL A PAGAR: $525.00</b>
                 </div>
                 <div style="text-align: center; width: 100%; margin-top: 40px;">
-                    <button class="btn btn-lg btn-success" 
+                    <button class="btn btn-lg btn-primary" 
                             data-toggle="modal" 
                             data-target="#exampleModalCenter">
                         Pedir

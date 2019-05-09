@@ -192,7 +192,7 @@ div.pedidos {
     background-size: cover;
     background-repeat: no-repeat;*/
     border-radius: 5px;
-    border: 3px solid darkturquoise;
+    border: 3px solid transparent;
     padding: 30px 10px 30px 30px;
 }
 
@@ -215,12 +215,12 @@ ul.menuI {
 }
 
 .active, .item:hover {
-    background-color: #4CAF50;
+    background-color: orange;
     color: snow;
 }
 
 .item:focus {
-    background-color: #4CAF50;
+    background-color: orange;
     color: snow;
     outline: none;
 }
@@ -241,9 +241,10 @@ ul.menuI {
 
 .submenu {
     margin-bottom: 10px;
-    background-color: green;
+    background-color: orange;
     color: white;
     text-align: center;
+    border: 1px solid white;
 }
 
 .misPedidos {
@@ -286,7 +287,7 @@ ul.menuI {
 .heead {
   z-index: 9;
   overflow: hidden;
-  background-color: #333;
+  background-color: orange;
   position: fixed;
   top: 0;
   width: 100%;
@@ -321,3 +322,24 @@ ul.menuI {
     padding: 14px 16px;
     font-size: 17px;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #bbb; 
+    border-radius: 12px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #999;     
+  }
