@@ -592,14 +592,14 @@ select * from administrador where administrador.usuario=usuario and administrado
 call getAdministradorLogin('1', '1');
 
 
-DROP PROCEDURE IF EXISTS getAadministradores;
-CREATE PROCEDURE getAadministradores(
+DROP PROCEDURE IF EXISTS getAdministradores;
+CREATE PROCEDURE getAdministradores(
 )
 select * from administrador where status=1;
 
 /*
 select * from administrador;
-call getAadministradores();
+call getAdministradores();
 */
 
 
@@ -610,7 +610,7 @@ clave int
 select * from administrador where administrador.id=clave and status=1;
 
 /*
-call getAadministrador(2);
+call getAdministrador(2);
 */
 
 
@@ -621,7 +621,7 @@ CREATE PROCEDURE getAdministradorNextId()
   WHERE TABLE_SCHEMA = "restaurante"
   AND TABLE_NAME = "administrador";
 /*
-call getAadministradorNextId();
+call getAdministradorNextId();
 */
 
   DROP PROCEDURE IF EXISTS insertarAdministrador;
@@ -660,7 +660,7 @@ CREATE PROCEDURE deleteAdministrador(
  where p.id =clave;
  
  /*
- call deleteAadministrador(2);
+ call deleteAdministrador(2);
  */
  
  DROP PROCEDURE IF EXISTS getFiltroAdministrador;
