@@ -32,10 +32,10 @@
             </div> 
 
             <div class="card-body">                
-                <!-- %@ page import="controlador.LoginClientes" % -->
+                <%@ page import="controlador.LoginCocina" %>
                 <h5 class="card-title" style="color: snow; text-align: center"> 
                     Introduce la clave de acceso</h5>
-                <form action="" method="post"> <!---->
+                <form action="LoginCocina" method="post"> <!---->
                     <table cellspacing="3" cellpadding="3" class="form-login">
                         <tr>
                             
@@ -75,4 +75,9 @@
             });
         </script>
     </body>
+    <%
+        if (request.getAttribute("resClave") != null) {
+            out.print("<script>alert(\"" + request.getAttribute("resClave").toString() + "\")</script>");
+        }
+    %>
 </html>
