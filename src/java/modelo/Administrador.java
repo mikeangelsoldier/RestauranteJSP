@@ -7,7 +7,7 @@
 package modelo;
 
 
-public class administrador {
+public class Administrador {
 
     private int id;
     private String nombre;
@@ -16,7 +16,7 @@ public class administrador {
     private String passsword;
     private int status;
 
-    public administrador(int id, String nombre, String correo, String usuario, String passsword, int status) {
+    public Administrador(int id, String nombre, String correo, String usuario, String passsword, int status) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
@@ -25,7 +25,7 @@ public class administrador {
         this.status = status;
     }
 
-    public administrador() {
+    public Administrador() {
     }
 
     public int getId() {

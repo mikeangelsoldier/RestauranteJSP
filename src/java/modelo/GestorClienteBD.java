@@ -57,7 +57,7 @@ public class GestorClienteBD {
          de la instrucción SQL */
 
         try {
-            PreparedStatement st = conexion.prepareStatement("call insertarCliente (?, ?, ?, ?, ?, ?);");
+            PreparedStatement st = conexion.prepareStatement("call insertarCliente (?, ?, ?, ?, ?, ?);");//
             st.setString(1, cliente.getName());
             st.setString(2, cliente.getLastname());
             st.setString(3, cliente.getEmail());
@@ -105,7 +105,7 @@ public class GestorClienteBD {
 
         Cliente cliente = new Cliente();
         try {
-            PreparedStatement ps = conexion.prepareStatement("call getLogin(?,?);");
+            PreparedStatement ps = conexion.prepareStatement("call getClienteLogin(?,?);");
             ps.setString(1, username);
             ps.setString(2, password);
             rs = ps.executeQuery();
@@ -181,10 +181,10 @@ public class GestorClienteBD {
         }
         return nextId;
     }
-    
+
+    /*
     public List<Cliente> getFiltroCliente(Cliente cliente) {
-        /*Devuelve una lista con todos los usuarios 
-         leidos de la base de datos*/
+        
 
         List<Cliente> listaCliente = new ArrayList<>();
 
@@ -202,6 +202,42 @@ public class GestorClienteBD {
               rs = prest.executeQuery();
             
             
+            while (rs.next()) {
+                Cliente c = new Cliente();
+                c.setClientId(rs.getInt(1));
+                c.setName(rs.getString(2));
+                c.setLastname(rs.getString(3));
+                c.setEmail(rs.getString(4));
+                c.setUsername(rs.getString(5));
+                c.setPassword(rs.getString(6));
+                c.setType(rs.getString(7));
+                c.setStatus(rs.getInt(8));
+                listaCliente.add(c);
+
+            }
+            rs.close();
+            prest.close();
+            return listaCliente;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+     */
+    public List<Cliente> getFiltroCliente(String filtro) {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+
+        List<Cliente> listaCliente = new ArrayList<>();
+
+        try {
+            PreparedStatement prest = conexion.prepareStatement("call getFiltroCliente(?);");
+
+            prest.setString(1, filtro);
+
+            rs = prest.executeQuery();
+
             while (rs.next()) {
                 Cliente c = new Cliente();
                 c.setClientId(rs.getInt(1));
