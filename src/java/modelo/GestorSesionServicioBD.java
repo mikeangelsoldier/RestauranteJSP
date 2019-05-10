@@ -60,6 +60,32 @@ public class GestorSesionServicioBD {
             return null;
         }
     }
+    
+    public List<SesionServicio> getMesasOcupadasEnSesionesActivas() {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+
+        List<SesionServicio> listaSesiones = new ArrayList<>();
+
+        try {
+            st = conexion.createStatement();
+            rs = st.executeQuery("call getMesasOcupadasEnSesionesActivas();");
+            while (rs.next()) {
+                SesionServicio sesionServicio = new SesionServicio();
+                sesionServicio.setId(rs.getInt(1));
+                sesionServicio.setNumMesa(rs.getInt(2));
+                listaSesiones.add(sesionServicio);
+
+            }
+            rs.close();
+            st.close();
+            return listaSesiones;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
 
     public SesionServicio getSesionPorID(int id) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
@@ -89,6 +115,38 @@ public class GestorSesionServicioBD {
         }
     }
 
+    
+    public SesionServicio getIdSesionDeUnaMesa(int numMesa) {
+        /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
+
+        SesionServicio sesionServicio = new SesionServicio();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getIdSesionDeUnaMesa(?);");
+            ps.setInt(1, numMesa);
+            rs = ps.executeQuery();
+            rs.next();
+            
+            sesionServicio.setId(rs.getInt(1));
+            sesionServicio.setFk_cliente(rs.getInt(2));
+            sesionServicio.setFk_mesero(rs.getInt(3));
+            sesionServicio.setNumMesa(rs.getInt(4));
+            sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
+            sesionServicio.setTotalVenta(rs.getDouble(6));
+            sesionServicio.setTipoPago(rs.getString(7));
+            sesionServicio.setEstadoSesion(rs.getInt(8));
+            sesionServicio.setStatus(rs.getInt(9));
+            
+            rs.close();
+            ps.close();
+            return sesionServicio;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return sesionServicio;
+        }
+    }
+    
+    
     public int getSesionNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
         int nextId = 0;
@@ -246,5 +304,7 @@ public class GestorSesionServicioBD {
             return null;
         }
     }
+    
+    
 
 }
