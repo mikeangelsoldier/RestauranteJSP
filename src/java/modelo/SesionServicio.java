@@ -18,6 +18,7 @@ public class SesionServicio {
     private int status;
     
     private int IdOrden;
+    private String estadoOrden;
     private double totalPorOrdenCalculado;
     
     private double totalPorSesionCalculado;
@@ -131,6 +132,14 @@ public class SesionServicio {
 
     public void setTotalPorSesionCalculado(double totalPorSesionCalculado) {
         this.totalPorSesionCalculado = totalPorSesionCalculado;
+    }
+
+    public String getEstadoOrden() {
+        return estadoOrden;
+    }
+
+    public void setEstadoOrden(String estadoOrden) {
+        this.estadoOrden = estadoOrden;
     }
 
     
