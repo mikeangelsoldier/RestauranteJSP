@@ -199,7 +199,7 @@ ul.menuI {
 }
 
 #menuCliente {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 .item {
     background-color: #dcdce6;
@@ -420,3 +420,28 @@ ul.menuI {
     top: -40px;
     left: -40px;
 }
+
+.maxCategorias {
+    margin-bottom: 45px !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #bbb; 
+    border-radius: 12px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #999;     
+  }

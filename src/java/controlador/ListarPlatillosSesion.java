@@ -23,8 +23,8 @@ import modelo.Platillo;
  *
  * @author Personal
  */
-@WebServlet(name = "ListarPlatillos", urlPatterns = {"/ListarPlatillos"})
-public class ListarPlatillos extends HttpServlet {
+@WebServlet(name = "ListarPlatillosSesion", urlPatterns = {"/ListarPlatillosSesion"})
+public class ListarPlatillosSesion extends HttpServlet {
 
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,11 +54,11 @@ public class ListarPlatillos extends HttpServlet {
                 platillos = gestorPlatilloBD.getPlatillos();
             }
             
-            System.out.println("search: " + request.getParameter("search"));
+            // System.out.println("search: " + request.getParameter("search"));
             
             if (platillos != null){
-                request.setAttribute("Platillos",platillos);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"
-                request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);//Se envia                
+                request.setAttribute("PlatillosSesion",platillos);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"
+                request.getRequestDispatcher("/pedidos.jsp").forward(request, response);//Se envia                
             }else{
                 // request.getRequestDispatcher("/noHayRegistros.jsp").forward(request, response);
             }

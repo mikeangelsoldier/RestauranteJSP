@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Collection"%>
 <%@page import="modelo.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -58,10 +59,17 @@
                             <div class="form-group col-md-6">
                                 <label for="categoria2">Categoría</label>
                                 <select class="form-control" name="categoria" id="categoria2">
+                                    <%
+                                        Collection <CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
+                                        GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
+                                        categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
 
-                                    <option value="Comida" <% if (platillo.getCategoria().equals("Comida")) out.print("selected"); %>>Comida</option>
-                                    <option value="Bebida" <% if (platillo.getCategoria().equals("Bebida")) out.print("selected"); %>>Bebida</option>
-                                    <option value="Postre" <% if (platillo.getCategoria().equals("Postre")) out.print("selected"); %>>Postre</option>
+                                        for (CategoriaPlatillo categoria : categorias) {
+                                    %>
+                                        <option value="<%=categoria.getCategoria()%>" <% if (platillo.getCategoria().equals(categoria.getCategoria())) out.print("selected"); %>>
+                                            <%=categoria.getCategoria()%></option>
+                                    <%  }
+                                    %>
                                 </select>
                             </div>
 

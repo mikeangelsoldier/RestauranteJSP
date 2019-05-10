@@ -4,6 +4,9 @@
     Author     : Personal
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelo.*"%>
+<%@page import="java.util.Collection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,6 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Pedidos</title>
         <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/stylesPlatillosSesion.css">
         <link rel="stylesheet" 
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
@@ -32,13 +36,23 @@
                         <button class="btn btn-light my-2 my-sm-0" type="submit">Buscar</button>
                     </form>
                 </nav>
+                <!-- Categorías -->
                 <div id="menuCliente" class="nav flex-column menuI" >
-                    <button class="nav-link item active" onclick="console.log('inicio')">Inicio</button>
-                    <button class="nav-link item" onclick="console.log('bebidas')">Bebidas</button>
-                    <button class="nav-link item" onclick="console.log('postres')">Postres</button>
-                    <button class="nav-link item" onclick="console.log('desayunos')">Desayunos</button>
-
+                    <a class="nav-link item"
+                        href="ListarPlatillos">Todos</a>
+                    <%
+                        Collection <CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
+                        GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
+                        categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
+                        for (CategoriaPlatillo categoria : categorias) {                    
+                    %>
+                        <a class="nav-link item"
+                            href="ListarPlatillos?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
+                    <% 
+                        }
+                    %>    
                 </div>
+                <!-- / Categorías -->
             </aside>
 
             <div class="col-md-3">
@@ -76,42 +90,68 @@
                 </div>
                 <!-----------------/PLATILLOS DEL DIA-------------------------->
 
-                <!------------------------ POSTRES ---------------------------->
-                <h4 class="submenu">Postres</h4>
+                <!------------------------ TODOS ---------------------------->
+                <h4 class="submenu">Todos</h4>
                 <div class="row" style="margin-left: 6px;">
                     <%
-                        for (int i = 0; i < 8; i++) {%>
-
-                    <div class="card platillo" style="display: flex; padding: 2px">
-                        <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
-                            <img src="css/imagenes/postre1.jpg" width="120px" height="75px">
-                        </div>
-                        <div class="card-body" style="text-align: center">
-                            <h5 class="card-title font-smallN">Platillo <%=i + 1%></h5>
-                            <p class="card-text font-small">Algo de contenido</p>                                
-                            <button class="btn btn-sm btn-dark">Agregar</button>
-                        </div>
-
-                    </div>
-                    <%    }
+                        Collection<Platillo> platillos = null;
+                        platillos = (Collection<Platillo>) request.getAttribute("PlatillosSesion");
                     %>
-                </div>
-                <!------------------------ /POSTRES --------------------------->
-
-                <!------------------------ POSTRES ---------------------------->
-                <h4 class="submenu">Postres</h4>
-                <div class="row" style="margin-left: 6px">
                     <%
-                        for (int i = 0; i < 4; i++) {%>
-
-                    <div class="card platillo" style="display: flex; padding: 2px">
+                        for (Platillo platillo : platillos) {
+                    %> 
+                    <div class="card platillo" style="display: flex; padding: 2px; position: relative; height: 270px; width: 200px;">
+                        <div class="precio-platillo badge badge-primary">
+                            $<%=platillo.getPrecio()%>
+                        </div>
                         <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
-                            <img src="css/imagenes/platillo2.jpg" width="120px" height="75px">
+                            <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
                         </div>
                         <div class="card-body" style="text-align: center">
-                            <h5 class="card-title font-smallN">Platillo <%=i + 1%></h5>
-                            <p class="card-text font-small">Algo de contenido</p>                                
-                            <button class="btn btn-sm btn-dark">Agregar</button>
+                            <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre() %></h5>
+                            <%  //Limitar texto descripción
+                                String desc = "";
+                                if (platillo.getDescripcion().length() > 50) {
+                                    desc = platillo.getDescripcion().substring(0, 50);
+                                    desc += "...";
+                                } else {
+                                    desc = platillo.getDescripcion();
+                                }
+                            %>
+                            <div class="puntuaciones">
+                            <% 
+                                int puntuacion = (int)platillo.getPuntuacionTotal();
+                                boolean tieneDecimal = false;
+                                for (int i = 0; i < puntuacion; i++) {
+                            %>
+                            <img src="css/imagenes/star.png" height="20px" style="display: inline">
+                            <% 
+                                }
+                            %>
+                            <%  
+                                if (platillo.getPuntuacionTotal() % 1 != 0) {
+                                    tieneDecimal = true;
+                            %>
+                            <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
+                             <% 
+                                }
+                            %>
+                            <%
+                                int estrellasGrises = 0;
+                                if (tieneDecimal) {
+                                    estrellasGrises = 5 - puntuacion - 1;
+                                } else {
+                                    estrellasGrises = 5 - puntuacion;
+                                }
+                                for (int i = 0; i < estrellasGrises; i++) {
+                            %>
+                            <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
+                            <% 
+                                }
+                            %>
+                            </div>
+                            <p class="card-text font-small"><%=desc%></p>                                
+                            <button class="btn btn-sm btn-dark btn-platillo-sesion">Agregar</button>
                         </div>
 
                     </div>
@@ -120,6 +160,7 @@
                 </div>
                 <!------------------------ /POSTRES --------------------------->
 
+                
                 <!-------------------- /SECCION PLATILLOS ------------------------->
             </div>
 

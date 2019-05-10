@@ -12,28 +12,27 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import modelo.GestorClienteBD;
-import modelo.Cliente;
+import modelo.GestorCategoriaPlatilloBD;
+import modelo.GestorPlatilloBD;
 
 /**
  *
  * @author Personal
  */
-@WebServlet(name = "LoginClientesInvitados", urlPatterns = {"/LoginClientesInvitados"})
-public class LoginClientesInvitados extends HttpServlet {
+@WebServlet(name = "EliminarCategoriaPlatillo", urlPatterns = {"/EliminarCategoriaPlatillo"})
+public class EliminarCategoriaPlatillo extends HttpServlet {
 
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            GestorClienteBD gestor = new GestorClienteBD();
-            Cliente user = gestor.getCliente(1);
-            
-            HttpSession session = request.getSession();
-            session.setAttribute("usr", user);
-            response.sendRedirect(request.getContextPath() + "/ListarPlatillosSesion");
+            int id = Integer.parseInt(request.getParameter("id"));
+            GestorCategoriaPlatilloBD gestor = new GestorCategoriaPlatilloBD();
+            gestor.deleteCategoriaPlatillo(id);
+
+            request.setAttribute("resInsert", "Se ha eliminado el platillo");
+            request.getRequestDispatcher("/ListarCategoriasPlatillos").forward(request, response);
         }
     }
+
 }
