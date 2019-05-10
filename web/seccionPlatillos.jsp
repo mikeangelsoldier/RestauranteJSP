@@ -15,10 +15,10 @@
         
         <!-- Categorías -->
         <div id="menuCliente" class="nav flex-column menuI maxCategorias" >
-            <button class="btn btn-primary">
+            <a class="btn btn-primary" href="ListarCategoriasPlatillos">
                 <i class="fas fa-cogs"></i>
                 <span>Gestionar Categorías</span>
-            </button>
+            </a>
             <a class="nav-link item"
                 href="ListarPlatillos">Todos</a>
             <%
