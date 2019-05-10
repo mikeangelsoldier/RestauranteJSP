@@ -41,7 +41,8 @@ public class GestorOrdenBD {
                 Orden orden = new Orden();
                 orden.setId(rs.getInt(1));
                 orden.setFk_sesionServicio(rs.getInt(2));
-                orden.setStatus(rs.getInt(3));
+                orden.setEstadoOrden(rs.getString(3));
+                orden.setStatus(rs.getInt(4));
 
                 listaOrdenes.add(orden);
 
@@ -66,9 +67,10 @@ public class GestorOrdenBD {
             rs = ps.executeQuery();
             rs.next();
 
-            orden.setId(rs.getInt(1));
-            orden.setFk_sesionServicio(rs.getInt(2));
-            orden.setStatus(rs.getInt(3));
+             orden.setId(rs.getInt(1));
+                orden.setFk_sesionServicio(rs.getInt(2));
+                orden.setEstadoOrden(rs.getString(3));
+                orden.setStatus(rs.getInt(4));
 
             rs.close();
             ps.close();
@@ -113,6 +115,57 @@ public class GestorOrdenBD {
             e.printStackTrace();
         }
 
+    }
+    
+    public void indicarSolicitarOrden(int idOrdenASolicitar) {//Agregar y actualizar puntaje
+//        Modifica un objeto en la base de datos, 
+//         cada atributo se utiliza en la posición que le corresponde 
+//         de la instrucción SQL 
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call indicarSolicitarOrden(?);");
+            st.setInt(1, idOrdenASolicitar);
+            st.execute();
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+    
+    public void indicarOrdenPreparada(int idOrdenPreparada) {//Agregar y actualizar puntaje
+//        Modifica un objeto en la base de datos, 
+//         cada atributo se utiliza en la posición que le corresponde 
+//         de la instrucción SQL 
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call indicarOrdenPreparada(?);");
+            st.setInt(1, idOrdenPreparada);
+            st.execute();
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+    
+    public void indicarOrdenEntregada(int idOrdenEntregada) {//Agregar y actualizar puntaje
+//        Modifica un objeto en la base de datos, 
+//         cada atributo se utiliza en la posición que le corresponde 
+//         de la instrucción SQL 
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call indicarOrdenEntregada(?);");
+            st.setInt(1, idOrdenEntregada);
+            st.execute();
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
     }
     
     public void deleteOrden(int id) {

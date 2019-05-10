@@ -198,7 +198,8 @@ public class GestorSesionServicioBD {
                 sesionServicio.setTipoPago(rs.getString(7));
                 sesionServicio.setEstadoSesion(rs.getInt(8));
                 sesionServicio.setIdOrden(rs.getInt(9));
-                sesionServicio.setTotalPorOrdenCalculado(rs.getDouble(10));
+                sesionServicio.setEstadoOrden(rs.getString(10));
+                sesionServicio.setTotalPorOrdenCalculado(rs.getDouble(11));
                 listaSesionesTotalPorOrden.add(sesionServicio);
 
             }
