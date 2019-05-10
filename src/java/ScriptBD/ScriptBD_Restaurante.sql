@@ -288,10 +288,10 @@ call getPlatilloNextId();
  )
  insert into platillo  values(null,imagen,nombre,descripcion,precio,categoria,5,1,1);
  
- call insertarPlatillo('','Enchiladas rojas','muy buenas',35.50,'Comida');
- call insertarPlatillo('','Enchiladas verde','tambien muy buenas',36.50,'Comida');
-  call insertarPlatillo('','Jugo naranja','muy fresca',10.50,'Bebida');
-  call insertarPlatillo('chhdghdn475','Jugo naranja','muy fresca',10.50,'Bebida');
+ call insertarPlatillo('','Enchiladas rojas','muy buenas',35.50,'Comidas');
+ call insertarPlatillo('','Enchiladas verde','tambien muy buenas',36.50,'Comidas');
+  call insertarPlatillo('','Jugo naranja','muy fresca',10.50,'Bebidas');
+  call insertarPlatillo('chhdghdn475','Jugo naranja','muy fresca',10.50,'Bebidas');
  
  DROP PROCEDURE IF EXISTS updatePlatillo;
  CREATE PROCEDURE updatePlatillo(
@@ -305,7 +305,7 @@ call getPlatilloNextId();
  update platillo as p set p.imagen=imagen,p.nombre=nombre,p.descripcion=descripcion,p.precio=precio,p.categoria=categoria
  where p.id =clave;
 
- call updatePlatillo(1,'','Gringas','muy buenas',34.50,'Comida');
+ call updatePlatillo(1,'','Gringas','muy buenas',34.50,'Comidas');
  
  
  
@@ -424,7 +424,6 @@ call getCategoriaPlatilloNextId();
  )
  insert into categoriaPlatillo  values(null,categoria,1);
  
- call insertarCategoriaPlatillo('Todos');
 call insertarCategoriaPlatillo('Comidas');
 call insertarCategoriaPlatillo('Bebidas');
 call insertarCategoriaPlatillo('Postres');

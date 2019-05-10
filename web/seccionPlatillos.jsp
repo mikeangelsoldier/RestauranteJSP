@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Collection"%>
 <%@page import="modelo.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -11,17 +12,29 @@
                 <button class="btn btn-dark my-2 my-sm-0" id="searchButton" type="submit">Buscar</button>
             </form>
         </nav>
-        <div id="menuCliente" class="nav flex-column menuI" >
-            <a class="nav-link item" 
+        
+        <!-- Categorías -->
+        <div id="menuCliente" class="nav flex-column menuI maxCategorias" >
+            <button class="btn btn-primary">
+                <i class="fas fa-cogs"></i>
+                <span>Gestionar Categorías</span>
+            </button>
+            <a class="nav-link item"
                 href="ListarPlatillos">Todos</a>
-            <a class="nav-link item" 
-                href="ListarPlatillos?filter=Comida">Comidas</a>
-            <a class="nav-link item" 
-                href="ListarPlatillos?filter=Bebida">Bebidas</a>
-            <a class="nav-link item" 
-                href="ListarPlatillos?filter=Postre">Postres</a>
-
+            <%
+                Collection <CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
+                GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
+                categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
+                for (CategoriaPlatillo categoria : categorias) {                    
+            %>
+                <a class="nav-link item"
+                    href="ListarPlatillos?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
+            <% 
+                }
+            %>    
         </div>
+        <!-- / Categorías -->
+        
     </aside>
 
     <div class="col-md-3">
@@ -132,9 +145,12 @@
                     <div class="form-group col-md-6">
                         <label for="nombre">Categoría</label>
                         <select class="form-control" name="categoria">
-                            <option value="Comida">Comida</option>
-                            <option value="Bebida">Bebida</option>
-                            <option value="Postre">Postre</option>
+                            <%
+                                for (CategoriaPlatillo categoria : categorias) {
+                            %>
+                            <option value="<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></option>
+                            <%  }
+                            %>
                         </select>
                     </div>
                     <div class="form-group col-md-6">

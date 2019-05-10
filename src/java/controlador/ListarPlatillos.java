@@ -14,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.CategoriaPlatillo;
+import modelo.GestorCategoriaPlatilloBD;
 import modelo.GestorPlatilloBD;
 import modelo.Platillo;
 
@@ -30,7 +32,9 @@ public class ListarPlatillos extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             Collection <Platillo> platillos = new ArrayList<Platillo>();
+            Collection <CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
             GestorPlatilloBD gestorPlatilloBD = new GestorPlatilloBD();
+            GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
 
             // Para los filtros
             String filter = null;
@@ -39,27 +43,14 @@ public class ListarPlatillos extends HttpServlet {
             if (request.getParameter("search") != null) {
                 String filterName = request.getParameter("search");
                 platillos = gestorPlatilloBD.getPlatillosPorNombre(filterName);
-                
+                categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
                 // Filtro por categoría
             } else if (request.getParameter("filter") != null) {
                 filter = request.getParameter("filter");
-                switch (filter) {
-                    case "Comida":
-                        platillos = gestorPlatilloBD.getPlatillosPorCategoria("Comida");
-                        break;
-                    case "Bebida":
-                        platillos = gestorPlatilloBD.getPlatillosPorCategoria("Bebida");
-                        break;
-                    case "Postre":
-                        platillos = gestorPlatilloBD.getPlatillosPorCategoria("Postre");
-                        break;
-                    default:
-                        platillos = gestorPlatilloBD.getPlatillos();
-                }
+                platillos = gestorPlatilloBD.getPlatillosPorCategoria(filter);
                 
             } else {
                 // Sin filtros
-                System.out.println("Todos");
                 platillos = gestorPlatilloBD.getPlatillos();
             }
             
