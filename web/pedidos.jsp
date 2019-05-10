@@ -105,7 +105,7 @@
                             $<%=platillo.getPrecio()%>
                         </div>
                         <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
-                            <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px">
+                            <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
                         </div>
                         <div class="card-body" style="text-align: center">
                             <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre() %></h5>
