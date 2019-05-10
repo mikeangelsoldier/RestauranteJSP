@@ -29,12 +29,11 @@ public class LoginClientesInvitados extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             GestorClienteBD gestor = new GestorClienteBD();
-            Cliente user = new Cliente(0, "", "", "", "Cliente general", "", "1",1);
-            gestor.addCliente(user);
+            Cliente user = gestor.getCliente(1);
             
             HttpSession session = request.getSession();
             session.setAttribute("usr", user);
-            response.sendRedirect(request.getContextPath() + "/pedidos.jsp");
+            response.sendRedirect(request.getContextPath() + "/ListarPlatillosSesion");
         }
     }
 }
