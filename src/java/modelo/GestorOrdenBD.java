@@ -134,6 +134,26 @@ public class GestorOrdenBD {
         }
     }
     
+    public void indicarOrdenEnPreparacion(int idOrdenASolicitar) {//Agregar y actualizar puntaje
+//        Modifica un objeto en la base de datos, 
+//         cada atributo se utiliza en la posición que le corresponde 
+//         de la instrucción SQL 
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call indicarOrdenEnPreparacion(?);");
+            st.setInt(1, idOrdenASolicitar);
+            st.execute();
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+    
+    
+            
+            
     public void indicarOrdenPreparada(int idOrdenPreparada) {//Agregar y actualizar puntaje
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
@@ -180,6 +200,65 @@ public class GestorOrdenBD {
         } catch (SQLException e) {
             e.printStackTrace();
 
+        }
+    }
+    
+    
+    public List<Orden> getOrdenesPorIdSesion(int idSesion) {
+        ///Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria 
+
+        List<Orden> listaOrdenesDeUnaSesion = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getOrdenesPorIdSesion(?);");
+            ps.setInt(1, idSesion);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Orden orden = new Orden();
+                 orden.setId(rs.getInt(1));
+                orden.setFk_sesionServicio(rs.getInt(2));
+                orden.setEstadoOrden(rs.getString(3));
+                orden.setStatus(rs.getInt(4));
+                listaOrdenesDeUnaSesion.add(orden);
+
+            }
+            rs.close();
+            st.close();
+            return listaOrdenesDeUnaSesion;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+    
+    public List<Orden> getOrdenesSolicitadasEnCocina() {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+
+        List<Orden> listaOrdenes = new ArrayList<>();
+
+        try {
+            st = conexion.createStatement();
+            rs = st.executeQuery("call getOrdenesSolicitadasEnCocina();");
+            while (rs.next()) {
+                Orden orden = new Orden();
+                orden.setId(rs.getInt(1));
+                orden.setFk_sesionServicio(rs.getInt(2));
+                orden.setEstadoOrden(rs.getString(3));
+                orden.setStatus(rs.getInt(4));
+
+                listaOrdenes.add(orden);
+
+            }
+            rs.close();
+            st.close();
+            return listaOrdenes;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
         }
     }
 

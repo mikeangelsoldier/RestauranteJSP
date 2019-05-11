@@ -12,8 +12,6 @@ public class Orden {
     private String estadoOrden;
     private int status;
 
-   
-
     public Orden() {
     }
 
@@ -55,7 +53,5 @@ public class Orden {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    
 
 }

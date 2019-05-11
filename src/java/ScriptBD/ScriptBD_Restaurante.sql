@@ -242,6 +242,19 @@ select * from platillo;
 call getPlatillos();
 */
 
+DROP PROCEDURE IF EXISTS getPlatillosDeUnaOrden;
+CREATE PROCEDURE getPlatillosDeUnaOrden(
+idOrden int
+)
+select p.id,p.imagen,p.nombre ,p.descripcion,p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones,p.status from platillo as p JOIN det_orden as deto ON p.id=deto.fk_platillo
+where deto.fk_orden=idOrden;
+/*
+select * from platillo;
+call getPlatillosDeUnaOrden(1);
+call getPlatillosDeUnaOrden(2);
+call getPlatillosDeUnaOrden(3);
+*/
+
 
 DROP PROCEDURE IF EXISTS getPlatillo;
 CREATE PROCEDURE getPlatillo(
@@ -548,7 +561,28 @@ call getFiltroMesero('Cint');
  where m.id =clave;
 
  call updatePuntajeMesero(1,4,32);
+ 
+ 
+ DROP PROCEDURE IF EXISTS getMeserosYCantidadMesasAsignadas;/*En mesas activas*/
+ CREATE PROCEDURE getMeserosYCantidadMesasAsignadas(
+ )
+ select m.id as idMesero, count(ss.numMesa) as cantidadMesas from mesero as m JOIN sesion_servicio as ss ON m.id=ss.fk_mesero
+ where ss.estadoSesion=1/*LAs que estan activas*/
+ group by m.id;
+/*
+ call getMeserosYCantidadMesasAsignadas();
+*/
 
+ DROP PROCEDURE IF EXISTS getMesasMesero;/*En mesas activas*/
+ CREATE PROCEDURE getMesasMesero(
+ claveMesero int
+ )
+ select numMesa from sesion_servicio
+ where fk_mesero=claveMesero and estadoSesion=1;
+/*
+ call getMesasMesero(1);
+ call getMesasMesero(2);
+*/
 
 /****************************************PROCEDIMIENTOS DE ADMINISTRADOR**********/
 DROP PROCEDURE IF EXISTS getAdministradorLogin;
@@ -651,6 +685,26 @@ select * from sesion_servicio where  status=1;
 /*
 SELECT * FROM sesion_servicio;
 call getSesiones();
+*/
+
+ DROP PROCEDURE IF EXISTS getIdSesionDeUnaMesa;
+CREATE PROCEDURE getIdSesionDeUnaMesa(
+numMesa int
+)
+select * from sesion_servicio where estadoSesion=1 and sesion_servicio.numMesa=numMesa  and status=1;
+/*
+SELECT * FROM sesion_servicio;
+call getIdSesionDeUnaMesa(1);
+*/
+
+
+
+ DROP PROCEDURE IF EXISTS getMesasOcupadasEnSesionesActivas;
+CREATE PROCEDURE getMesasOcupadasEnSesionesActivas(
+)
+select id,numMesa from sesion_servicio where estadoSesion=1 and status=1;
+/*
+call getMesasOcupadasEnSesionesActivas();
 */
 
 DROP PROCEDURE IF EXISTS getSesionPorId;
@@ -758,7 +812,7 @@ group by ss.id;
 
  call calcularTotalGeneralEnVentaDeUnaSesion(1);
  call calcularTotalGeneralEnVentaDeUnaSesion(2);
- 
+
 
 /****************************************PROCEDIMIENTOS DE ORDENES**********/
  DROP PROCEDURE IF EXISTS getOrdenes;
@@ -783,6 +837,27 @@ call getOrdenPorId(2);
 call getOrdenPorId(3);
 */
 
+DROP PROCEDURE IF EXISTS getOrdenesPorIdSesion;
+CREATE PROCEDURE getOrdenesPorIdSesion(
+	claveSesion int
+)
+select * from orden where orden.fk_sesionservicio=claveSesion and orden.status=1;
+/*
+SELECT * FROM orden;
+call getOrdenesPorIdSesion(1);
+call getOrdenesPorIdSesion(2);
+call getOrdenesPorIdSesion(3);
+*/
+
+DROP PROCEDURE IF EXISTS getOrdenesSolicitadasEnCocina;
+CREATE PROCEDURE getOrdenesSolicitadasEnCocina(
+)
+select * from orden where (orden.estadoOrden='SOLICITADA' or orden.estadoOrden='PREPARANDO' ) 
+and orden.status=1;
+/*
+SELECT * FROM orden;
+call getOrdenesSolicitadasEnCocina();
+*/
 
 DROP PROCEDURE IF EXISTS getOrdenNextId;
 CREATE PROCEDURE getOrdenNextId()
@@ -805,7 +880,7 @@ call getOrdenNextId();
  call insertarNuevaOrden(2);/*Agrega una nueva orden a la sesion N */
  
  
-  DROP PROCEDURE IF EXISTS indicarSolicitarOrden;
+  DROP PROCEDURE IF EXISTS indicarSolicitarOrden;/*Cuando el cliente le da en pedir orden*/
  CREATE PROCEDURE indicarSolicitarOrden(
 	claveOrden int
  )
@@ -816,6 +891,15 @@ call getOrdenNextId();
   call indicarSolicitarOrden(2);
  */
  
+ DROP PROCEDURE IF EXISTS indicarOrdenEnPreparacion;
+ CREATE PROCEDURE indicarOrdenEnPreparacion(
+	claveOrden int
+ )
+ update orden as ord set ord.estadoOrden='PREPARANDO'
+ where ord.id =claveOrden;
+ /*
+ call indicarOrdenEnPreparacion(2);
+ */
  
   DROP PROCEDURE IF EXISTS indicarOrdenPreparada;
  CREATE PROCEDURE indicarOrdenPreparada(

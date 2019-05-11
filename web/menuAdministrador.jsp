@@ -25,7 +25,7 @@
     <li class="nav-item dropdown" style="float: right">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             <img src="css/imagenes/admin.PNG" height="20px" style="border-radius: 50%">
-            <span>Administrador</span>
+            <span><%  out.print(session.getAttribute("nombreMostrar")); %></span>
         </a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="#">

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package modelo;
-
+ 
 public class SesionServicio {
 
     private int id;

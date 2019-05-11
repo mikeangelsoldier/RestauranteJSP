@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo;
 
 import java.io.InputStream;
 
 public class Platillo {
-    
+
     private int id;
     private InputStream imagen;
     private String nombre;
@@ -31,7 +30,7 @@ public class Platillo {
         this.numeroPuntuaciones = numeroPuntuaciones;
         this.status = status;
     }
-    
+
     public Platillo(int id, InputStream image, String nombre, String descripcion, double precio, String categoria) {
         this.id = id;
         this.imagen = image;
@@ -40,7 +39,7 @@ public class Platillo {
         this.precio = precio;
         this.categoria = categoria;
     }
-    
+
     public Platillo(int id, String nombre, String descripcion, double precio, String categoria) {
         this.id = id;
         this.nombre = nombre;
@@ -123,8 +122,5 @@ public class Platillo {
     public void setStatus(int status) {
         this.status = status;
     }
-    
-    
-    
-    
+
 }
