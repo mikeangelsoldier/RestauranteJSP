@@ -54,20 +54,20 @@
                 <!-- Categorías -->
                 <div id="menuCliente" class="nav flex-column menuI" >
                     <a class="nav-link item"
-                        href="ListarPlatillosSesion">Todos</a>
+                       href="ListarPlatillosSesion">Todos</a>
                     <a class="nav-link item"
-                        href="ListarPlatillosSesion">Platillos del día</a>
+                       href="ListarPlatillosSesion">Platillos del día</a>
                     <a class="nav-link item"
-                        href="ListarPlatillosSesion">Recomendados</a>
+                       href="ListarPlatillosSesion">Recomendados</a>
                     <%
-                        Collection <CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
+                        Collection<CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
                         GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
                         categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
-                        for (CategoriaPlatillo categoria : categorias) {                    
+                        for (CategoriaPlatillo categoria : categorias) {
                     %>
-                        <a class="nav-link item"
-                            href="ListarPlatillosSesion?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
-                    <% 
+                    <a class="nav-link item"
+                       href="ListarPlatillosSesion?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
+                    <%
                         }
                     %>    
                 </div>
@@ -81,7 +81,7 @@
 
             <!-------------------- SECCION PLATILLOS -------------------------->
             <div class="col-md-6 platillos" id="seccionPlatillos">
-                
+
                 <div class="display-platillos">
                     <h1 style="margin-bottom: 30px">Platillos</h1>
                     <!--------------------PLATILLOS DEL DIA------------------------>
@@ -131,7 +131,7 @@
                                 <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
                             </div>
                             <div class="card-body" style="text-align: center">
-                                <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre() %></h5>
+                                <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre()%></h5>
                                 <%  //Limitar texto descripción
                                     String desc = "";
                                     if (platillo.getDescripcion().length() > 50) {
@@ -142,47 +142,47 @@
                                     }
                                 %>
                                 <div class="puntuaciones">
-                                <% 
-                                    int puntuacion = (int)platillo.getPuntuacionTotal();
-                                    boolean tieneDecimal = false;
-                                    for (int i = 0; i < puntuacion; i++) {
-                                %>
-                                <img src="css/imagenes/star.png" height="20px" style="display: inline">
-                                <% 
-                                    }
-                                %>
-                                <%  
-                                    if (platillo.getPuntuacionTotal() % 1 != 0) {
-                                        tieneDecimal = true;
-                                %>
-                                <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
-                                 <% 
-                                    }
-                                %>
-                                <%
-                                    int estrellasGrises = 0;
-                                    if (tieneDecimal) {
-                                        estrellasGrises = 5 - puntuacion - 1;
-                                    } else {
-                                        estrellasGrises = 5 - puntuacion;
-                                    }
-                                    for (int i = 0; i < estrellasGrises; i++) {
-                                %>
-                                <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
-                                <% 
-                                    }
-                                %>
+                                    <%
+                                        int puntuacion = (int) platillo.getPuntuacionTotal();
+                                        boolean tieneDecimal = false;
+                                        for (int i = 0; i < puntuacion; i++) {
+                                    %>
+                                    <img src="css/imagenes/star.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                    <%
+                                        if (platillo.getPuntuacionTotal() % 1 != 0) {
+                                            tieneDecimal = true;
+                                    %>
+                                    <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                    <%
+                                        int estrellasGrises = 0;
+                                        if (tieneDecimal) {
+                                            estrellasGrises = 5 - puntuacion - 1;
+                                        } else {
+                                            estrellasGrises = 5 - puntuacion;
+                                        }
+                                        for (int i = 0; i < estrellasGrises; i++) {
+                                    %>
+                                    <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
                                 </div>
                                 <p class="card-text font-small"><%=desc%></p>                                
                                 <a class="btn btn-sm btn-dark btn-platillo-sesion"
                                    data-toggle="modal" 
-                                   data-target="#modalAgregarPlatillo<%=n%>" data-sfid="<%= platillo.getId() %>">
+                                   data-target="#modalAgregarPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
                                     Agregar
                                 </a>
                             </div>
                         </div>
-                                
-                                
+
+
                         <!-- MODAL AGREGAR PRODUCTO -->
                         <%@ page import="controlador.*" %><!--Se importan todos los servlet-->
                         <%@ page import="modelo.*" %>
@@ -191,7 +191,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="exampleModalCenterTitle">
-                                            <%= platillo.getNombre() %>
+                                            <%= platillo.getNombre()%>
                                         </h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -201,30 +201,30 @@
                                         <table>
                                             <tr>
                                                 <td class="tabla-agregar-platillo">
-                                                    <img src="ObtenerImagenes?id=<%= platillo.getId() %>" width="240" height="150"> <br>
+                                                    <img src="ObtenerImagenes?id=<%= platillo.getId()%>" width="240" height="150"> <br>
                                                     <div>
-                                                        <% 
+                                                        <%
                                                             for (int i = 0; i < puntuacion; i++) {
                                                         %>
                                                         <img src="css/imagenes/star.png" height="22px" style="display: inline">
-                                                        <% 
+                                                        <%
                                                             }
                                                         %>
-                                                        <%  
+                                                        <%
                                                             if (tieneDecimal) {
                                                         %>
                                                         <img src="css/imagenes/star-mitad.png" height="22px" style="display: inline">
-                                                         <% 
+                                                        <%
                                                             }
                                                         %>
                                                         <%
                                                             for (int i = 0; i < estrellasGrises; i++) {
                                                         %>
                                                         <img src="css/imagenes/star-gris.png" height="22px" style="display: inline">
-                                                        <% 
+                                                        <%
                                                             }
                                                         %>
-                                                        <span class="puntajePlatillo"> (<%= platillo.getNumeroPuntuaciones() %>)</span>
+                                                        <span class="puntajePlatillo"> (<%= platillo.getNumeroPuntuaciones()%>)</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -234,7 +234,7 @@
                                                                value="1" min="1" max="5"> <br>
 
                                                         <label><b>Precio: </b></label>
-                                                        <label class="precio">$<%= platillo.getPrecio() %> </label>
+                                                        <label class="precio">$<%= platillo.getPrecio()%> </label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -254,17 +254,17 @@
                                 </div>
                             </div>
                         </div>        
-                                
-                                
+
+
                         <%
-                            n++;
+                                n++;
                             }
                         %>
                     </div>
                     <!------------------------ /TODOS --------------------------->
                     <!-------------------- /SECCION PLATILLOS ------------------------->
                 </div>
-                
+
             </div>
 
             <!--------------- SECCION MIS PEDIDOS Y FACTURA ------------------->                
@@ -283,19 +283,76 @@
                         <img src="css/imagenes/plus.png" height="30px">
                     </div>
                     <ul class="list-group" style="width: 100%">
-                        <li class="list-group-item">
-                            <span>Orden 1</span>
-                            <span class="ver-orden"><i class="fas fa-eye"></i></span>
+                        <li style="margin-bottom: 5px">
+                            <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" 
+                               role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                                Orden 1
+                            </a>
                         </li>
-                        <li class="list-group-item">
-                            <span>Orden 2</span>
-                            <span class="ver-orden"><i class="fas fa-eye"></i></span>
+                        <li>
+                            <div class="collapse multi-collapse" id="multiCollapseExample1" style="font-size: 13px">
+                                <div class="card card-body" style="padding: 0px">
+                                    <table class="table table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>#</th>
+                                                <th>$</th>
+                                                <th>Total</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="background-color: white; font-size: 12px">
+                                                <td>Chilaquiles</td>
+                                                <td>2</td>
+                                                <td>$45</td>
+                                                <td>$90</td>
+                                                <td style="font-size: 15px">
+                                                    <div>
+                                                        <a href="" style="margin-right: 8px">
+                                                            <i class="fas fa-eye" class="icon-view" style="color: #333;"></i> 
+                                                        </a>
+                                                        <a href="">
+                                                            <i class="fas fa-minus-circle" style="color: red"></i> 
+                                                        </a>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <tr style="background-color: white; font-size: 12px">
+                                                <td>Mamada</td>
+                                                <td>3</td>
+                                                <td>$10</td>
+                                                <td>$30</td>
+                                                <td style="font-size: 15px">
+                                                    <div>
+                                                        <a href="" style="margin-right: 8px">
+                                                            <i class="fas fa-eye" class="icon-view" style="color: #333;"></i> 
+                                                        </a>
+                                                        <a href="">
+                                                            <i class="fas fa-minus-circle" style="color: red"></i> 
+                                                        </a>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr style="background-color: white; font-size: 14px">
+                                                <td colspan="2"></td>
+                                                <td colspan="3" style="text-align: right; font-weight: 600">
+                                                    Total: $120
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
                         </li>
-                        <li class="list-group-item active">
-                            <span>Orden 3</span>
-                            <span class="ver-orden"><i class="fas fa-eye"></i></span>
-                        </li>
-                  </ul>
+                        
+                        
+                    </ul>
                 </div>
                 <!--------------------- /MIS PEDIDOS ------------------------->
 
@@ -412,7 +469,7 @@
                     this.className += " active";
                 });
             }
-            
+
             function openAside() {
                 document.getElementById("sidebarCategorias").style.width = "23%";
                 document.getElementById("sidebarCategorias").style.marginLeft = "-175px";
@@ -423,7 +480,7 @@
                 var ss = document.getElementById("side-open");
                 ss.className = "none";
             }
-            
+
             function closeAside() {
                 document.getElementById("sidebarCategorias").style.width = "0";
                 document.getElementById("sidebarCategorias").style.marginLeft = "-1000px";

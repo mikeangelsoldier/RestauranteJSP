@@ -115,3 +115,12 @@
 .btn-agregar-orden img:hover {
     filter: brightness(110%);
 }
+
+.icon-view {
+    color: #333 !important;
+}
+
+.icon-view:hover {
+    text-decoration: none !important;
+    color: #444 !important;
+}
