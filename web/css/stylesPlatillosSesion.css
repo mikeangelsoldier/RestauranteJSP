@@ -64,8 +64,9 @@
 
 .btn-collapse {
     position: absolute;
-    background-color: #eee;
-    color: black;
+    border-radius: 4px;
+    color: snow;
+    background-color: #333;
     padding: 10px;
     border: none;
     top: 5px;
@@ -93,4 +94,24 @@
 
 #sidebarCategorias {
     /*transition: width .6s;*/
+}
+
+.ver-orden {
+    cursor: pointer;
+    float: right;
+}
+
+.ver-orden:hover {
+    transform: scale(1.1, 1.1);
+}
+
+.btn-agregar-orden {
+    cursor: pointer;
+    position: absolute !important;
+    top: 30px;
+    right: 25px;
+}
+
+.btn-agregar-orden img:hover {
+    filter: brightness(110%);
 }

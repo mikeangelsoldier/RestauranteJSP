@@ -18,7 +18,10 @@
         <link rel="stylesheet" 
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
-              crossorigin="anonymous">       
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" 
+              integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" 
+              crossorigin="anonymous">
     </head>
     <body style="background-color: black; overflow-y: hidden">
         <div class="heead">
@@ -265,22 +268,39 @@
             </div>
 
             <!--------------- SECCION MIS PEDIDOS Y FACTURA ------------------->                
-            <div class="col-md-3 pedidos" style="position: fixed; right: 15px">
+            <div class="col-md-3 pedidos" style="position: relative"> <!--style="position: fixed; right: 15px"-->
                 <!--------------------- MIS PEDIDOS --------------------------->
-                <h3>Mis pedidos</h3>
-                <div class="row" >
-                    <%
+                <h3>Mis órdenes</h3>
+                <div class="row" style="width: 100%; max-height: 350px; overflow-y: auto; ">
+                    <!-- %
                         for (int i = 0; i < 6; i++) {%>
                     <div class="card col-sm-3 misPedidos">
-                        Pedido <%=i + 1%>
+                        Pedido < %=i + 1%>
                     </div>
-                    <%}
-                    %>
+                    < %}
+                    % -->
+                    <div class="btn-agregar-orden">
+                        <img src="css/imagenes/plus.png" height="30px">
+                    </div>
+                    <ul class="list-group" style="width: 100%">
+                        <li class="list-group-item">
+                            <span>Orden 1</span>
+                            <span class="ver-orden"><i class="fas fa-eye"></i></span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>Orden 2</span>
+                            <span class="ver-orden"><i class="fas fa-eye"></i></span>
+                        </li>
+                        <li class="list-group-item active">
+                            <span>Orden 3</span>
+                            <span class="ver-orden"><i class="fas fa-eye"></i></span>
+                        </li>
+                  </ul>
                 </div>
                 <!--------------------- /MIS PEDIDOS ------------------------->
 
                 <!----------------------- FACTURA ----------------------------->
-                <div class="row" style="max-height: 300px; overflow-y: auto">
+                <!--div class="row" style="max-height: 300px; overflow-y: auto">
                     <h3>Factura</h3>
                     <table class="table table-borderless table-light table-striped contentTable" >
                         <tr>
@@ -310,8 +330,8 @@
                     </table>
 
                     
-                </div>
-                <div style="width: 100%; text-align: right">
+                </div-->
+                <div style="width: 100%; text-align: right; margin-top: 15px; margin-left: -15px">
                     <b>TOTAL A PAGAR: $525.00</b>
                 </div>
                 <div style="text-align: center; width: 100%; margin-top: 40px;">
