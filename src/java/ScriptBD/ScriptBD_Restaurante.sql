@@ -752,19 +752,7 @@ call getSesionNextId();
  call insertarNuevaSesion(1,1,1);/*Cada que inicia sesion un usuario*/
  call insertarNuevaSesion(2,1,2);
  
- call insertarNuevaSesion(2,2,3);
  
- call insertarNuevaSesion(2,3,4);
- call insertarNuevaSesion(2,3,5);
- call insertarNuevaSesion(2,3,6);
- 
- call insertarNuevaSesion(2,4,7);
- call insertarNuevaSesion(2,4,8);
- 
- 
-  
-  
-  
  DROP PROCEDURE IF EXISTS updatePuntajeMeseroSesion;
  CREATE PROCEDURE updatePuntajeMeseroSesion(/*Puntaje del mesero en una sesion especifica*/
 	claveSesion bigint,
@@ -796,12 +784,7 @@ call getSesionNextId();
  where ss.id =claveSesion;
 
  call colocarSesionComoInactiva(7);
-  /*
-  call getMeserosYCantidadMesasAsignadas2();
-  
-  */
-  /*Aqui falta un proc para actualizar el estado de la sesion a 0=finalizada cuando se termine de pagar*/
-  
+ 
   
 DROP PROCEDURE IF EXISTS deleteSesion;
 CREATE PROCEDURE deleteSesion(
