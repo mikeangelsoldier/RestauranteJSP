@@ -169,6 +169,7 @@ input[type=checkbox] {
 }
 
 .logo {
+    position: relative;
     margin-top: -90px;
     margin-left: -40px;
     width: 300px;
@@ -269,6 +270,7 @@ ul.menuI {
 }
 
 .precio {
+    margin-top: 4px;
     color: red;
     font-size: 30px;
     font-weight: 600;
@@ -279,9 +281,7 @@ ul.menuI {
 }
 
 .puntajePlatillo {
-    color: gold;
-    font-size: 20px;
-    font-weight: 600;
+    color: black;
 }
 
 .heead {
