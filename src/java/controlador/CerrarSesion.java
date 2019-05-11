@@ -36,10 +36,10 @@ public class CerrarSesion extends HttpServlet {
       /* TODO output your page here. You may use following sample code. */
       if(request.getSession().getAttribute("rol").equals("Cliente")){
         request.getSession().invalidate();
-        request.getRequestDispatcher("/index.php").forward(request, response);
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
       }else {
         request.getSession().invalidate();
-        request.getRequestDispatcher("/index_negocio").forward(request, response);
+        request.getRequestDispatcher("/index_negocio.jsp").forward(request, response);
       }
     }
   }
