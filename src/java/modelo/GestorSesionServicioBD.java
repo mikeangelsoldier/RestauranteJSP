@@ -201,6 +201,23 @@ public class GestorSesionServicioBD {
         }
     }
 
+    public void colocarSesionComoInactiva(SesionServicio sesionServicio) {//Agregar y actualizar puntaje
+//        Modifica un objeto en la base de datos, 
+//         cada atributo se utiliza en la posición que le corresponde 
+//         de la instrucción SQL 
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call colocarSesionComoInactiva(?);");
+            st.setInt(1, sesionServicio.getId());
+            st.execute();
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+    
     public void updateTotalVentaYTipoPagoSesion(SesionServicio sesionServicio) {
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 

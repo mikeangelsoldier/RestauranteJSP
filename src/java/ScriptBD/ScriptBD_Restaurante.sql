@@ -574,6 +574,16 @@ call getFiltroMesero('Cint');
  call getMeserosYCantidadMesasAsignadas();
 */
 
+ DROP PROCEDURE IF EXISTS getMeserosYCantidadMesasAsignadas2;/*En mesas activas*/
+ CREATE PROCEDURE getMeserosYCantidadMesasAsignadas2(
+ )
+ select m.id as idMesero, count(ss.numMesa) as cantidadMesas from mesero as m left JOIN sesion_servicio as ss ON m.id=ss.fk_mesero
+ and ss.estadoSesion=1/*LAs que estan activas*/
+ group by m.id;
+/*
+ call getMeserosYCantidadMesasAsignadas2();
+*/
+
  DROP PROCEDURE IF EXISTS getMesasMesero;/*En mesas activas*/
  CREATE PROCEDURE getMesasMesero(
  claveMesero int
@@ -742,7 +752,19 @@ call getSesionNextId();
  call insertarNuevaSesion(1,1,1);/*Cada que inicia sesion un usuario*/
  call insertarNuevaSesion(2,1,2);
  
+ call insertarNuevaSesion(2,2,3);
  
+ call insertarNuevaSesion(2,3,4);
+ call insertarNuevaSesion(2,3,5);
+ call insertarNuevaSesion(2,3,6);
+ 
+ call insertarNuevaSesion(2,4,7);
+ call insertarNuevaSesion(2,4,8);
+ 
+ 
+  
+  
+  
  DROP PROCEDURE IF EXISTS updatePuntajeMeseroSesion;
  CREATE PROCEDURE updatePuntajeMeseroSesion(/*Puntaje del mesero en una sesion especifica*/
 	claveSesion bigint,
@@ -766,7 +788,18 @@ call getSesionNextId();
 
  call updateTotalVentaYTipoPagoSesion(1,0.0,'EFECTIVO');
  
- 
+   DROP PROCEDURE IF EXISTS colocarSesionComoInactiva;
+ CREATE PROCEDURE colocarSesionComoInactiva(/*Puntaje del mesro en una sesion especifica*/
+ 	claveSesion bigint
+ )
+ update sesion_servicio as ss set ss.totalVenta=totalVenta, ss.estadoSesion=0
+ where ss.id =claveSesion;
+
+ call colocarSesionComoInactiva(7);
+  /*
+  call getMeserosYCantidadMesasAsignadas2();
+  
+  */
   /*Aqui falta un proc para actualizar el estado de la sesion a 0=finalizada cuando se termine de pagar*/
   
   
