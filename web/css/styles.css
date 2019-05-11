@@ -270,6 +270,7 @@ ul.menuI {
 }
 
 .precio {
+    margin-top: 4px;
     color: red;
     font-size: 30px;
     font-weight: 600;
@@ -280,9 +281,7 @@ ul.menuI {
 }
 
 .puntajePlatillo {
-    color: gold;
-    font-size: 20px;
-    font-weight: 600;
+    color: black;
 }
 
 .heead {

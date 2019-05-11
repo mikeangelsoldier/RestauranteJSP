@@ -117,6 +117,7 @@
                     <h4 class="submenu">Todos</h4>
                     <div class="row" style="margin-left: 6px;">
                         <%
+                            int n = 1;
                             for (Platillo platillo : platillos) {
                         %> 
                         <div class="card platillo" style="display: flex; padding: 2px; position: relative; height: 270px; width: 200px;">
@@ -170,11 +171,91 @@
                                 %>
                                 </div>
                                 <p class="card-text font-small"><%=desc%></p>                                
-                                <button class="btn btn-sm btn-dark btn-platillo-sesion">Agregar</button>
+                                <a class="btn btn-sm btn-dark btn-platillo-sesion"
+                                   data-toggle="modal" 
+                                   data-target="#modalAgregarPlatillo<%=n%>" data-sfid="<%= platillo.getId() %>">
+                                    Agregar
+                                </a>
                             </div>
-
                         </div>
-                        <%    }
+                                
+                                
+                        <!-- MODAL AGREGAR PRODUCTO -->
+                        <%@ page import="controlador.*" %><!--Se importan todos los servlet-->
+                        <%@ page import="modelo.*" %>
+                        <div class="modal fade" id="modalAgregarPlatillo<%=n%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="exampleModalCenterTitle">
+                                            <%= platillo.getNombre() %>
+                                        </h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <tr>
+                                                <td class="tabla-agregar-platillo">
+                                                    <img src="ObtenerImagenes?id=<%= platillo.getId() %>" width="240" height="150"> <br>
+                                                    <div>
+                                                        <% 
+                                                            for (int i = 0; i < puntuacion; i++) {
+                                                        %>
+                                                        <img src="css/imagenes/star.png" height="22px" style="display: inline">
+                                                        <% 
+                                                            }
+                                                        %>
+                                                        <%  
+                                                            if (tieneDecimal) {
+                                                        %>
+                                                        <img src="css/imagenes/star-mitad.png" height="22px" style="display: inline">
+                                                         <% 
+                                                            }
+                                                        %>
+                                                        <%
+                                                            for (int i = 0; i < estrellasGrises; i++) {
+                                                        %>
+                                                        <img src="css/imagenes/star-gris.png" height="22px" style="display: inline">
+                                                        <% 
+                                                            }
+                                                        %>
+                                                        <span class="puntajePlatillo"> (<%= platillo.getNumeroPuntuaciones() %>)</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group cantidad">
+                                                        <label><b>Cantidad: </b></label>
+                                                        <input type="number" class="form-control" style="width: 50%"
+                                                               value="1" min="1" max="5"> <br>
+
+                                                        <label><b>Precio: </b></label>
+                                                        <label class="precio">$<%= platillo.getPrecio() %> </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <label style="margin-top: 10px"><b>Descripción: </b></label> <br>
+                                                    <label> <%= platillo.getDescripcion()%> </label>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary">Añadir</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>        
+                                
+                                
+                        <%
+                            n++;
+                            }
                         %>
                     </div>
                     <!------------------------ /TODOS --------------------------->
@@ -228,8 +309,7 @@
                         </tr>
                     </table>
 
-
-
+                    
                 </div>
                 <div style="width: 100%; text-align: right">
                     <b>TOTAL A PAGAR: $525.00</b>
@@ -241,27 +321,6 @@
                         Pedir
                     </button>
                     <button id="btnPagar" name="btnPagar" class="btn btn-lg btn-danger" disabled>Pagar</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
                 </div>
             </div>
         </div>

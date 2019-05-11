@@ -11,6 +11,8 @@
 }
 
 .btn-platillo-sesion {
+    cursor: pointer;
+    color: white !important;
     position: absolute;
     bottom: 10px;
     text-align: center;
