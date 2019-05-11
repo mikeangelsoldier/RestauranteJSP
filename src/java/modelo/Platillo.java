@@ -18,6 +18,8 @@ public class Platillo {
     private double puntuacionTotal;
     private int numeroPuntuaciones;
     private int status;
+    
+    private int idDetOrdenDePlatillo;/*Solo para saber en que detOrden esta el platillo*/
 
     public Platillo(int id, InputStream imagen, String nombre, String descripcion, double precio, String categoria, double puntuacionTotal, int numeroPuntuaciones, int status) {
         this.id = id;
@@ -122,5 +124,15 @@ public class Platillo {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public int getIdDetOrdenDePlatillo() {
+        return idDetOrdenDePlatillo;
+    }
+
+    public void setIdDetOrdenDePlatillo(int idDetOrdenDePlatillo) {
+        this.idDetOrdenDePlatillo = idDetOrdenDePlatillo;
+    }
+    
+    
 
 }

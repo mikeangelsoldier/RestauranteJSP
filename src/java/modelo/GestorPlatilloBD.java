@@ -345,15 +345,16 @@ public class GestorPlatilloBD {
             
             while (rs.next()) {
                 Platillo platillo = new Platillo();
-                platillo.setId(rs.getInt(1));
-                platillo.setImagen(rs.getBinaryStream(2));
-                platillo.setNombre(rs.getString(3));
-                platillo.setDescripcion(rs.getString(4));
-                platillo.setPrecio(rs.getDouble(5));
-                platillo.setCategoria(rs.getString(6));
-                platillo.setPuntuacionTotal(rs.getDouble(7));
-                platillo.setNumeroPuntuaciones(rs.getInt(8));
-                platillo.setStatus(rs.getInt(9));
+                platillo.setIdDetOrdenDePlatillo(rs.getInt(1));
+                platillo.setId(rs.getInt(2));
+                platillo.setImagen(rs.getBinaryStream(3));
+                platillo.setNombre(rs.getString(4));
+                platillo.setDescripcion(rs.getString(5));
+                platillo.setPrecio(rs.getDouble(6));
+                platillo.setCategoria(rs.getString(7));
+                platillo.setPuntuacionTotal(rs.getDouble(8));
+                platillo.setNumeroPuntuaciones(rs.getInt(9));
+                platillo.setStatus(rs.getInt(10));
                 listaPlatillosDeUnaOrden.add(platillo);
 
             }

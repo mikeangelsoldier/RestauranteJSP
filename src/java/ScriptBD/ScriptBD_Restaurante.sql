@@ -246,7 +246,7 @@ DROP PROCEDURE IF EXISTS getPlatillosDeUnaOrden;
 CREATE PROCEDURE getPlatillosDeUnaOrden(
 idOrden int
 )
-select p.id,p.imagen,p.nombre ,p.descripcion,p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones,p.status from platillo as p JOIN det_orden as deto ON p.id=deto.fk_platillo
+select deto.id as idDetORden,p.id as idPlatillo,p.imagen,p.nombre ,p.descripcion,p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones,p.status from platillo as p JOIN det_orden as deto ON p.id=deto.fk_platillo
 where deto.fk_orden=idOrden;
 /*
 select * from platillo;
@@ -812,6 +812,10 @@ group by ss.id;
 
  call calcularTotalGeneralEnVentaDeUnaSesion(1);
  call calcularTotalGeneralEnVentaDeUnaSesion(2);
+ 
+ 
+ 
+ 
 
 
 /****************************************PROCEDIMIENTOS DE ORDENES**********/
