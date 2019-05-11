@@ -61,6 +61,30 @@ public class GestorSesionServicioBD {
         }
     }
     
+    public int getUltimoIdDeSesion() {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+
+        int id =0;
+
+        try {
+            st = conexion.createStatement();
+            rs = st.executeQuery("call getUltimoIdDeSesion();");
+            while (rs.next()) {
+                
+                id=rs.getInt(1);
+            }
+            rs.close();
+            st.close();
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return 0;
+        }
+    }
+    
+    
     public List<SesionServicio> getMesasOcupadasEnSesionesActivas() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/

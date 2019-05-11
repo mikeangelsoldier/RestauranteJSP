@@ -698,6 +698,17 @@ SELECT * FROM sesion_servicio;
 call getSesiones();
 */
 
+
+ DROP PROCEDURE IF EXISTS getUltimoIdDeSesion;
+CREATE PROCEDURE getUltimoIdDeSesion(
+)
+select max(id) from sesion_servicio where  status=1;
+/*
+SELECT * FROM sesion_servicio;
+call getUltimoIdDeSesion();
+*/
+
+
  DROP PROCEDURE IF EXISTS getIdSesionDeUnaMesa;
 CREATE PROCEDURE getIdSesionDeUnaMesa(
 numMesa int
