@@ -18,6 +18,8 @@ public class Mesero {
     private double puntuacionTotal; 
      private int numPuntuaciones;
      private int status;
+     
+     private int cantidadMesasAsignadas;
 
     public Mesero(int id, String nombre, String apellidos, String correo, String usuario, String password, double puntuacionTotal, int numPuntuaciones, int status) {
         this.id = id;
@@ -105,7 +107,13 @@ public class Mesero {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public int getCantidadMesasAsignadas() {
+        return cantidadMesasAsignadas;
+    }
+
+    public void setCantidadMesasAsignadas(int cantidadMesasAsignadas) {
+        this.cantidadMesasAsignadas = cantidadMesasAsignadas;
+    }
      
-     
-    
 }

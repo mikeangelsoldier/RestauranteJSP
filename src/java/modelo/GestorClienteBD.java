@@ -70,7 +70,6 @@ public class GestorClienteBD {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public Cliente getCliente(int id) {

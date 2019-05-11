@@ -92,6 +92,61 @@ public class GestorMeseroBD {
             return null;
         }
     }
+    
+    public List<Mesero> getMeserosYCantidadMesasAsignadas() {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+
+        List<Mesero> listaMeseros = new ArrayList<>();
+
+        try {
+            st = conexion.createStatement();
+            rs = st.executeQuery("call getMeserosYCantidadMesasAsignadas();");
+            while (rs.next()) {
+                Mesero mesero = new Mesero();
+                mesero.setId(rs.getInt(1));
+                mesero.setCantidadMesasAsignadas(rs.getInt(2));
+
+                listaMeseros.add(mesero);
+
+            }
+            rs.close();
+            st.close();
+            return listaMeseros;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+    
+    public List<Integer> getMesasMesero(int idMesero) {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+
+        List<Integer> listaMesas = new ArrayList<>();
+
+        try {
+            PreparedStatement prest = conexion.prepareStatement("call getMesasMesero(?);");
+
+            prest.setInt(1, idMesero);
+
+            rs = prest.executeQuery();
+
+            while (rs.next()) {
+                int numMesa = rs.getInt(1);
+                listaMesas.add(numMesa);
+            }
+            rs.close();
+            prest.close();
+            return listaMesas;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+    
 
     public Mesero getMesero(int id) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
