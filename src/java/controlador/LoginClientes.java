@@ -36,7 +36,8 @@ public class LoginClientes extends HttpServlet {
             if (user.getClientId() > 0) {
                 HttpSession session = request.getSession();
                 session.setAttribute("usr", user);
-                request.getRequestDispatcher("ListarPlatillosSesion").forward(request, response);
+                
+                request.getRequestDispatcher("seleccionMesa.jsp").forward(request, response);
             } else {
                 request.setAttribute("resLogin", "El usuario y contraseña no coinciden");
                 // response.sendRedirect(request.getContextPath() + "/loginClientes.jsp");
