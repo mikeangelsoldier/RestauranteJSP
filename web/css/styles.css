@@ -169,6 +169,7 @@ input[type=checkbox] {
 }
 
 .logo {
+    position: relative;
     margin-top: -90px;
     margin-left: -40px;
     width: 300px;

@@ -20,16 +20,28 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
               crossorigin="anonymous">       
     </head>
-    <body style="background-color: black">
+    <body style="background-color: black; overflow-y: hidden">
         <div class="heead">
-            <div class="username">
+            <div style="float: left">
+                <button class="none"  id="side-open"  onclick="openAside()">
+                    &#9776; Mostrar panel de navegación
+                </button>
+            </div>
+            <div class="username" style="padding: 14px 8px">
+                <img src="css/imagenes/shutdown.png" height="22px" class="shutdown">
+            </div>
+            <div class="username" style="margin-right: 12px">
                 ${usr.username}
             </div>
         </div>
         <div class="row" style="margin: 60px 10px; z-index: 0;">
 
-            <aside class="menu">
-                <div class="logo"></div>
+            <aside class="menu" id="sidebarCategorias">
+                <div class="logo">
+                    <a href="javascript:void(0)" class="close-aside" onclick="closeAside()">
+                        <img src="css/imagenes/side-back.PNG" height="30px" style="border-radius: 4px">
+                    </a>
+                </div>
                 <nav class="row navbar navbar-light">
                     <form class="form-inline">
                         <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
@@ -39,7 +51,11 @@
                 <!-- Categorías -->
                 <div id="menuCliente" class="nav flex-column menuI" >
                     <a class="nav-link item"
-                        href="ListarPlatillos">Todos</a>
+                        href="ListarPlatillosSesion">Todos</a>
+                    <a class="nav-link item"
+                        href="ListarPlatillosSesion">Platillos del día</a>
+                    <a class="nav-link item"
+                        href="ListarPlatillosSesion">Recomendados</a>
                     <%
                         Collection <CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
                         GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
@@ -47,7 +63,7 @@
                         for (CategoriaPlatillo categoria : categorias) {                    
                     %>
                         <a class="nav-link item"
-                            href="ListarPlatillos?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
+                            href="ListarPlatillosSesion?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
                     <% 
                         }
                     %>    
@@ -55,117 +71,120 @@
                 <!-- / Categorías -->
             </aside>
 
-            <div class="col-md-3">
+            <div class="col-md-3" id="collapse">
 
             </div>
 
 
             <!-------------------- SECCION PLATILLOS -------------------------->
-            <div class="col-md-6 platillos">
-                <h1 style="margin-bottom: 30px">Platillos</h1>
+            <div class="col-md-6 platillos" id="seccionPlatillos">
+                
+                <div class="display-platillos">
+                    <h1 style="margin-bottom: 30px">Platillos</h1>
+                    <!--------------------PLATILLOS DEL DIA------------------------>
+                    <div>
+                        <h4 class="submenu">Platillos del día</h4>
+                        <div class="row" style="margin-left: 6px">
+                            <%
+                                for (int i = 0; i < 4; i++) {%>
 
-                <!--------------------PLATILLOS DEL DIA------------------------>
-                <h4 class="submenu">Platillos del día</h4>
-                <div class="row" style="margin-left: 6px">
-                    <%
-                        for (int i = 0; i < 4; i++) {%>
+                            <div class="card platillo" style="display: flex; padding: 2px">
+                                <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
+                                    <img src="css/imagenes/platillo1.jpg" width="120px" height="75px">
+                                </div>
+                                <div class="card-body" style="text-align: center">
+                                    <h5 class="card-title font-smallN">Platillo <%=i + 1%></h5>
+                                    <p class="card-text font-small">Algo de contenido</p>                                
+                                    <button class="btn btn-sm btn-dark" 
+                                            data-toggle="modal" 
+                                            data-target="#modalAgregarPlatillo">
+                                        Agregar
+                                    </button>
+                                </div>
 
-                    <div class="card platillo" style="display: flex; padding: 2px">
-                        <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
-                            <img src="css/imagenes/platillo1.jpg" width="120px" height="75px">
+                            </div>
+                            <%    }
+                            %>
                         </div>
-                        <div class="card-body" style="text-align: center">
-                            <h5 class="card-title font-smallN">Platillo <%=i + 1%></h5>
-                            <p class="card-text font-small">Algo de contenido</p>                                
-                            <button class="btn btn-sm btn-dark" 
-                                    data-toggle="modal" 
-                                    data-target="#modalAgregarPlatillo">
-                                Agregar
-                            </button>
-                        </div>
-
                     </div>
-                    <%    }
-                    %>
-                </div>
-                <!-----------------/PLATILLOS DEL DIA-------------------------->
+                    <!-----------------/PLATILLOS DEL DIA-------------------------->
 
-                <!------------------------ TODOS ---------------------------->
-                <h4 class="submenu">Todos</h4>
-                <div class="row" style="margin-left: 6px;">
+                    <!------------------------ TODOS ---------------------------->
                     <%
                         Collection<Platillo> platillos = null;
                         platillos = (Collection<Platillo>) request.getAttribute("PlatillosSesion");
                     %>
-                    <%
-                        for (Platillo platillo : platillos) {
-                    %> 
-                    <div class="card platillo" style="display: flex; padding: 2px; position: relative; height: 270px; width: 200px;">
-                        <div class="precio-platillo badge badge-primary">
-                            $<%=platillo.getPrecio()%>
-                        </div>
-                        <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
-                            <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
-                        </div>
-                        <div class="card-body" style="text-align: center">
-                            <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre() %></h5>
-                            <%  //Limitar texto descripción
-                                String desc = "";
-                                if (platillo.getDescripcion().length() > 50) {
-                                    desc = platillo.getDescripcion().substring(0, 50);
-                                    desc += "...";
-                                } else {
-                                    desc = platillo.getDescripcion();
-                                }
-                            %>
-                            <div class="puntuaciones">
-                            <% 
-                                int puntuacion = (int)platillo.getPuntuacionTotal();
-                                boolean tieneDecimal = false;
-                                for (int i = 0; i < puntuacion; i++) {
-                            %>
-                            <img src="css/imagenes/star.png" height="20px" style="display: inline">
-                            <% 
-                                }
-                            %>
-                            <%  
-                                if (platillo.getPuntuacionTotal() % 1 != 0) {
-                                    tieneDecimal = true;
-                            %>
-                            <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
-                             <% 
-                                }
-                            %>
-                            <%
-                                int estrellasGrises = 0;
-                                if (tieneDecimal) {
-                                    estrellasGrises = 5 - puntuacion - 1;
-                                } else {
-                                    estrellasGrises = 5 - puntuacion;
-                                }
-                                for (int i = 0; i < estrellasGrises; i++) {
-                            %>
-                            <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
-                            <% 
-                                }
-                            %>
+                    <h4 class="submenu">Todos</h4>
+                    <div class="row" style="margin-left: 6px;">
+                        <%
+                            for (Platillo platillo : platillos) {
+                        %> 
+                        <div class="card platillo" style="display: flex; padding: 2px; position: relative; height: 270px; width: 200px;">
+                            <div class="precio-platillo badge badge-primary">
+                                $<%=platillo.getPrecio()%>
                             </div>
-                            <p class="card-text font-small"><%=desc%></p>                                
-                            <button class="btn btn-sm btn-dark btn-platillo-sesion">Agregar</button>
+                            <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
+                                <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
+                            </div>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre() %></h5>
+                                <%  //Limitar texto descripción
+                                    String desc = "";
+                                    if (platillo.getDescripcion().length() > 50) {
+                                        desc = platillo.getDescripcion().substring(0, 50);
+                                        desc += "...";
+                                    } else {
+                                        desc = platillo.getDescripcion();
+                                    }
+                                %>
+                                <div class="puntuaciones">
+                                <% 
+                                    int puntuacion = (int)platillo.getPuntuacionTotal();
+                                    boolean tieneDecimal = false;
+                                    for (int i = 0; i < puntuacion; i++) {
+                                %>
+                                <img src="css/imagenes/star.png" height="20px" style="display: inline">
+                                <% 
+                                    }
+                                %>
+                                <%  
+                                    if (platillo.getPuntuacionTotal() % 1 != 0) {
+                                        tieneDecimal = true;
+                                %>
+                                <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
+                                 <% 
+                                    }
+                                %>
+                                <%
+                                    int estrellasGrises = 0;
+                                    if (tieneDecimal) {
+                                        estrellasGrises = 5 - puntuacion - 1;
+                                    } else {
+                                        estrellasGrises = 5 - puntuacion;
+                                    }
+                                    for (int i = 0; i < estrellasGrises; i++) {
+                                %>
+                                <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
+                                <% 
+                                    }
+                                %>
+                                </div>
+                                <p class="card-text font-small"><%=desc%></p>                                
+                                <button class="btn btn-sm btn-dark btn-platillo-sesion">Agregar</button>
+                            </div>
+
                         </div>
-
+                        <%    }
+                        %>
                     </div>
-                    <%    }
-                    %>
+                    <!------------------------ /TODOS --------------------------->
+                    <!-------------------- /SECCION PLATILLOS ------------------------->
                 </div>
-                <!------------------------ /POSTRES --------------------------->
-
                 
-                <!-------------------- /SECCION PLATILLOS ------------------------->
             </div>
 
             <!--------------- SECCION MIS PEDIDOS Y FACTURA ------------------->                
-            <div class="col-md-3 pedidos">
+            <div class="col-md-3 pedidos" style="position: fixed; right: 15px">
                 <!--------------------- MIS PEDIDOS --------------------------->
                 <h3>Mis pedidos</h3>
                 <div class="row" >
@@ -313,6 +332,28 @@
                     }
                     this.className += " active";
                 });
+            }
+            
+            function openAside() {
+                document.getElementById("sidebarCategorias").style.width = "23%";
+                document.getElementById("sidebarCategorias").style.marginLeft = "-175px";
+                var sp = document.getElementById("seccionPlatillos");
+                sp.className = "col-md-6 platillos";
+                var coll = document.getElementById("collapse");
+                coll.className = "col-md-3";
+                var ss = document.getElementById("side-open");
+                ss.className = "none";
+            }
+            
+            function closeAside() {
+                document.getElementById("sidebarCategorias").style.width = "0";
+                document.getElementById("sidebarCategorias").style.marginLeft = "-1000px";
+                var sp = document.getElementById("seccionPlatillos");
+                sp.className = "col-md-9 platillos";
+                var coll = document.getElementById("collapse");
+                coll.className = "col-md-4";
+                var ss = document.getElementById("side-open");
+                ss.className = "btn-collapse";
             }
         </script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

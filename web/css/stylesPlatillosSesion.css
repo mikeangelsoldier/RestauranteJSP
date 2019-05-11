@@ -22,3 +22,73 @@
     bottom: 50px;
     left: 40px;
 }
+
+.shutdown {
+    cursor: pointer;
+    height: 30px;
+    position: absolute;
+    right: 5px;
+    top: 13px;
+}
+
+.shutdown:hover {
+    filter: brightness(110%);
+    transform: scale(1.05, 1.05);
+}
+
+.display-platillos {
+    max-height: 10000px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media screen and (min-height: 500px) {
+    .display-platillos {
+        max-height: 560px;
+    }
+}
+
+@media screen and (min-height: 700px) {
+    .display-platillos {
+        max-height: 615px;
+    }
+}
+
+@media screen and (min-height: 800px) {
+    .display-platillos {
+        max-height: 710px;
+    }
+}
+
+.btn-collapse {
+    position: absolute;
+    background-color: #eee;
+    color: black;
+    padding: 10px;
+    border: none;
+    top: 5px;
+    left: 5px;
+}
+
+.close-aside {
+    position: fixed;
+    top: 60px;
+    left: 20%;
+    color: black;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.none {
+    display: none !important;
+}
+
+.close-aside:hover {
+    transform: scale(1.1, 1.1);
+    color: #444;
+    text-decoration: none;
+}
+
+#sidebarCategorias {
+    /*transition: width .6s;*/
+}
