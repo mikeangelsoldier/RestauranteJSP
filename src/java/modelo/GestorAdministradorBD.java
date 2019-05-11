@@ -38,14 +38,14 @@ public class GestorAdministradorBD {
             ps.setString(2, password);
 
             rs = ps.executeQuery();
-            rs.next();
+            if(rs.next()){
             administrador.setId(rs.getInt(1));
             administrador.setNombre(rs.getString(2));
             administrador.setCorreo(rs.getString(3));
             administrador.setUsuario(rs.getString(4));
             administrador.setPassword(rs.getString(5));
             administrador.setStatus(rs.getInt(6));
-
+            }
             rs.close();
             ps.close();
             return administrador;

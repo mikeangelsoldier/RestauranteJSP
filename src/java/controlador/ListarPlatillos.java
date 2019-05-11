@@ -29,8 +29,10 @@ public class ListarPlatillos extends HttpServlet {
   protected void service(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     
-    if(!request.getSession().getAttribute("rol").equals("Administrador")){
-        request.getRequestDispatcher("AccesoDenegado").forward(request, response);//Se envia                
+    if(request.getSession().getAttribute("rol") == null)
+      if(request.getSession().getAttribute("rol") == null || !request.getSession().getAttribute("rol").equals("Administrador")){
+        request.setAttribute("seccion", "Administrador");
+        request.getRequestDispatcher("accesoDenegado.jsp").forward(request, response);//Se envia                
         return;
       }
     

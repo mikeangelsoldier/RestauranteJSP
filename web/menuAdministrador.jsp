@@ -42,7 +42,7 @@
                 Ver algo
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index_negocio.jsp">
+            <a class="dropdown-item" href="CerrarSesion">
                 <img src="css/imagenes/logout.png" height="15px">
                 Cerrar sesión
             </a>
