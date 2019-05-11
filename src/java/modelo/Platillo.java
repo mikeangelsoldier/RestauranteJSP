@@ -20,6 +20,7 @@ public class Platillo {
     private int status;
     
     private int idDetOrdenDePlatillo;/*Solo para saber en que detOrden esta el platillo*/
+    private int cantidadPlatillos;
 
     public Platillo(int id, InputStream imagen, String nombre, String descripcion, double precio, String categoria, double puntuacionTotal, int numeroPuntuaciones, int status) {
         this.id = id;
@@ -131,6 +132,14 @@ public class Platillo {
 
     public void setIdDetOrdenDePlatillo(int idDetOrdenDePlatillo) {
         this.idDetOrdenDePlatillo = idDetOrdenDePlatillo;
+    }
+
+    public int getCantidadPlatillos() {
+        return cantidadPlatillos;
+    }
+
+    public void setCantidadPlatillos(int cantidadPlatillos) {
+        this.cantidadPlatillos = cantidadPlatillos;
     }
     
     
