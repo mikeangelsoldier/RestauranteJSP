@@ -49,7 +49,18 @@
 
         <!-- h1> $ {usr.username} </h1-->
         <div class="container contMesas">
+            <%
+                Cliente cliente = (Cliente)request.getSession().getAttribute("usr");
+                if (cliente.getClientId() == 1) {
+            %>
+            <h2>Bienvenido</h2>
+            <%
+                } else {
+            %>
             <h2>Bienvenido ${usr.username}</h2>
+            <%
+                }
+            %>
             <h3>Elige tu mesa</h3>
 
             <%                GestorSesionServicioBD gestorServicio = new GestorSesionServicioBD();
