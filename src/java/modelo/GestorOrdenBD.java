@@ -81,7 +81,29 @@ public class GestorOrdenBD {
             return orden;
         }
     }
+    
+    
+    public int getIdUltimaOrdenPorIdSesion(int idSesion) {
 
+        int idDeUltimaOrden =0;
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getIdUltimaOrdenPorIdSesion(?);");
+            ps.setInt(1, idSesion);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                idDeUltimaOrden=rs.getInt(1);
+            }
+  
+            rs.close();
+            ps.close();
+            return idDeUltimaOrden;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return 0;
+        }
+    }
+    
     public int getOrdenNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
         int nextId = 0;

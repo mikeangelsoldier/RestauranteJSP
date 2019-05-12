@@ -881,6 +881,18 @@ call getOrdenesPorIdSesion(2);
 call getOrdenesPorIdSesion(3);
 */
 
+
+DROP PROCEDURE IF EXISTS getIdUltimaOrdenPorIdSesion;
+CREATE PROCEDURE getIdUltimaOrdenPorIdSesion(
+	claveSesion bigint
+)
+select max(orden.id) from orden where orden.fk_sesionservicio=claveSesion and orden.status=1;
+/*
+SELECT * FROM orden;
+call getIdUltimaOrdenPorIdSesion(1);
+*/
+
+
 DROP PROCEDURE IF EXISTS getOrdenesSolicitadasEnCocina;
 CREATE PROCEDURE getOrdenesSolicitadasEnCocina(
 )
