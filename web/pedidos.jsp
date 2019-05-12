@@ -280,12 +280,16 @@
                     </div>
                     < %}
                     % -->
+                    <%
+                        // GestorOrdenBD gestorOrden = new GestorOrdenBD();
+                        // Para validar el estado de la última orden para saber si habilitar boton de añadir o pagar
+                    %>
                     <div class="btn-agregar-orden">
                         <img src="css/imagenes/plus.png" height="30px">
                     </div>
                     <ul class="list-group" style="width: 100%">
                         <%
-                            GestorOrdenBD gestorOrden = new GestorOrdenBD();
+                            
                             int ultimoId = (int)request.getSession().getAttribute("idSesion_http");
                             System.out.println("ultimoId desde pedidos.jsp = " + ultimoId);
                             List <Orden> ordenes = gestorOrden.getOrdenesPorIdSesion(ultimoId);

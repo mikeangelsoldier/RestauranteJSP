@@ -20,7 +20,7 @@
               integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" 
               crossorigin="anonymous">
     </head>
-    <body>
+    <body class="seleccionMesas">
         <%
             GestorMeseroBD gestorMesero = new GestorMeseroBD();
             List<Mesero> meserosConMesas = gestorMesero.getMeserosYCantidadMesasAsignadas2();
@@ -53,16 +53,16 @@
                 Cliente cliente = (Cliente)request.getSession().getAttribute("usr");
                 if (cliente.getClientId() == 1) {
             %>
-            <h2>Bienvenido</h2>
+            <h1>¡Bienvenido!</h1>
             <%
                 } else {
             %>
-            <h2>Bienvenido ${usr.username}</h2>
+            <h2>¡Bienvenido ${usr.username}!</h2>
             <%
                 }
             %>
             <h3>Elige tu mesa</h3>
-
+            <div class="mesas">
             <%                GestorSesionServicioBD gestorServicio = new GestorSesionServicioBD();
                 List<SesionServicio> sesiones = gestorServicio.getMesasOcupadasEnSesionesActivas();
                 for (int i = 1; i <= 10; i++) {
@@ -75,23 +75,26 @@
                             mesaocupada = false;
                         }
                     }
+                    %>
+           
+                <%
                     if (!mesaocupada) {
-            %>
-            <div class="mesa mesaDisponible">
-                <a class="link-mesa" href="CrearSesionServicio?mesa=<%= i%>&idMesero=<%= idMeseroCantidato%>"><%= i%></a>
-            </div>
+                %>
+                <div class="mesa mesaDisponible">
+                    <a class="link-mesa" href="CrearSesionServicio?mesa=<%= i%>&idMesero=<%= idMeseroCantidato%>"><%= i%></a>
+                </div>
 
-            <%
-            } else {
-            %>
-            <div class="mesa mesaOcupada">
-                <a class="link-mesa" ><%= i%></a>
-            </div>
-
-            <%
+                <%
+                } else {
+                %>
+                <div class="mesa mesaOcupada">
+                    <a class="link-mesa" ><%= i%></a>
+                </div>
+                <%
+                        }
                     }
-                }
-            %>
+                %>
+            </div>
         </div>
     </body>
 </html>
