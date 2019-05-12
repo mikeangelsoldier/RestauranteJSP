@@ -14,8 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import modelo.Cliente;
+import modelo.GestorOrdenBD;
 import modelo.GestorSesionServicioBD;
+import modelo.Orden;
 import modelo.SesionServicio;
+import java.util.List;
 
 /**
  *
@@ -47,6 +50,7 @@ public class CrearSesionServicio extends HttpServlet {
                 idMesero = Integer.parseInt(request.getParameter("idMesero"));
             }
             
+            // Crea sesiones
             HttpSession session = request.getSession();
             session.setAttribute("sesionNoMesa", mesa);
             session.setAttribute("sesionIdMesero", idMesero);
@@ -61,7 +65,22 @@ public class CrearSesionServicio extends HttpServlet {
             sesionServicio.setFk_mesero(idMesero);
             sesionServicio.setNumMesa(mesa);
             
+            // Añade una sesión
             gestorServicio.addSesionServicio(sesionServicio);
+            
+            // Obtener la sesión con el último ID
+            int ultimoId = gestorServicio.getUltimoIdDeSesion();
+            
+            session.setAttribute("idSesion_http", ultimoId);
+            
+            //gestorServicio.getSesionPorID(ultimoId);
+            
+            GestorOrdenBD gestorOrden = new GestorOrdenBD();
+            Orden orden = new Orden();
+            orden.setFk_sesionServicio(ultimoId);
+            
+            // Añade una orden por defecto
+            gestorOrden.addNuevaOrden(orden);
             
             request.getRequestDispatcher("ListarPlatillosSesion").forward(request, response);
         }

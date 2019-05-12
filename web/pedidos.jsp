@@ -8,6 +8,7 @@
 <%@page import="modelo.*"%>
 <%@page import="java.util.Collection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -283,10 +284,20 @@
                         <img src="css/imagenes/plus.png" height="30px">
                     </div>
                     <ul class="list-group" style="width: 100%">
+                        <%
+                            GestorOrdenBD gestorOrden = new GestorOrdenBD();
+                            int ultimoId = (int)request.getSession().getAttribute("idSesion_http");
+                            System.out.println("ultimoId desde pedidos.jsp = " + ultimoId);
+                            List <Orden> ordenes = gestorOrden.getOrdenesPorIdSesion(ultimoId);
+                            System.out.println("ordenes size: " + ordenes.size());
+                            
+                            int numeroDeOrdenes = 1;
+                            for (Orden orden: ordenes) {
+                        %>
                         <li style="margin-bottom: 5px">
                             <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" 
                                role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-                                Orden 1
+                                Orden <%= numeroDeOrdenes %>
                             </a>
                         </li>
                         <li>
@@ -351,7 +362,10 @@
                             </div>
                         </li>
                         
-                        
+                        <%
+                            numeroDeOrdenes++;
+                            }
+                        %>
                     </ul>
                 </div>
                 <!--------------------- /MIS PEDIDOS ------------------------->

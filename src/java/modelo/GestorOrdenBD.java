@@ -224,7 +224,7 @@ public class GestorOrdenBD {
 
             }
             rs.close();
-            st.close();
+            //st.close();
             return listaOrdenesDeUnaSesion;
         } catch (Exception e) {
             e.printStackTrace();

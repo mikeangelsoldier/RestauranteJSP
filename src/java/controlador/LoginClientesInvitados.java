@@ -33,7 +33,7 @@ public class LoginClientesInvitados extends HttpServlet {
             
             HttpSession session = request.getSession();
             session.setAttribute("usr", user);
-            response.sendRedirect(request.getContextPath() + "/ListarPlatillosSesion");
+            response.sendRedirect(request.getContextPath() + "/seleccionMesa.jsp");
         }
     }
 }
