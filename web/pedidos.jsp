@@ -9,6 +9,10 @@
 <%@page import="java.util.Collection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
+<%
+    int ultimoIdHttpSesion = (int) request.getSession().getAttribute("idSesion_http");
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -281,31 +285,43 @@
                     < %}
                     % -->
                     <%
-                        // GestorOrdenBD gestorOrden = new GestorOrdenBD();
+                        GestorOrdenBD gestorOrden = new GestorOrdenBD();
+                        
                         // Para validar el estado de la última orden para saber si habilitar boton de añadir o pagar
+                        int idUltimaOrden = gestorOrden.getIdUltimaOrdenPorIdSesion(ultimoIdHttpSesion);
+                        Orden ultimaOrden = gestorOrden.getOrdenPorID(idUltimaOrden);
+                        if (!ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
                     %>
-                    <div class="btn-agregar-orden">
+                    <a class="btn-agregar-orden" href="RegistrarNuevaOrden?idSesionOrden=<%= ultimoIdHttpSesion %>">
                         <img src="css/imagenes/plus.png" height="30px">
-                    </div>
+                    </a>
+                    <%
+                        } else {
+                    %>
+                    <button class="btn-agregar-orden-deshabilitado" disabled>
+                        <img src="css/imagenes/plus.png" height="30px">
+                    </button>
+                    <%
+                        }
+                    %>
                     <ul class="list-group" style="width: 100%">
                         <%
-                            
-                            int ultimoId = (int)request.getSession().getAttribute("idSesion_http");
+                            int ultimoId = (int) request.getSession().getAttribute("idSesion_http");
                             System.out.println("ultimoId desde pedidos.jsp = " + ultimoId);
-                            List <Orden> ordenes = gestorOrden.getOrdenesPorIdSesion(ultimoId);
+                            List<Orden> ordenes = gestorOrden.getOrdenesPorIdSesion(ultimoId);
                             System.out.println("ordenes size: " + ordenes.size());
-                            
+
                             int numeroDeOrdenes = 1;
-                            for (Orden orden: ordenes) {
+                            for (Orden orden : ordenes) {
                         %>
                         <li style="margin-bottom: 5px">
-                            <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" 
-                               role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-                                Orden <%= numeroDeOrdenes %>
+                            <a class="btn btn-primary" data-toggle="collapse" href="#pedidoDesplegable<%= numeroDeOrdenes %>" 
+                               role="button" aria-expanded="false" aria-controls="pedidoDesplegable<%= numeroDeOrdenes %>">
+                                Orden <%= numeroDeOrdenes%>
                             </a>
                         </li>
                         <li>
-                            <div class="collapse multi-collapse" id="multiCollapseExample1" style="font-size: 13px">
+                            <div class="collapse multi-collapse" id="pedidoDesplegable<%= numeroDeOrdenes %>" style="font-size: 13px">
                                 <div class="card card-body" style="padding: 0px">
                                     <table class="table table-condensed">
                                         <thead class="thead-dark">
@@ -323,51 +339,57 @@
                                                 <td>2</td>
                                                 <td>$45</td>
                                                 <td>$90</td>
-                                                <td style="font-size: 15px">
+                                                <td style="font-size: 15px; padding: .25rem;">
                                                     <div>
                                                         <a href="" style="margin-right: 8px">
                                                             <i class="fas fa-eye" class="icon-view" style="color: #333;"></i> 
                                                         </a>
+                                                        <%
+                                                            if (orden.getEstadoOrden().equals("REGISTRADA")) {
+                                                        %>
                                                         <a href="">
                                                             <i class="fas fa-minus-circle" style="color: red"></i> 
                                                         </a>
+                                                        <%
+                                                            }
+                                                        %>
                                                     </div>
 
                                                 </td>
                                             </tr>
-                                            <tr style="background-color: white; font-size: 12px">
-                                                <td>Mamada</td>
-                                                <td>3</td>
-                                                <td>$10</td>
-                                                <td>$30</td>
-                                                <td style="font-size: 15px">
-                                                    <div>
-                                                        <a href="" style="margin-right: 8px">
-                                                            <i class="fas fa-eye" class="icon-view" style="color: #333;"></i> 
-                                                        </a>
-                                                        <a href="">
-                                                            <i class="fas fa-minus-circle" style="color: red"></i> 
-                                                        </a>
-                                                    </div>
 
-                                                </td>
-                                            </tr>
-                                            
                                             <tr style="background-color: white; font-size: 14px">
                                                 <td colspan="2"></td>
                                                 <td colspan="3" style="text-align: right; font-weight: 600">
                                                     Total: $120
                                                 </td>
                                             </tr>
+                                            <%
+                                                if (orden.getEstadoOrden().equals("REGISTRADA")) {
+                                            %>
+                                            <tr>
+                                                <td colspan="3"></td>
+                                                <td colspan="2" align="right">
+                                                    <button class="btn btn-sm btn-primary"
+                                                            style="width: 100%"
+                                                            data-toggle="modal" 
+                                                            data-target="#exampleModalCenter">
+                                                        Pedir
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <%
+                                                }
+                                            %>
                                         </tbody>
 
                                     </table>
                                 </div>
                             </div>
                         </li>
-                        
+
                         <%
-                            numeroDeOrdenes++;
+                                numeroDeOrdenes++;
                             }
                         %>
                     </ul>
@@ -410,11 +432,7 @@
                     <b>TOTAL A PAGAR: $525.00</b>
                 </div>
                 <div style="text-align: center; width: 100%; margin-top: 40px;">
-                    <button class="btn btn-lg btn-primary" 
-                            data-toggle="modal" 
-                            data-target="#exampleModalCenter">
-                        Pedir
-                    </button>
+
                     <button id="btnPagar" name="btnPagar" class="btn btn-lg btn-danger" disabled>Pagar</button>
                 </div>
             </div>

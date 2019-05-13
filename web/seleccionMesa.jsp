@@ -65,7 +65,7 @@
             <div class="mesas">
             <%                GestorSesionServicioBD gestorServicio = new GestorSesionServicioBD();
                 List<SesionServicio> sesiones = gestorServicio.getMesasOcupadasEnSesionesActivas();
-                for (int i = 1; i <= 10; i++) {
+                for (int i = 1; i <= 16; i++) {
                     boolean mesaocupada = false;
                     for (SesionServicio sesion : sesiones) {
                         if (i == sesion.getNumMesa()) {
