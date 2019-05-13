@@ -5,19 +5,23 @@ public class DetalleOrden {
     private int id;
     private int fk_orden;
     private int fk_platillo;
+    private int cantidad;
     private double puntajePlatillo;
     private int status;
 
     public DetalleOrden() {
     }
 
-    public DetalleOrden(int id, int fk_orden, int fk_platillo, double puntajePlatillo, int status) {
+    public DetalleOrden(int id, int fk_orden, int fk_platillo, int cantidad, double puntajePlatillo, int status) {
         this.id = id;
         this.fk_orden = fk_orden;
         this.fk_platillo = fk_platillo;
+        this.cantidad = cantidad;
         this.puntajePlatillo = puntajePlatillo;
         this.status = status;
     }
+
+    
 
     public int getId() {
         return id;
@@ -57,6 +61,14 @@ public class DetalleOrden {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
     
     

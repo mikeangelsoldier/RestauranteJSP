@@ -72,8 +72,9 @@ public class GestorDetalleOrdenBD {
                 detalleOrden.setId(rs.getInt(1));
                 detalleOrden.setFk_orden(rs.getInt(2));
                 detalleOrden.setFk_platillo(rs.getInt(3));
-                detalleOrden.setPuntajePlatillo(rs.getDouble(4));
-                detalleOrden.setStatus(rs.getInt(5));
+                detalleOrden.setCantidad(rs.getInt(4));
+                detalleOrden.setPuntajePlatillo(rs.getDouble(5));
+                detalleOrden.setStatus(rs.getInt(6));
                 listaDetallesDeUnaOrden.add(detalleOrden);
 
             }
@@ -110,9 +111,10 @@ public class GestorDetalleOrdenBD {
          de la instrucción SQL */
 
         try {
-            PreparedStatement st = conexion.prepareStatement("call insertarNuevoDetOrden (?, ?);");
+            PreparedStatement st = conexion.prepareStatement("call insertarNuevoDetOrden (?, ? , ?);");
             st.setInt(1, detalleOrden.getFk_orden());
             st.setInt(2, detalleOrden.getFk_platillo());
+            st.setInt(3, detalleOrden.getCantidad());
 
             st.execute();
             st.close();
