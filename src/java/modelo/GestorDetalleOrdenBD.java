@@ -79,7 +79,6 @@ public class GestorDetalleOrdenBD {
 
             }
             rs.close();
-            st.close();
             return listaDetallesDeUnaOrden;
         } catch (Exception e) {
             e.printStackTrace();

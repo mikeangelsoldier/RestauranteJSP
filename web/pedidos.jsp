@@ -11,6 +11,12 @@
 <%@page import="java.util.List"%>
 <%
     int ultimoIdHttpSesion = (int) request.getSession().getAttribute("idSesion_http");
+    
+    GestorOrdenBD gestorOrden = new GestorOrdenBD();
+                        
+    // Para validar el estado de la última orden para saber si habilitar boton de añadir o pagar
+    int idUltimaOrden = gestorOrden.getIdUltimaOrdenPorIdSesion(ultimoIdHttpSesion);
+    Orden ultimaOrden = gestorOrden.getOrdenPorID(idUltimaOrden);
 %>
 
 <!DOCTYPE html>
@@ -178,12 +184,18 @@
                                         }
                                     %>
                                 </div>
-                                <p class="card-text font-small"><%=desc%></p>                                
+                                <p class="card-text font-small"><%=desc%></p> 
+                                <%
+                                    if (ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
+                                %>
                                 <a class="btn btn-sm btn-dark btn-platillo-sesion"
                                    data-toggle="modal" 
                                    data-target="#modalAgregarPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
                                     Agregar
                                 </a>
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
 
@@ -193,7 +205,7 @@
                         <%@ page import="modelo.*" %>
                         <div class="modal fade" id="modalAgregarPlatillo<%=n%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
+                                <form action="RegistrarPlatilloAOrden" class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="exampleModalCenterTitle">
                                             <%= platillo.getNombre()%>
@@ -235,8 +247,10 @@
                                                 <td>
                                                     <div class="form-group cantidad">
                                                         <label><b>Cantidad: </b></label>
+                                                        <input type="hidden" name="idPlatillo" value="<%= platillo.getId() %>">
+                                                        <input type="hidden" name="idOrden" value="<%= idUltimaOrden %>">
                                                         <input type="number" class="form-control" style="width: 50%"
-                                                               value="1" min="1" max="5"> <br>
+                                                               value="1" min="1" max="5" name="cantidad"> <br>
 
                                                         <label><b>Precio: </b></label>
                                                         <label class="precio">$<%= platillo.getPrecio()%> </label>
@@ -254,9 +268,9 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-primary">Añadir</button>
+                                        <button type="sumbit" class="btn btn-primary">Añadir</button>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>        
 
@@ -285,11 +299,6 @@
                     < %}
                     % -->
                     <%
-                        GestorOrdenBD gestorOrden = new GestorOrdenBD();
-                        
-                        // Para validar el estado de la última orden para saber si habilitar boton de añadir o pagar
-                        int idUltimaOrden = gestorOrden.getIdUltimaOrdenPorIdSesion(ultimoIdHttpSesion);
-                        Orden ultimaOrden = gestorOrden.getOrdenPorID(idUltimaOrden);
                         if (!ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
                     %>
                     <a class="btn-agregar-orden" href="RegistrarNuevaOrden?idSesionOrden=<%= ultimoIdHttpSesion %>">
@@ -334,11 +343,24 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <% 
+                                                GestorDetalleOrdenBD gestorDetalleOrden = new GestorDetalleOrdenBD();
+                                                GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
+                                                
+                                                List<DetalleOrden> detalleOrdenes = gestorDetalleOrden.getDetallesDeUnaOrden(orden.getId());
+                                                
+                                                double totalPorOrden = 0;
+                                                
+                                                for (DetalleOrden detalleOrden: detalleOrdenes) {
+                                                    Platillo platillo = gestorPlatillo.getPlatillo(detalleOrden.getFk_platillo());
+                                                    double total = detalleOrden.getCantidad() * platillo.getPrecio();
+                                                    totalPorOrden += total;
+                                            %>
                                             <tr style="background-color: white; font-size: 12px">
-                                                <td>Chilaquiles</td>
-                                                <td>2</td>
-                                                <td>$45</td>
-                                                <td>$90</td>
+                                                <td><%= platillo.getNombre() %></td>
+                                                <td><%= detalleOrden.getCantidad() %></td>
+                                                <td><%= platillo.getPrecio() %></td>
+                                                <td><%= total %></td>
                                                 <td style="font-size: 15px; padding: .25rem;">
                                                     <div>
                                                         <a href="" style="margin-right: 8px">
@@ -347,7 +369,8 @@
                                                         <%
                                                             if (orden.getEstadoOrden().equals("REGISTRADA")) {
                                                         %>
-                                                        <a href="">
+                                                        <a href="EliminarPlatilloDeOrdenActual?idDetalleOrden=<%= detalleOrden.getId() %>"
+                                                           onclick="return confirm('¿Estás seguro de eliminar el platillo tu orden actual?');">
                                                             <i class="fas fa-minus-circle" style="color: red"></i> 
                                                         </a>
                                                         <%
@@ -357,11 +380,15 @@
 
                                                 </td>
                                             </tr>
+                                            
+                                            <%
+                                                }
+                                            %>
 
                                             <tr style="background-color: white; font-size: 14px">
                                                 <td colspan="2"></td>
                                                 <td colspan="3" style="text-align: right; font-weight: 600">
-                                                    Total: $120
+                                                    Total: $<%= totalPorOrden %>
                                                 </td>
                                             </tr>
                                             <%
@@ -396,38 +423,7 @@
                 </div>
                 <!--------------------- /MIS PEDIDOS ------------------------->
 
-                <!----------------------- FACTURA ----------------------------->
-                <!--div class="row" style="max-height: 300px; overflow-y: auto">
-                    <h3>Factura</h3>
-                    <table class="table table-borderless table-light table-striped contentTable" >
-                        <tr>
-                            <th style="background-color: orange; color: white">Nombre</th>
-                            <th style="background-color: orange; color: white">Cantidad</th>
-                            <th style="background-color: orange; color: white">Precio</th>
-                            <th style="background-color: orange; color: white">Total</th>
-                        </tr>
-                        <tr>
-                            <td>Chilaquiles</td>
-                            <td>3</td>
-                            <td>35.00</td>
-                            <td>105.00</td>
-                        </tr>
-                        <tr>
-                            <td>Pastel</td>
-                            <td>2</td>
-                            <td>150.00</td>
-                            <td>350.00</td>
-                        </tr>
-                        <tr>
-                            <td>Quesadillas</td>
-                            <td>7</td>
-                            <td>10.00</td>
-                            <td>70.00</td>
-                        </tr>
-                    </table>
-
-                    
-                </div-->
+                
                 <div style="width: 100%; text-align: right; margin-top: 15px; margin-left: -15px">
                     <b>TOTAL A PAGAR: $525.00</b>
                 </div>
@@ -441,7 +437,7 @@
         <!-- MODAL AGREGAR PRODUCTO -->
         <div class="modal fade" id="modalAgregarPlatillo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+                <form action="" method="post" class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="exampleModalCenterTitle">
                             Carne con papas 
@@ -467,8 +463,9 @@
                                 <td>
                                     <div class="form-group cantidad">
                                         <label><b>Cantidad: </b></label>
+                                        
                                         <input type="number" class="form-control" style="width: 50%"
-                                               value="1" min="1" max="5"> <br>
+                                               value="1" min="1" max="5" name="cantidad"> <br>
 
                                         <label><b>Precio: </b></label>
                                         <label class="precio">$150 </label>
@@ -487,9 +484,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Añadir</button>
+                        <button type="submit" class="btn btn-primary">Añadir</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
