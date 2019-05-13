@@ -116,6 +116,19 @@
     filter: brightness(110%);
 }
 
+.btn-agregar-orden-deshabilitado {
+    background-color: transparent;
+    border: none;
+    cursor: not-allowed;
+    position: absolute !important;
+    top: 30px;
+    right: 25px;
+}
+
+.btn-agregar-orden-deshabilitado {
+    filter: brightness(90%);
+}
+
 .icon-view {
     color: #333 !important;
 }
