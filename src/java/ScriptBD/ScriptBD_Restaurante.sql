@@ -913,6 +913,16 @@ SELECT * FROM orden;
 call getOrdenesSolicitadasEnCocina();
 */
 
+DROP PROCEDURE IF EXISTS getTopOrdenesSolicitadasEnCocina;
+CREATE PROCEDURE getTopOrdenesSolicitadasEnCocina(
+)
+select * from orden where (orden.estadoOrden='SOLICITADA' or orden.estadoOrden='PREPARANDO' ) 
+and orden.status=1 order by orden.id asc limit 10;
+/*
+SELECT * FROM orden;
+call getTopOrdenesSolicitadasEnCocina();
+*/
+
 DROP PROCEDURE IF EXISTS getOrdenNextId;
 CREATE PROCEDURE getOrdenNextId()
   SELECT AUTO_INCREMENT

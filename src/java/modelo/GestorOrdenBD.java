@@ -298,5 +298,35 @@ public class GestorOrdenBD {
             return null;
         }
     }
+    
+    public List<Orden> getTopOrdenesSolicitadasEnCocina() {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+        conexion = ConectaBD.obtenerConexion();
+        List<Orden> listaOrdenes = new ArrayList<>();
+
+        try {
+            st = conexion.createStatement();
+            rs = st.executeQuery("call getTopOrdenesSolicitadasEnCocina();");
+            while (rs.next()) {
+                Orden orden = new Orden();
+                orden.setId(rs.getInt(1));
+                orden.setFk_sesionServicio(rs.getInt(2));
+                orden.setEstadoOrden(rs.getString(3));
+                orden.setStatus(rs.getInt(4));
+
+                listaOrdenes.add(orden);
+
+            }
+            rs.close();
+            st.close();
+            conexion.close();
+            return listaOrdenes;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
 
 }
