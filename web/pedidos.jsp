@@ -291,13 +291,6 @@
                 <!--------------------- MIS PEDIDOS --------------------------->
                 <h3>Mis órdenes</h3>
                 <div class="row" style="width: 100%; max-height: 350px; overflow-y: auto; ">
-                    <!-- %
-                        for (int i = 0; i < 6; i++) {%>
-                    <div class="card col-sm-3 misPedidos">
-                        Pedido < %=i + 1%>
-                    </div>
-                    < %}
-                    % -->
                     <%
                         if (!ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
                     %>
@@ -308,7 +301,7 @@
                         } else {
                     %>
                     <button class="btn-agregar-orden-deshabilitado" disabled>
-                        <img src="css/imagenes/plus.png" height="30px">
+                        <img src="css/imagenes/plus-off.png" height="30px">
                     </button>
                     <%
                         }
@@ -321,6 +314,7 @@
                             System.out.println("ordenes size: " + ordenes.size());
 
                             int numeroDeOrdenes = 1;
+                            double totalFinal = 0;
                             for (Orden orden : ordenes) {
                         %>
                         <li style="margin-bottom: 5px">
@@ -328,6 +322,13 @@
                                role="button" aria-expanded="false" aria-controls="pedidoDesplegable<%= numeroDeOrdenes %>">
                                 Orden <%= numeroDeOrdenes%>
                             </a>
+                            <%
+                                if (orden.getEstadoOrden().equals("SOLICITADA")) {
+                            %>
+                            <img src="css/imagenes/check.png" height="25px">
+                            <%
+                                }
+                            %>
                         </li>
                         <li>
                             <div class="collapse multi-collapse" id="pedidoDesplegable<%= numeroDeOrdenes %>" style="font-size: 13px">
@@ -383,6 +384,8 @@
                                             
                                             <%
                                                 }
+                                                
+                                                totalFinal += totalPorOrden;
                                             %>
 
                                             <tr style="background-color: white; font-size: 14px">
@@ -392,7 +395,8 @@
                                                 </td>
                                             </tr>
                                             <%
-                                                if (orden.getEstadoOrden().equals("REGISTRADA")) {
+                                                if (orden.getEstadoOrden().equals("REGISTRADA") && 
+                                                    detalleOrdenes.size() > 0) {
                                             %>
                                             <tr>
                                                 <td colspan="3"></td>
@@ -425,7 +429,7 @@
 
                 
                 <div style="width: 100%; text-align: right; margin-top: 15px; margin-left: -15px">
-                    <b>TOTAL A PAGAR: $525.00</b>
+                    <b>TOTAL A PAGAR: $<%= totalFinal %></b>
                 </div>
                 <div style="text-align: center; width: 100%; margin-top: 40px;">
 
