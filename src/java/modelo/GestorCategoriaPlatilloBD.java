@@ -25,13 +25,13 @@ public class GestorCategoriaPlatilloBD {
     private Statement st;
 
     public GestorCategoriaPlatilloBD() {
-        conexion = ConectaBD.obtenerConexion();
+        //conexion = ConectaBD.obtenerConexion();
     }
 
     public List<CategoriaPlatillo> getCategoriasPlatillos() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<CategoriaPlatillo> listaCategoriasPlatillos = new ArrayList<>();
 
         try {
@@ -47,6 +47,7 @@ public class GestorCategoriaPlatilloBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaCategoriasPlatillos;
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,7 +58,7 @@ public class GestorCategoriaPlatilloBD {
 
     public CategoriaPlatillo getCategoriaPlatilloPorID(int id) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         CategoriaPlatillo categoriaPlatillo = new CategoriaPlatillo();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getCategoriaPlatilloPorId(?);");
@@ -69,6 +70,7 @@ public class GestorCategoriaPlatilloBD {
             categoriaPlatillo.setStatus(rs.getInt(3));
             rs.close();
             ps.close();
+            conexion.close();
             return categoriaPlatillo;
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,6 +81,7 @@ public class GestorCategoriaPlatilloBD {
 
     public int getCategoriaPlatilloNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
+        conexion = ConectaBD.obtenerConexion();
         int nextId = 0;
         try {
             st = conexion.createStatement();
@@ -87,6 +90,7 @@ public class GestorCategoriaPlatilloBD {
             nextId = rs.getInt(1);
             rs.close();
             st.close();
+            conexion.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -97,7 +101,7 @@ public class GestorCategoriaPlatilloBD {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
-
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement("call insertarCategoriaPlatillo(?);");
 
@@ -105,6 +109,7 @@ public class GestorCategoriaPlatilloBD {
 
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,6 +121,7 @@ public class GestorCategoriaPlatilloBD {
         /*Modifica un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updateCategoriaPlatillo(?,?);");
@@ -123,6 +129,7 @@ public class GestorCategoriaPlatilloBD {
             st.setString(2, categoriaPlatillo.getCategoria());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -132,12 +139,14 @@ public class GestorCategoriaPlatilloBD {
 
     public void deleteCategoriaPlatillo(int id) {
         /*Elimina un registro en la base de datos de acuerdo a su llave primaria */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call deleteCategoriaPlatillo(?);");
             st.setInt(1, id);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

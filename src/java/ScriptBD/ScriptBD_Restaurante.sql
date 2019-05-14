@@ -708,6 +708,16 @@ SELECT * FROM sesion_servicio;
 call getUltimoIdDeSesion();
 */
 
+ DROP PROCEDURE IF EXISTS getUltimoIdDeSesionDeUnCliente;
+CREATE PROCEDURE getUltimoIdDeSesionDeUnCliente(
+	idUsuario int
+)
+select max(id) from sesion_servicio where sesion_servicio.fk_cliente=idUsuario and status=1;
+/*
+SELECT * FROM sesion_servicio;
+call getUltimoIdDeSesionDeUnCliente(2);
+*/
+
 
  DROP PROCEDURE IF EXISTS getIdSesionDeUnaMesa;
 CREATE PROCEDURE getIdSesionDeUnaMesa(

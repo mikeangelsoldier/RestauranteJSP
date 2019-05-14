@@ -25,12 +25,12 @@ public class GestorMeseroBD {
     private Statement st;
 
     public GestorMeseroBD() {
-        conexion = ConectaBD.obtenerConexion();
+        //conexion = ConectaBD.obtenerConexion();
     }
 
     public Mesero getMeseroLogin(String username, String password) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         Mesero mesero = new Mesero();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getMeseroLogin(?,?);");
@@ -51,6 +51,7 @@ public class GestorMeseroBD {
 
             rs.close();
             ps.close();
+            conexion.close();
             return mesero;
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,7 +63,7 @@ public class GestorMeseroBD {
     public List<Mesero> getMeseros() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Mesero> listaMeseros = new ArrayList<>();
 
         try {
@@ -85,6 +86,7 @@ public class GestorMeseroBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaMeseros;
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,11 +94,11 @@ public class GestorMeseroBD {
             return null;
         }
     }
-    
+
     public List<Mesero> getMeserosYCantidadMesasAsignadas() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Mesero> listaMeseros = new ArrayList<>();
 
         try {
@@ -112,6 +114,7 @@ public class GestorMeseroBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaMeseros;
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,11 +122,11 @@ public class GestorMeseroBD {
             return null;
         }
     }
-    
+
     public List<Mesero> getMeserosYCantidadMesasAsignadas2() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Mesero> listaMeseros = new ArrayList<>();
 
         try {
@@ -139,6 +142,7 @@ public class GestorMeseroBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaMeseros;
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,11 +150,11 @@ public class GestorMeseroBD {
             return null;
         }
     }
-    
+
     public List<Integer> getMesasMesero(int idMesero) {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Integer> listaMesas = new ArrayList<>();
 
         try {
@@ -166,6 +170,7 @@ public class GestorMeseroBD {
             }
             rs.close();
             prest.close();
+            conexion.close();
             return listaMesas;
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,11 +178,10 @@ public class GestorMeseroBD {
             return null;
         }
     }
-    
 
     public Mesero getMesero(int id) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         Mesero mesero = new Mesero();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getMesero(?);");
@@ -196,6 +200,7 @@ public class GestorMeseroBD {
 
             rs.close();
             ps.close();
+            conexion.close();
             return mesero;
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,6 +211,7 @@ public class GestorMeseroBD {
 
     public int getMeseroNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
+        conexion = ConectaBD.obtenerConexion();
         int nextId = 0;
         try {
             st = conexion.createStatement();
@@ -214,6 +220,7 @@ public class GestorMeseroBD {
             nextId = rs.getInt(1);
             rs.close();
             st.close();
+            conexion.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -235,6 +242,7 @@ public class GestorMeseroBD {
 
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -246,6 +254,7 @@ public class GestorMeseroBD {
         /*Modifica un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updateMesero(?,?,?,?,?,?);");
@@ -257,6 +266,7 @@ public class GestorMeseroBD {
             st.setString(6, mesero.getPassword());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -266,12 +276,14 @@ public class GestorMeseroBD {
 
     public void deleteMesero(int id) {
         /*Elimina un registro en la base de datos de acuerdo a su llave primaria */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call deleteMesero(?);");
             st.setInt(1, id);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -282,7 +294,7 @@ public class GestorMeseroBD {
     public List<Mesero> getFiltroMesero(String filtro) {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Mesero> listaMeseros = new ArrayList<>();
 
         try {
@@ -309,6 +321,7 @@ public class GestorMeseroBD {
             }
             rs.close();
             prest.close();
+            conexion.close();
             return listaMeseros;
         } catch (Exception e) {
             e.printStackTrace();
@@ -320,7 +333,7 @@ public class GestorMeseroBD {
     public List<Object> getPuntajeDeMesero(int idMesero) {/*Arreglo, en posicion [0]=puntajeTotal, [1]=numPuntuaciones*/
  /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Object> listaPuntaje = new ArrayList<>();
 
         try {
@@ -339,6 +352,7 @@ public class GestorMeseroBD {
             }
             rs.close();
             prest.close();
+            conexion.close();
             return listaPuntaje;
         } catch (Exception e) {
             e.printStackTrace();
@@ -351,6 +365,7 @@ public class GestorMeseroBD {
         /*Modifica un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updatePuntajePlatillo(?,?,?);");
@@ -359,6 +374,7 @@ public class GestorMeseroBD {
             st.setInt(3, mesero.getNumPuntuaciones());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

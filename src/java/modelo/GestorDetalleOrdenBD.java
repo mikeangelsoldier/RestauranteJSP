@@ -25,13 +25,13 @@ public class GestorDetalleOrdenBD {
     private Statement st;
 
     public GestorDetalleOrdenBD() {
-        conexion = ConectaBD.obtenerConexion();
+        //conexion = ConectaBD.obtenerConexion();
     }
 
     public List<DetalleOrden> getDetallesOrdenes() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<DetalleOrden> listaDetallesOrdenes = new ArrayList<>();
 
         try {
@@ -50,6 +50,7 @@ public class GestorDetalleOrdenBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaDetallesOrdenes;
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +61,7 @@ public class GestorDetalleOrdenBD {
 
     public List<DetalleOrden> getDetallesDeUnaOrden(int idOrden) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         List<DetalleOrden> listaDetallesDeUnaOrden = new ArrayList<>();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getDetallesDeUnaOrden(?);");
@@ -79,7 +80,8 @@ public class GestorDetalleOrdenBD {
 
             }
             rs.close();
-            st.close();
+            ps.close();
+            conexion.close();
             return listaDetallesDeUnaOrden;
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,6 +93,7 @@ public class GestorDetalleOrdenBD {
 
     public int getDetOrdenNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
+        conexion = ConectaBD.obtenerConexion();
         int nextId = 0;
         try {
             st = conexion.createStatement();
@@ -99,6 +102,7 @@ public class GestorDetalleOrdenBD {
             nextId = rs.getInt(1);
             rs.close();
             st.close();
+            conexion.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -109,6 +113,7 @@ public class GestorDetalleOrdenBD {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
+        conexion = ConectaBD.obtenerConexion();
 
         try {
             PreparedStatement st = conexion.prepareStatement("call insertarNuevoDetOrden (?, ? , ?);");
@@ -118,6 +123,7 @@ public class GestorDetalleOrdenBD {
 
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,6 +135,7 @@ public class GestorDetalleOrdenBD {
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updatePuntajePlatilloEnDetOrden(?,?);");
@@ -136,6 +143,7 @@ public class GestorDetalleOrdenBD {
             st.setDouble(2, detalleOrden.getPuntajePlatillo());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -145,18 +153,19 @@ public class GestorDetalleOrdenBD {
 
     public void deleteDetOrden(int id) {
 //        Elimina un registro en la base de datos de acuerdo a su llave primaria 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call deleteDetOrden(?);");
             st.setInt(1, id);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
     }
-
 
 }

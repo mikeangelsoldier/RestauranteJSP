@@ -25,13 +25,13 @@ public class GestorCocinaBD {
     private Statement st;
 
     public GestorCocinaBD() {
-        conexion = ConectaBD.obtenerConexion();
+        //conexion = ConectaBD.obtenerConexion();
     }
-    
+
     public List<Cocina> getClaveAcceso() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Cocina> listaClaveCocina = new ArrayList<>();
 
         try {
@@ -47,6 +47,7 @@ public class GestorCocinaBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaClaveCocina;
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,18 +56,18 @@ public class GestorCocinaBD {
         }
     }
 
-
     public void addClaveAcceso(Cocina cocina) {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
-
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement("call crearClaveAcceso (?);");
             st.setString(1, cocina.getClaveAcceso());
 
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,12 +79,14 @@ public class GestorCocinaBD {
         /*Modifica un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updateClaveAcceso(?);");
             st.setString(1, claveAcceso);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,12 +96,14 @@ public class GestorCocinaBD {
 
     public void deleteClaveAcceso(int id) {
         /*Elimina un registro en la base de datos de acuerdo a su llave primaria */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call deleteClaveAcceso(?);");
             st.setInt(1, id);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

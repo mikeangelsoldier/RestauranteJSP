@@ -16,13 +16,13 @@ public class GestorClienteBD {
     private Statement st;
 
     public GestorClienteBD() {
-        conexion = ConectaBD.obtenerConexion();
+        //conexion = ConectaBD.obtenerConexion();
     }
 
     public List<Cliente> getClientes() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Cliente> listaCliente = new ArrayList<>();
 
         try {
@@ -43,6 +43,7 @@ public class GestorClienteBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaCliente;
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +56,7 @@ public class GestorClienteBD {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
-
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement("call insertarCliente (?, ?, ?, ?, ?, ?);");//
             st.setString(1, cliente.getName());
@@ -66,6 +67,7 @@ public class GestorClienteBD {
             st.setString(6, cliente.getType());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,7 +76,7 @@ public class GestorClienteBD {
 
     public Cliente getCliente(int id) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         Cliente cliente = new Cliente();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getCliente(?);");
@@ -91,6 +93,7 @@ public class GestorClienteBD {
             cliente.setStatus(rs.getInt(8));
             rs.close();
             ps.close();
+            conexion.close();
             return cliente;
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +104,7 @@ public class GestorClienteBD {
 
     public Cliente getClienteLogin(String username, String password) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         Cliente cliente = new Cliente();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getClienteLogin(?,?);");
@@ -120,6 +123,7 @@ public class GestorClienteBD {
 
             rs.close();
             ps.close();
+            conexion.close();
             return cliente;
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,6 +136,7 @@ public class GestorClienteBD {
         /*Modifica un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updateCliente(?,?,?,?,?,?);");
@@ -143,6 +148,7 @@ public class GestorClienteBD {
             st.setString(6, cliente.getPassword());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,12 +158,14 @@ public class GestorClienteBD {
 
     public void DeleteCliente(int id) {
         /*Elimina un registro en la base de datos de acuerdo a su llave primaria */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call deleteCliente(?);");
             st.setInt(1, id);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -167,6 +175,7 @@ public class GestorClienteBD {
 
     public int getClienteNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
+        conexion = ConectaBD.obtenerConexion();
         int nextId = 0;
         try {
             st = conexion.createStatement();
@@ -175,6 +184,7 @@ public class GestorClienteBD {
             nextId = rs.getInt(1);
             rs.close();
             st.close();
+            conexion.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -227,7 +237,7 @@ public class GestorClienteBD {
     public List<Cliente> getFiltroCliente(String filtro) {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Cliente> listaCliente = new ArrayList<>();
 
         try {
@@ -252,6 +262,7 @@ public class GestorClienteBD {
             }
             rs.close();
             prest.close();
+            conexion.close();
             return listaCliente;
         } catch (Exception e) {
             e.printStackTrace();

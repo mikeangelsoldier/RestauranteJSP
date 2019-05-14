@@ -25,12 +25,12 @@ public class GestorAdministradorBD {
     private Statement st;
 
     public GestorAdministradorBD() {
-        conexion = ConectaBD.obtenerConexion();
+        //conexion = ConectaBD.obtenerConexion();
     }
 
     public Administrador getAdministradorLogin(String username, String password) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         Administrador administrador = new Administrador();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getAdministradorLogin(?,?);");
@@ -38,16 +38,17 @@ public class GestorAdministradorBD {
             ps.setString(2, password);
 
             rs = ps.executeQuery();
-            if(rs.next()){
-            administrador.setId(rs.getInt(1));
-            administrador.setNombre(rs.getString(2));
-            administrador.setCorreo(rs.getString(3));
-            administrador.setUsuario(rs.getString(4));
-            administrador.setPassword(rs.getString(5));
-            administrador.setStatus(rs.getInt(6));
+            if (rs.next()) {
+                administrador.setId(rs.getInt(1));
+                administrador.setNombre(rs.getString(2));
+                administrador.setCorreo(rs.getString(3));
+                administrador.setUsuario(rs.getString(4));
+                administrador.setPassword(rs.getString(5));
+                administrador.setStatus(rs.getInt(6));
             }
             rs.close();
             ps.close();
+            conexion.close();
             return administrador;
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,7 +60,7 @@ public class GestorAdministradorBD {
     public List<Administrador> getAdministrador() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Administrador> listaAdministrador = new ArrayList<>();
 
         try {
@@ -79,6 +80,7 @@ public class GestorAdministradorBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaAdministrador;
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,7 +91,7 @@ public class GestorAdministradorBD {
 
     public Administrador getAdministrador(int id) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         Administrador administrador = new Administrador();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getAdministrador(?);");
@@ -105,6 +107,7 @@ public class GestorAdministradorBD {
 
             rs.close();
             ps.close();
+            conexion.close();
             return administrador;
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,6 +118,7 @@ public class GestorAdministradorBD {
 
     public int getAdministradorNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
+        conexion = ConectaBD.obtenerConexion();
         int nextId = 0;
         try {
             st = conexion.createStatement();
@@ -123,6 +127,7 @@ public class GestorAdministradorBD {
             nextId = rs.getInt(1);
             rs.close();
             st.close();
+            conexion.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -133,7 +138,7 @@ public class GestorAdministradorBD {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
-
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement("call insertarAdministrador(?, ?, ?, ?);");
             st.setString(1, administrador.getNombre());
@@ -143,6 +148,7 @@ public class GestorAdministradorBD {
 
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,6 +160,7 @@ public class GestorAdministradorBD {
         /*Modifica un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updateAdministrador(?,?,?,?,?);");
@@ -164,6 +171,7 @@ public class GestorAdministradorBD {
             st.setString(5, administrador.getPassword());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -173,12 +181,14 @@ public class GestorAdministradorBD {
 
     public void deleteAdministrador(int id) {
         /*Elimina un registro en la base de datos de acuerdo a su llave primaria */
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call deleteAdministrador(?);");
             st.setInt(1, id);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -189,7 +199,7 @@ public class GestorAdministradorBD {
     public List<Administrador> getFiltroAdministrador(String filtro) {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Administrador> listaAdministrador = new ArrayList<>();
 
         try {
@@ -213,6 +223,7 @@ public class GestorAdministradorBD {
             }
             rs.close();
             prest.close();
+            conexion.close();
             return listaAdministrador;
         } catch (Exception e) {
             e.printStackTrace();
@@ -221,4 +232,3 @@ public class GestorAdministradorBD {
         }
     }
 }
-

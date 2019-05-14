@@ -25,13 +25,13 @@ public class GestorOrdenBD {
     private Statement st;
 
     public GestorOrdenBD() {
-        conexion = ConectaBD.obtenerConexion();
+        //conexion = ConectaBD.obtenerConexion();
     }
 
     public List<Orden> getOrdenes() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Orden> listaOrdenes = new ArrayList<>();
 
         try {
@@ -49,6 +49,8 @@ public class GestorOrdenBD {
             }
             rs.close();
             st.close();
+            conexion.close();
+
             return listaOrdenes;
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,7 +61,7 @@ public class GestorOrdenBD {
 
     public Orden getOrdenPorID(int id) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         Orden orden = new Orden();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getOrdenPorId(?);");
@@ -67,13 +69,14 @@ public class GestorOrdenBD {
             rs = ps.executeQuery();
             rs.next();
 
-             orden.setId(rs.getInt(1));
-                orden.setFk_sesionServicio(rs.getInt(2));
-                orden.setEstadoOrden(rs.getString(3));
-                orden.setStatus(rs.getInt(4));
+            orden.setId(rs.getInt(1));
+            orden.setFk_sesionServicio(rs.getInt(2));
+            orden.setEstadoOrden(rs.getString(3));
+            orden.setStatus(rs.getInt(4));
 
             rs.close();
             ps.close();
+            conexion.close();
             return orden;
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,21 +84,21 @@ public class GestorOrdenBD {
             return orden;
         }
     }
-    
-    
-    public int getIdUltimaOrdenPorIdSesion(int idSesion) {
 
-        int idDeUltimaOrden =0;
+    public int getIdUltimaOrdenPorIdSesion(int idSesion) {
+        conexion = ConectaBD.obtenerConexion();
+        int idDeUltimaOrden = 0;
         try {
             PreparedStatement ps = conexion.prepareStatement("call getIdUltimaOrdenPorIdSesion(?);");
             ps.setInt(1, idSesion);
             rs = ps.executeQuery();
             while (rs.next()) {
-                idDeUltimaOrden=rs.getInt(1);
+                idDeUltimaOrden = rs.getInt(1);
             }
-  
+
             rs.close();
             ps.close();
+            conexion.close();
             return idDeUltimaOrden;
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,9 +106,10 @@ public class GestorOrdenBD {
             return 0;
         }
     }
-    
+
     public int getOrdenNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
+        conexion = ConectaBD.obtenerConexion();
         int nextId = 0;
         try {
             st = conexion.createStatement();
@@ -114,6 +118,7 @@ public class GestorOrdenBD {
             nextId = rs.getInt(1);
             rs.close();
             st.close();
+            conexion.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -124,121 +129,128 @@ public class GestorOrdenBD {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
-
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement("call insertarNuevaOrden(?);");
-            
+
             st.setInt(1, orden.getFk_sesionServicio());
 
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    
+
     public void indicarSolicitarOrden(int idOrdenASolicitar) {//Agregar y actualizar puntaje
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call indicarSolicitarOrden(?);");
             st.setInt(1, idOrdenASolicitar);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
     }
-    
+
     public void indicarOrdenEnPreparacion(int idOrdenASolicitar) {//Agregar y actualizar puntaje
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call indicarOrdenEnPreparacion(?);");
             st.setInt(1, idOrdenASolicitar);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
     }
-    
-    
-            
-            
+
     public void indicarOrdenPreparada(int idOrdenPreparada) {//Agregar y actualizar puntaje
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call indicarOrdenPreparada(?);");
             st.setInt(1, idOrdenPreparada);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
     }
-    
+
     public void indicarOrdenEntregada(int idOrdenEntregada) {//Agregar y actualizar puntaje
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call indicarOrdenEntregada(?);");
             st.setInt(1, idOrdenEntregada);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
     }
-    
+
     public void deleteOrden(int id) {
 //        Elimina un registro en la base de datos de acuerdo a su llave primaria 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call deleteOrden(?);");
             st.setInt(1, id);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
     }
-    
-    
+
     public List<Orden> getOrdenesPorIdSesion(int idSesion) {
         ///Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria 
-
+        conexion = ConectaBD.obtenerConexion();
         List<Orden> listaOrdenesDeUnaSesion = new ArrayList<>();
 
         try {
             PreparedStatement ps = conexion.prepareStatement("call getOrdenesPorIdSesion(?);");
             ps.setInt(1, idSesion);
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 Orden orden = new Orden();
-                 orden.setId(rs.getInt(1));
+                orden.setId(rs.getInt(1));
                 orden.setFk_sesionServicio(rs.getInt(2));
                 orden.setEstadoOrden(rs.getString(3));
                 orden.setStatus(rs.getInt(4));
@@ -246,6 +258,8 @@ public class GestorOrdenBD {
 
             }
             rs.close();
+            ps.close();
+            conexion.close();
             //st.close();
             return listaOrdenesDeUnaSesion;
         } catch (Exception e) {
@@ -254,11 +268,11 @@ public class GestorOrdenBD {
             return null;
         }
     }
-    
+
     public List<Orden> getOrdenesSolicitadasEnCocina() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<Orden> listaOrdenes = new ArrayList<>();
 
         try {
@@ -276,6 +290,7 @@ public class GestorOrdenBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaOrdenes;
         } catch (Exception e) {
             e.printStackTrace();

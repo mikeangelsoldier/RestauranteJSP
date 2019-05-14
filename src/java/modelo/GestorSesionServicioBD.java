@@ -25,12 +25,13 @@ public class GestorSesionServicioBD {
     private Statement st;
 
     public GestorSesionServicioBD() {
-        conexion = ConectaBD.obtenerConexion();
+
     }
 
     public List<SesionServicio> getSesiones() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
+        conexion = ConectaBD.obtenerConexion();
 
         List<SesionServicio> listaSesiones = new ArrayList<>();
 
@@ -53,29 +54,60 @@ public class GestorSesionServicioBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaSesiones;
         } catch (Exception e) {
             e.printStackTrace();
 
             return null;
+
         }
+
     }
-    
+
     public int getUltimoIdDeSesion() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
-        int id =0;
+        conexion = ConectaBD.obtenerConexion();
+        int id = 0;
 
         try {
             st = conexion.createStatement();
             rs = st.executeQuery("call getUltimoIdDeSesion();");
             while (rs.next()) {
-                
-                id=rs.getInt(1);
+
+                id = rs.getInt(1);
             }
             rs.close();
             st.close();
+            conexion.close();
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return 0;
+        }
+
+    }
+
+    public int getUltimoIdDeSesionDeUnCliente(int idCliente) {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+        conexion = ConectaBD.obtenerConexion();
+        int id = 0;
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getUltimoIdDeSesionDeUnCliente(?);");
+            ps.setInt(1, idCliente);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                id = rs.getInt(1);
+            }
+            rs.close();
+            ps.close();
+            conexion.close();
             return id;
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,12 +115,11 @@ public class GestorSesionServicioBD {
             return 0;
         }
     }
-    
-    
+
     public List<SesionServicio> getMesasOcupadasEnSesionesActivas() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
-
+        conexion = ConectaBD.obtenerConexion();
         List<SesionServicio> listaSesiones = new ArrayList<>();
 
         try {
@@ -103,6 +134,7 @@ public class GestorSesionServicioBD {
             }
             rs.close();
             st.close();
+            conexion.close();
             return listaSesiones;
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,7 +145,7 @@ public class GestorSesionServicioBD {
 
     public SesionServicio getSesionPorID(int id) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         SesionServicio sesionServicio = new SesionServicio();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getSesionPorId(?);");
@@ -131,6 +163,7 @@ public class GestorSesionServicioBD {
             sesionServicio.setStatus(rs.getInt(9));
             rs.close();
             ps.close();
+            conexion.close();
             return sesionServicio;
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,17 +172,16 @@ public class GestorSesionServicioBD {
         }
     }
 
-    
     public SesionServicio getIdSesionDeUnaMesa(int numMesa) {
         /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
-
+        conexion = ConectaBD.obtenerConexion();
         SesionServicio sesionServicio = new SesionServicio();
         try {
             PreparedStatement ps = conexion.prepareStatement("call getIdSesionDeUnaMesa(?);");
             ps.setInt(1, numMesa);
             rs = ps.executeQuery();
             rs.next();
-            
+
             sesionServicio.setId(rs.getInt(1));
             sesionServicio.setFk_cliente(rs.getInt(2));
             sesionServicio.setFk_mesero(rs.getInt(3));
@@ -159,9 +191,10 @@ public class GestorSesionServicioBD {
             sesionServicio.setTipoPago(rs.getString(7));
             sesionServicio.setEstadoSesion(rs.getInt(8));
             sesionServicio.setStatus(rs.getInt(9));
-            
+
             rs.close();
             ps.close();
+            conexion.close();
             return sesionServicio;
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,10 +202,10 @@ public class GestorSesionServicioBD {
             return sesionServicio;
         }
     }
-    
-    
+
     public int getSesionNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
+        conexion = ConectaBD.obtenerConexion();
         int nextId = 0;
         try {
             st = conexion.createStatement();
@@ -181,6 +214,7 @@ public class GestorSesionServicioBD {
             nextId = rs.getInt(1);
             rs.close();
             st.close();
+            conexion.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -191,7 +225,7 @@ public class GestorSesionServicioBD {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
-
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement("call insertarNuevaSesion (?, ?, ?);");
             st.setInt(1, sesionServicio.getFk_cliente());
@@ -200,6 +234,7 @@ public class GestorSesionServicioBD {
 
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,6 +246,7 @@ public class GestorSesionServicioBD {
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updatePuntajeMeseroSesion(?,?);");
@@ -218,6 +254,7 @@ public class GestorSesionServicioBD {
             st.setDouble(2, sesionServicio.getPuntajeMeseroServicio());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -229,23 +266,26 @@ public class GestorSesionServicioBD {
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call colocarSesionComoInactiva(?);");
             st.setInt(1, sesionServicio.getId());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
     }
-    
+
     public void updateTotalVentaYTipoPagoSesion(SesionServicio sesionServicio) {
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
 //         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call updateTotalVentaYTipoPagoSesion(?,?,?);");
@@ -254,6 +294,7 @@ public class GestorSesionServicioBD {
             st.setString(3, sesionServicio.getTipoPago());
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -263,12 +304,14 @@ public class GestorSesionServicioBD {
 
     public void deleteSesion(int id) {
 //        Elimina un registro en la base de datos de acuerdo a su llave primaria 
+        conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
                     "call deleteSesion(?);");
             st.setInt(1, id);
             st.execute();
             st.close();
+            conexion.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -278,14 +321,14 @@ public class GestorSesionServicioBD {
 
     public List<SesionServicio> calcularTotalPorOrdenEnVentaDeUnaSesion(int id) {
         ///Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria 
-
+        conexion = ConectaBD.obtenerConexion();
         List<SesionServicio> listaSesionesTotalPorOrden = new ArrayList<>();
 
         try {
             PreparedStatement ps = conexion.prepareStatement("call calcularTotalPorOrdenEnVentaDeUnaSesion(?);");
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 SesionServicio sesionServicio = new SesionServicio();
                 sesionServicio.setId(rs.getInt(1));
@@ -303,7 +346,8 @@ public class GestorSesionServicioBD {
 
             }
             rs.close();
-            st.close();
+            ps.close();
+            conexion.close();
             return listaSesionesTotalPorOrden;
         } catch (Exception e) {
             e.printStackTrace();
@@ -314,14 +358,14 @@ public class GestorSesionServicioBD {
 
     public List<SesionServicio> calcularTotalGeneralEnVentaDeUnaSesion(int id) {
         ///Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria 
-
+        conexion = ConectaBD.obtenerConexion();
         List<SesionServicio> listaSesionesTotalPorOrden = new ArrayList<>();
 
         try {
             PreparedStatement ps = conexion.prepareStatement("call calcularTotalGeneralEnVentaDeUnaSesion(?);");
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 SesionServicio sesionServicio = new SesionServicio();
                 sesionServicio.setId(rs.getInt(1));
@@ -337,7 +381,8 @@ public class GestorSesionServicioBD {
 
             }
             rs.close();
-            st.close();
+            ps.close();
+            conexion.close();
             return listaSesionesTotalPorOrden;
         } catch (Exception e) {
             e.printStackTrace();
@@ -345,7 +390,5 @@ public class GestorSesionServicioBD {
             return null;
         }
     }
-    
-    
 
 }
