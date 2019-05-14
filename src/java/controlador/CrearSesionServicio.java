@@ -69,7 +69,8 @@ public class CrearSesionServicio extends HttpServlet {
             gestorServicio.addSesionServicio(sesionServicio);
             
             // Obtener la sesión con el último ID
-            int ultimoId = gestorServicio.getUltimoIdDeSesion();
+            //int ultimoId = gestorServicio.getUltimoIdDeSesion();
+            int ultimoId = gestorServicio.getUltimoIdDeSesionDeUnCliente(cliente.getClientId());
             
             session.setAttribute("idSesion_http", ultimoId);
             
