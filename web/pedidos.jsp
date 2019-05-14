@@ -11,9 +11,9 @@
 <%@page import="java.util.List"%>
 <%
     int ultimoIdHttpSesion = (int) request.getSession().getAttribute("idSesion_http");
-    
+
     GestorOrdenBD gestorOrden = new GestorOrdenBD();
-                        
+
     // Para validar el estado de la última orden para saber si habilitar boton de añadir o pagar
     int idUltimaOrden = gestorOrden.getIdUltimaOrdenPorIdSesion(ultimoIdHttpSesion);
     Orden ultimaOrden = gestorOrden.getOrdenPorID(idUltimaOrden);
@@ -247,8 +247,8 @@
                                                 <td>
                                                     <div class="form-group cantidad">
                                                         <label><b>Cantidad: </b></label>
-                                                        <input type="hidden" name="idPlatillo" value="<%= platillo.getId() %>">
-                                                        <input type="hidden" name="idOrden" value="<%= idUltimaOrden %>">
+                                                        <input type="hidden" name="idPlatillo" value="<%= platillo.getId()%>">
+                                                        <input type="hidden" name="idOrden" value="<%= idUltimaOrden%>">
                                                         <input type="number" class="form-control" style="width: 50%"
                                                                value="1" min="1" max="5" name="cantidad"> <br>
 
@@ -294,11 +294,11 @@
                     <%
                         if (!ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
                     %>
-                    <a class="btn-agregar-orden" href="RegistrarNuevaOrden?idSesionOrden=<%= ultimoIdHttpSesion %>">
+                    <a class="btn-agregar-orden" href="RegistrarNuevaOrden?idSesionOrden=<%= ultimoIdHttpSesion%>">
                         <img src="css/imagenes/plus.png" height="30px">
                     </a>
                     <%
-                        } else {
+                    } else {
                     %>
                     <button class="btn-agregar-orden-deshabilitado" disabled>
                         <img src="css/imagenes/plus-off.png" height="30px">
@@ -315,11 +315,12 @@
 
                             int numeroDeOrdenes = 1;
                             double totalFinal = 0;
+                            int numeroDetalleOrden = 1;
                             for (Orden orden : ordenes) {
                         %>
                         <li style="margin-bottom: 5px">
-                            <a class="btn btn-primary" data-toggle="collapse" href="#pedidoDesplegable<%= numeroDeOrdenes %>" 
-                               role="button" aria-expanded="false" aria-controls="pedidoDesplegable<%= numeroDeOrdenes %>">
+                            <a class="btn btn-primary" data-toggle="collapse" href="#pedidoDesplegable<%= numeroDeOrdenes%>" 
+                               role="button" aria-expanded="false" aria-controls="pedidoDesplegable<%= numeroDeOrdenes%>">
                                 Orden <%= numeroDeOrdenes%>
                             </a>
                             <%
@@ -331,7 +332,7 @@
                             %>
                         </li>
                         <li>
-                            <div class="collapse multi-collapse" id="pedidoDesplegable<%= numeroDeOrdenes %>" style="font-size: 13px">
+                            <div class="collapse multi-collapse" id="pedidoDesplegable<%= numeroDeOrdenes%>" style="font-size: 13px">
                                 <div class="card card-body" style="padding: 0px">
                                     <table class="table table-condensed">
                                         <thead class="thead-dark">
@@ -344,33 +345,34 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% 
+                                            <%
                                                 GestorDetalleOrdenBD gestorDetalleOrden = new GestorDetalleOrdenBD();
                                                 GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
-                                                
+
                                                 List<DetalleOrden> detalleOrdenes = gestorDetalleOrden.getDetallesDeUnaOrden(orden.getId());
-                                                
+
                                                 double totalPorOrden = 0;
-                                                
-                                                for (DetalleOrden detalleOrden: detalleOrdenes) {
+
+                                                for (DetalleOrden detalleOrden : detalleOrdenes) {
                                                     Platillo platillo = gestorPlatillo.getPlatillo(detalleOrden.getFk_platillo());
                                                     double total = detalleOrden.getCantidad() * platillo.getPrecio();
                                                     totalPorOrden += total;
                                             %>
                                             <tr style="background-color: white; font-size: 12px">
-                                                <td><%= platillo.getNombre() %></td>
-                                                <td><%= detalleOrden.getCantidad() %></td>
-                                                <td><%= platillo.getPrecio() %></td>
-                                                <td><%= total %></td>
+                                                <td><%= platillo.getNombre()%></td>
+                                                <td><%= detalleOrden.getCantidad()%></td>
+                                                <td><%= platillo.getPrecio()%></td>
+                                                <td><%= total%></td>
                                                 <td style="font-size: 15px; padding: .25rem;">
                                                     <div>
-                                                        <a href="" style="margin-right: 8px">
+                                                        <a data-toggle="modal" style="cursor: pointer"
+                                                           data-target="#modalVerPlatilloOrden<%=numeroDetalleOrden%>">
                                                             <i class="fas fa-eye" class="icon-view" style="color: #333;"></i> 
                                                         </a>
                                                         <%
                                                             if (orden.getEstadoOrden().equals("REGISTRADA")) {
                                                         %>
-                                                        <a href="EliminarPlatilloDeOrdenActual?idDetalleOrden=<%= detalleOrden.getId() %>"
+                                                        <a href="EliminarPlatilloDeOrdenActual?idDetalleOrden=<%= detalleOrden.getId()%>"
                                                            onclick="return confirm('¿Estás seguro de eliminar el platillo tu orden actual?');">
                                                             <i class="fas fa-minus-circle" style="color: red"></i> 
                                                         </a>
@@ -381,37 +383,94 @@
 
                                                 </td>
                                             </tr>
-                                            
-                                            <%
-                                                }
-                                                
-                                                totalFinal += totalPorOrden;
-                                            %>
 
-                                            <tr style="background-color: white; font-size: 14px">
-                                                <td colspan="2"></td>
-                                                <td colspan="3" style="text-align: right; font-weight: 600">
-                                                    Total: $<%= totalPorOrden %>
-                                                </td>
-                                            </tr>
-                                            <%
-                                                if (orden.getEstadoOrden().equals("REGISTRADA") && 
-                                                    detalleOrdenes.size() > 0) {
-                                            %>
-                                            <tr>
-                                                <td colspan="3"></td>
-                                                <td colspan="2" align="right">
-                                                    <button class="btn btn-sm btn-primary"
-                                                            style="width: 100%"
-                                                            data-toggle="modal" 
-                                                            data-target="#exampleModalCenter">
-                                                        Pedir
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <%
-                                                }
-                                            %>
+                                            <!-- Modal ver imagen -->
+                                        <div class="modal fade" id="modalVerPlatilloOrden<%=numeroDetalleOrden%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="exampleModalCenterTitle">
+                                                            <%= platillo.getNombre()%>
+                                                        </h4>
+                                                        <div style="margin: 5px 0px 0px 10px">
+                                                            <%
+                                                                int puntuacion = (int) platillo.getPuntuacionTotal();
+                                                                boolean tieneDecimal = false;
+                                                                for (int i = 0; i < puntuacion; i++) {
+                                                            %>
+                                                            <img src="css/imagenes/star.png" height="20px" style="display: inline">
+                                                            <%
+                                                                }
+                                                            %>
+                                                            <%
+                                                                if (platillo.getPuntuacionTotal() % 1 != 0) {
+                                                                    tieneDecimal = true;
+                                                            %>
+                                                            <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
+                                                            <%
+                                                                }
+                                                            %>
+                                                            <%
+                                                                int estrellasGrises = 0;
+                                                                if (tieneDecimal) {
+                                                                    estrellasGrises = 5 - puntuacion - 1;
+                                                                } else {
+                                                                    estrellasGrises = 5 - puntuacion;
+                                                                }
+                                                                for (int i = 0; i < estrellasGrises; i++) {
+                                                            %>
+                                                            <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </div>
+
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" style="padding: 0px">
+                                                        <img src="ObtenerImagenes?id=<%= platillo.getId()%>" width="498" height="310">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+
+                                        <%
+                                                numeroDetalleOrden++;
+                                            }
+
+                                            totalFinal += totalPorOrden;
+                                        %>
+
+                                        <tr style="background-color: white; font-size: 14px">
+                                            <td colspan="2"></td>
+                                            <td colspan="3" style="text-align: right; font-weight: 600">
+                                                Total: $<%= totalPorOrden%>
+                                            </td>
+                                        </tr>
+                                        <%
+                                            if (orden.getEstadoOrden().equals("REGISTRADA")
+                                                    && detalleOrdenes.size() > 0) {
+                                        %>
+                                        <tr>
+                                            <td colspan="3"></td>
+                                            <td colspan="2" align="right">
+                                                <button class="btn btn-sm btn-primary"
+                                                        style="width: 100%"
+                                                        data-toggle="modal" 
+                                                        data-target="#exampleModalCenter">
+                                                    Pedir
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <%
+                                            }
+                                        %>
                                         </tbody>
 
                                     </table>
@@ -427,9 +486,9 @@
                 </div>
                 <!--------------------- /MIS PEDIDOS ------------------------->
 
-                
+
                 <div style="width: 100%; text-align: right; margin-top: 15px; margin-left: -15px">
-                    <b>TOTAL A PAGAR: $<%= totalFinal %></b>
+                    <b>TOTAL A PAGAR: $<%= totalFinal%></b>
                 </div>
                 <div style="text-align: center; width: 100%; margin-top: 40px;">
 
@@ -467,7 +526,7 @@
                                 <td>
                                     <div class="form-group cantidad">
                                         <label><b>Cantidad: </b></label>
-                                        
+
                                         <input type="number" class="form-control" style="width: 50%"
                                                value="1" min="1" max="5" name="cantidad"> <br>
 
@@ -493,6 +552,8 @@
                 </form>
             </div>
         </div>
+
+
 
         <script>
             var header = document.getElementById("menuCliente");
