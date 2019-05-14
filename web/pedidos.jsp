@@ -64,7 +64,10 @@
                 </nav>
                 <!-- Categorías -->
                 <div id="menuCliente" class="nav flex-column menuI" >
-                    <a class="nav-link item"
+                    <%
+                        String filterParameter = request.getParameter("filter");
+                    %>
+                    <a class="nav-link item <% if (filterParameter == null) out.print("active"); %>"
                        href="ListarPlatillosSesion">Todos</a>
                     <a class="nav-link item"
                        href="ListarPlatillosSesion">Platillos del día</a>
@@ -294,7 +297,8 @@
                     <%
                         if (!ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
                     %>
-                    <a class="btn-agregar-orden" href="RegistrarNuevaOrden?idSesionOrden=<%= ultimoIdHttpSesion%>">
+                    <a class="btn-agregar-orden" href="RegistrarNuevaOrden?idSesionOrden=<%= ultimoIdHttpSesion%>"
+                       onclick="return confirm('¿Seguro que deseas iniciar una nueva orden? \nUna vez iniciada la orden debes inidicar al menos un platillo para pedirla en cocina');">
                         <img src="css/imagenes/plus.png" height="30px">
                     </a>
                     <%
@@ -316,7 +320,14 @@
                             int numeroDeOrdenes = 1;
                             double totalFinal = 0;
                             int numeroDetalleOrden = 1;
+                            
+                            boolean todasLasOrdenesEntregas = true;
+                            
                             for (Orden orden : ordenes) {
+                                if(!orden.getEstadoOrden().equals("ENTREGADA")){
+                                    todasLasOrdenesEntregas = false;
+                                }
+
                         %>
                         <li style="margin-bottom: 5px">
                             <a class="btn btn-primary" data-toggle="collapse" href="#pedidoDesplegable<%= numeroDeOrdenes%>" 
@@ -324,7 +335,7 @@
                                 Orden <%= numeroDeOrdenes%>
                             </a>
                             <%
-                                if (orden.getEstadoOrden().equals("SOLICITADA")) {
+                                if (!orden.getEstadoOrden().equals("REGISTRADA")) {
                             %>
                             <img src="css/imagenes/check.png" height="25px">
                             <%
@@ -460,12 +471,14 @@
                                         <tr>
                                             <td colspan="3"></td>
                                             <td colspan="2" align="right">
-                                                <button class="btn btn-sm btn-primary"
-                                                        style="width: 100%"
-                                                        data-toggle="modal" 
-                                                        data-target="#exampleModalCenter">
+                                                <a class="btn btn-sm btn-primary"
+                                                    style="width: 100%"
+                                                    href="SolicitarOrden?idOrden=<%= orden.getId() %>"
+                                                    onclick="return confirm('Tu orden será preparada en cocina. \nUna vez pedida, no se podrá cancelar tu orden. \n¿Deseas continuar?');">
                                                     Pedir
-                                                </button>
+                                                </a>
+                                                <!-- data-toggle="modal" 
+                                                    data-target="#exampleModalCenter">-->
                                             </td>
                                         </tr>
                                         <%
@@ -491,8 +504,17 @@
                     <b>TOTAL A PAGAR: $<%= totalFinal%></b>
                 </div>
                 <div style="text-align: center; width: 100%; margin-top: 40px;">
-
+                    <%
+                        if (todasLasOrdenesEntregas) {
+                    %>
+                    <button name="btnPagar" class="btn btn-lg btn-danger">Pagar</button>
+                    <%
+                        } else {      
+                    %>
                     <button id="btnPagar" name="btnPagar" class="btn btn-lg btn-danger" disabled>Pagar</button>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </div>
