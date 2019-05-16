@@ -50,7 +50,7 @@ public class LoginCocina extends HttpServlet {
             }
             
             if (clavePost.equals(claveAcceso)) {
-                request.getRequestDispatcher("/cocina.jsp").forward(request, response);
+                request.getRequestDispatcher("/listarPlatillosPorOrdenEnCocina").forward(request, response);
             } else {
                 request.setAttribute("resClave", "¡Error, clave incorrecta!");
                 request.getRequestDispatcher("/loginCocinero.jsp").forward(request, response);

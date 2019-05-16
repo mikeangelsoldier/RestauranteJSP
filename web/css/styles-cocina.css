@@ -10,6 +10,8 @@ html, body {
 }
 
 .content-2 {
+    border: 1px solid #ccc;
+    border-radius: 4px;
     overflow-y: auto;
     max-height: 420px;
     margin-left: 30px;
