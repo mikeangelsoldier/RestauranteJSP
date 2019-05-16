@@ -32,10 +32,10 @@
       </div> 
 
       <div class="card-body">
-        <%@ page import="controlador.ListarPlatillos" %>
+        <%@ page import="controlador.LoginAdministrador" %>
         <h5 class="card-title" style="color: snow; text-align: center"> 
           Introduce tu contraseña</h5>
-        <form action="ValidarLogin" method="post" id="formLoginAdmin"> <!---->
+        <form action="LoginAdministrador" method="post" id="formLoginAdmin"> <!---->
           <table cellspacing="3" cellpadding="3" class="form-login">
             <tr>
               <td><input class="form-control" type="text" id="password"

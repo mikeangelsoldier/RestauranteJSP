@@ -25,11 +25,16 @@
     <body style="background-color: #ddd">
       
       
-      
+      <% String seccion = request.getAttribute("seccion").toString(); %>
     
         <jsp:include page="menuAdministrador.jsp" />
         
-        <jsp:include page="seccionPlatillos.jsp" />
+        <% if(seccion.equals("clientes")){ %>
+        <jsp:include page="seccionClientes.jsp" />
+        <% } else if(seccion.equals("platillos")){%>
+          <jsp:include page="seccionPlatillos.jsp" />
+        <% }%>
+        
         
         <script>
             var header = document.getElementById("menuCliente");
@@ -43,7 +48,7 @@
                     this.className += " active";
                 });
             }
-            
+          
             
         </script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.CategoriaPlatillo;
+import modelo.Cliente;
 import modelo.GestorCategoriaPlatilloBD;
+import modelo.GestorClienteBD;
 import modelo.GestorPlatilloBD;
 import modelo.Platillo;
 
@@ -23,8 +25,8 @@ import modelo.Platillo;
  *
  * @author Personal
  */
-@WebServlet(name = "ListarPlatillos", urlPatterns = {"/ListarPlatillos"})
-public class ListarPlatillos extends HttpServlet {
+@WebServlet(name = "ListarClientes", urlPatterns = {"/ListarClientes"})
+public class ListarClientes extends HttpServlet {
 
   protected void service(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
@@ -34,44 +36,32 @@ public class ListarPlatillos extends HttpServlet {
         request.setAttribute("seccion", "Administrador");
         request.getRequestDispatcher("accesoDenegado.jsp").forward(request, response);//Se envia                
         return;
-    }
+      }
     
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
     try {
       
-      
-      Collection<Platillo> platillos = new ArrayList<Platillo>();
-      Collection<CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
-      GestorPlatilloBD gestorPlatilloBD = new GestorPlatilloBD();
-      GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
-
-      // Para los filtros
-      String filter = null;
+      GestorClienteBD gestor = new GestorClienteBD();
+      Collection<Cliente> clientes = new ArrayList<>();
 
       // Filtro por nombre
       if (request.getParameter("search") != null) {
-        String filterName = request.getParameter("search");
-        platillos = gestorPlatilloBD.getPlatillosPorNombre(filterName);
-        categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
-        // Filtro por categoría
-      } else if (request.getParameter("filter") != null) {
-        filter = request.getParameter("filter");
-        platillos = gestorPlatilloBD.getPlatillosPorCategoria(filter);
-
+        clientes = gestor.getFiltroCliente(request.getParameter("search"));
+      
       } else {
         // Sin filtros
-        platillos = gestorPlatilloBD.getPlatillos();
+        clientes = gestor.getClientes();
       }
 
       System.out.println("search: " + request.getParameter("search"));
 
-      if (platillos != null) {
-        request.setAttribute("Platillos", platillos);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"
-        request.setAttribute("seccion", "platillos");
+      if (clientes != null) {
+        request.setAttribute("Clientes", clientes);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"
+        request.setAttribute("seccion", "clientes");
         request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);//Se envia                
       } else {
-        // request.getRequestDispatcher("/noHayRegistros.jsp").forward(request, response);
+         request.getRequestDispatcher("/noHayRegistros.jsp").forward(request, response);
       }
     } finally {
       out.close();
