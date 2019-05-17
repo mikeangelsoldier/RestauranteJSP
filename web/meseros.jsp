@@ -1,3 +1,5 @@
+<%@page import="modelo.Platillo"%>
+<%@page import="modelo.GestorPlatilloBD"%>
 <%@page import="modelo.SesionServicio"%>
 <%@page import="modelo.GestorSesionServicioBD"%>
 <%@page import="modelo.GestorOrdenBD"%>
@@ -16,6 +18,7 @@
         <link rel="stylesheet" href="css/stylesAdmin.css">
         <link rel="stylesheet" href="css/modal-styles.css">
         <link rel="stylesheet" href="css/stylesMesero.css">
+        <link rel="stylesheet" href="css/styles-cocina.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
               crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
@@ -71,7 +74,7 @@
         %> 
 
         <!-- Lista de mesas -->
-        <div class="row" style="margin: 40px">
+        <div class="row" style="margin: 70px 40px 40px 40px">
             <%
                 Mesero meseroSesion = (Mesero) request.getSession().getAttribute("mesero");//Mesero que inició sesión
                 GestorMeseroBD gestorMeseros = new GestorMeseroBD();
@@ -100,10 +103,10 @@
 
 
             %>
-            <div class="col-md-4 content">
+            <div class="col-md-4 content-mesero">
                 <h2>Mesas asignadas</h2>
                 <div class="list-group">
-                    <%            for (int numMesa : listaMesas) {
+                    <% for (int numMesa : listaMesas) {
                             /*for (int i = (ordenes.size() - 1); i >= 0; i--) {
                         ordenesDesc.add(ordenes.get(i));
                       }
@@ -114,7 +117,7 @@
                              */
                     %>
                     <a href="listarMesasPorMesero?numMesaSeleccionada=<%= numMesa%>" 
-                       class="list-group-item <% if (((ordenesDeMesaSeleccionada.size() == 0)) || (numMesa == numMesaSeleccionada)) {
+                       class="list-group-item <% if (((ordenesDeMesaSeleccionada.size() == 0) && numMesa == listaMesas.get(0)) || (numMesa == numMesaSeleccionada)) {
                                out.print(" active ");
                            }%> list-group-item-action">
                         Mesa <%= numMesa%>
@@ -136,7 +139,7 @@
                 </div>
                 -->
             </div>
-            <div class="col-md-8 content">
+            <div class="col-md-8 content-mesero">
                 <%
                     if (ordenesDeMesaSeleccionada.size() > 0) {//Título para cuando se selecciona una mesa
 
@@ -198,12 +201,28 @@
                     for (Platillo platillo : platillosDeLaOrdenSeleccionada) {
                              */
                 %>          
-                <div class="row content-2"> <!-- Div por cada orden -->
-                    <div class="col-md-4">
+                <div class="row content-2" style="background-color: #eee"> <!-- Div por cada orden -->
+                    <div class="col-md-12" >
                         <h4>Orden <%= orden.getId()%></h4>
                         <!-- AQUI VA A HACER UN CICLO FOR PARA MOSTRAR LOS PLATILLOS DE CADA ORDEN -->
-
-
+                        <%
+                            GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
+                            List<Platillo> platillos = gestorPlatillo.getPlatillosDeUnaOrden(orden.getId());
+                            
+                        %>
+                        <div class="lista-platillos-orden-mesero">
+                        <%
+                            for (Platillo platillo: platillos) {
+                        %>
+                            <div class="elemento-lista-orden-mesero">
+                                <span class="cantidad-elemento-lista">X <%= platillo.getCantidadPlatillos() %></span>
+                                <%= platillo.getNombre() %> <br>
+                                <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="140px" height="80px">
+                            </div>
+                        <%
+                            }
+                        %>
+                        </div>
                         <!--div>
                           <img src="ObtenerImagenes?id=< %=platillo.getId()%>" width="230px" height="140px"> <br>
                         </div>
@@ -256,10 +275,27 @@
                         for (Orden orden : ordenesDeLaPrimeraMesaDeLaLista) {
                 %>          
                 <div class="row content-2"> <!-- Div por cada orden -->
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <h4>Orden <%= orden.getId()%></h4>
                         <!-- AQUI VA A HACER UN CICLO FOR PARA MOSTRAR LOS PLATILLOS DE CADA ORDEN -->
-
+                        <%
+                            GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
+                            List<Platillo> platillos = gestorPlatillo.getPlatillosDeUnaOrden(orden.getId());
+                            
+                        %>
+                        <div class="lista-platillos-orden-mesero">
+                        <%
+                            for (Platillo platillo: platillos) {
+                        %>
+                            <div class="elemento-lista-orden-mesero">
+                                <span class="cantidad-elemento-lista">X <%= platillo.getCantidadPlatillos() %></span>
+                                <%= platillo.getNombre() %> <br>
+                                <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="140px" height="80px">
+                            </div>
+                        <%
+                            }
+                        %>
+                        </div>    
 
                         <!--div>
                           <img src="ObtenerImagenes?id=< %=platillo.getId()%>" width="230px" height="140px"> <br>
