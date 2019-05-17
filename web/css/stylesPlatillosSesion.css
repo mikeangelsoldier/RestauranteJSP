@@ -137,3 +137,14 @@
     text-decoration: none !important;
     color: #444 !important;
 }
+
+.input-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+input[type=radio]:checked + label>img {
+  border: 1px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 4px #090;
+}

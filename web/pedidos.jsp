@@ -67,7 +67,9 @@
                     <%
                         String filterParameter = request.getParameter("filter");
                     %>
-                    <a class="nav-link item <% if (filterParameter == null) out.print("active"); %>"
+                    <a class="nav-link item <% if (filterParameter == null) {
+                            out.print("active");
+                        } %>"
                        href="ListarPlatillosSesion">Todos</a>
                     <a class="nav-link item"
                        href="ListarPlatillosSesion">Platillos del día</a>
@@ -114,7 +116,7 @@
                                     <p class="card-text font-small">Algo de contenido</p>                                
                                     <button class="btn btn-sm btn-dark" 
                                             data-toggle="modal" 
-                                            data-target="#modalAgregarPlatillo">
+                                            data-target="#modalPagar">
                                         Agregar
                                     </button>
                                 </div>
@@ -320,11 +322,11 @@
                             int numeroDeOrdenes = 1;
                             double totalFinal = 0;
                             int numeroDetalleOrden = 1;
-                            
+
                             boolean todasLasOrdenesEntregas = true;
-                            
+
                             for (Orden orden : ordenes) {
-                                if(!orden.getEstadoOrden().equals("ENTREGADA")){
+                                if (!orden.getEstadoOrden().equals("ENTREGADA")) {
                                     todasLasOrdenesEntregas = false;
                                 }
 
@@ -472,9 +474,9 @@
                                             <td colspan="3"></td>
                                             <td colspan="2" align="right">
                                                 <a class="btn btn-sm btn-primary"
-                                                    style="width: 100%"
-                                                    href="SolicitarOrden?idOrden=<%= orden.getId() %>"
-                                                    onclick="return confirm('Tu orden será preparada en cocina. \nUna vez pedida, no se podrá cancelar tu orden. \n¿Deseas continuar?');">
+                                                   style="width: 100%"
+                                                   href="SolicitarOrden?idOrden=<%= orden.getId()%>"
+                                                   onclick="return confirm('Tu orden será preparada en cocina. \nUna vez pedida, no se podrá cancelar tu orden. \n¿Deseas continuar?');">
                                                     Pedir
                                                 </a>
                                                 <!-- data-toggle="modal" 
@@ -509,7 +511,7 @@
                     %>
                     <button name="btnPagar" class="btn btn-lg btn-danger">Pagar</button>
                     <%
-                        } else {      
+                    } else {
                     %>
                     <button id="btnPagar" name="btnPagar" class="btn btn-lg btn-danger" disabled>Pagar</button>
                     <%
@@ -519,61 +521,53 @@
             </div>
         </div>
 
-        <!-- MODAL AGREGAR PRODUCTO -->
-        <div class="modal fade" id="modalAgregarPlatillo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <form action="" method="post" class="modal-content">
+        <!-- MODAL PAGAR -->
+        <div class="modal fade" id="modalPagar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="exampleModalCenterTitle">
-                            Carne con papas 
+                            Selecciona tu método de pago
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <table>
-                            <tr>
-                                <td class="tabla-agregar-platillo">
-                                    <img src="css/imagenes/platillo1.jpg" width="240" height="150"> <br>
-                                    <div>
-                                        <img src="css/imagenes/star.png" width="22px" height="22px">
-                                        <img src="css/imagenes/star.png" width="22px" height="22px">
-                                        <img src="css/imagenes/star.png" width="22px" height="22px">
-                                        <img src="css/imagenes/star.png" width="22px" height="22px">
-                                        <img src="css/imagenes/star-middle.png" width="22px" height="22px">
-                                        <span class="puntajePlatillo"> (4.4)</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group cantidad">
-                                        <label><b>Cantidad: </b></label>
+                    <form>
+                        <div class="modal-body" style="padding: 20px">
+                            <input 
+                                type="radio" name="metodoPago" 
+                                id="efectivo" class="input-hidden" />
+                            <label for="efectivo">
+                                <img src="css/imagenes/cash.png" height="60px" />
+                                <span>Efectivo</span>
+                            </label> <br>
+                            
+                            <input 
+                                type="radio" name="metodoPago" 
+                                id="tarjeta" class="input-hidden" />
+                            <label for="tarjeta">
+                                <img src="css/imagenes/credit.png" height="60px" />
+                                <span>Tarjeta de crédito/débito</span>
+                            </label> <br>
+                            
+                            <input 
+                                type="radio" name="metodoPago" 
+                                id="paypal" class="input-hidden" />
+                            <label for="paypal">
+                                <img src="css/imagenes/paypal.png" height="60px" />
+                                <span>Paypal</span>
+                            </label> 
 
-                                        <input type="number" class="form-control" style="width: 50%"
-                                               value="1" min="1" max="5" name="cantidad"> <br>
-
-                                        <label><b>Precio: </b></label>
-                                        <label class="precio">$150 </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <label style="margin-top: 10px"><b>Descripción: </b></label> <br>
-                                    <label>En este apartado se muestra la descripción del platillo. <br>
-                                        Puede llevar ingredientes, país de origen, y demás información adecuada y no tan larga</label>
-                                </td>
-                            </tr>
-                        </table>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Añadir</button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" data-dismiss="modal">Siguiente</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </div> 
 
 
 
