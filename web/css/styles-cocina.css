@@ -13,7 +13,30 @@ body.kitchen {
     padding: 10px 25px !important;
     border: 4px solid black;
     border-radius: 12px;
+    max-height: 580px;
+    overflow-y: auto;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #bbb; 
+    border-radius: 12px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #999;     
+  }
 
 .content-2 {
     background-color: #fff;
