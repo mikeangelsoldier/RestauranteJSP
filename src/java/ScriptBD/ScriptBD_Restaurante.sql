@@ -769,10 +769,10 @@ call getSesionNextId();
     numMesa int
  )
  insert into sesion_servicio (id,fk_cliente,fk_mesero,numMesa,estadoSesion,status)  values(null,fk_cliente,fk_mesero,numMesa,1,1);
- 
- call insertarNuevaSesion(1,1,1);/*Cada que inicia sesion un usuario*/
+ /*
+ call insertarNuevaSesion(1,1,1);
  call insertarNuevaSesion(2,1,2);
- 
+ */
  
  DROP PROCEDURE IF EXISTS updatePuntajeMeseroSesion;
  CREATE PROCEDURE updatePuntajeMeseroSesion(/*Puntaje del mesero en una sesion especifica*/
@@ -794,8 +794,9 @@ call getSesionNextId();
  )
  update sesion_servicio as ss set ss.totalVenta=totalVenta, ss.tipoPago=tipoPago
  where ss.id =claveSesion;
-
+/*
  call updateTotalVentaYTipoPagoSesion(1,0.0,'EFECTIVO');
+ */
  
    DROP PROCEDURE IF EXISTS colocarSesionComoInactiva;
  CREATE PROCEDURE colocarSesionComoInactiva(/*Puntaje del mesro en una sesion especifica*/
@@ -804,8 +805,9 @@ call getSesionNextId();
  update sesion_servicio as ss set ss.totalVenta=totalVenta, ss.estadoSesion=0
  where ss.id =claveSesion;
 
+/*
  call colocarSesionComoInactiva(7);
- 
+ */
   
 DROP PROCEDURE IF EXISTS deleteSesion;
 CREATE PROCEDURE deleteSesion(
@@ -831,9 +833,10 @@ select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.numMesa ,ss.puntajeMesero
 where ss.status=1 and o.status=1 and dt.status=1 and p.status=1 and ss.id=idSesion
 group by o.id;
 
+/*
  call calcularTotalPorOrdenEnVentaDeUnaSesion(1);
  call calcularTotalPorOrdenEnVentaDeUnaSesion(2);
-
+*/
 
  DROP PROCEDURE IF EXISTS calcularTotalGeneralEnVentaDeUnaSesion;
  CREATE PROCEDURE calcularTotalGeneralEnVentaDeUnaSesion(/*Puntaje del mesro en una sesion especifica*/
@@ -848,9 +851,10 @@ select ss.id as idSesion,ss.fk_cliente,ss.fk_mesero,ss.numMesa ,ss.puntajeMesero
 where ss.status=1 and o.status=1 and dt.status=1 and p.status=1 and ss.id=idSesion
 group by ss.id;
 
+/*
  call calcularTotalGeneralEnVentaDeUnaSesion(1);
  call calcularTotalGeneralEnVentaDeUnaSesion(2);
- 
+ */
  
  
  
@@ -939,9 +943,10 @@ call getOrdenNextId();
  )
  insert into orden values(null,fk_sesion,'REGISTRADA',1);/*SOLICITADA, PREPARADA, ENTREGADA*/
  
- call insertarNuevaOrden(1);/*Agrega una nueva orden a la sesion N */
- call insertarNuevaOrden(1);/*Agrega una nueva orden a la sesion N */
- call insertarNuevaOrden(2);/*Agrega una nueva orden a la sesion N */
+ /*
+ call insertarNuevaOrden(1);*//*Agrega una nueva orden a la sesion N */
+ /*call insertarNuevaOrden(1);*//*Agrega una nueva orden a la sesion N */
+ /*call insertarNuevaOrden(2);*//*Agrega una nueva orden a la sesion N */
  
  
   DROP PROCEDURE IF EXISTS indicarSolicitarOrden;/*Cuando el cliente le da en pedir orden*/
@@ -1037,13 +1042,14 @@ call getDetOrdenNextId();
  )
  insert into det_orden (id,fk_orden,fk_platillo,cantidad,status) values(null,fk_orden,fk_platillo,cantidad,1);
  
+ /*
  call insertarNuevoDetOrden(1,2,8);
   call insertarNuevoDetOrden(1,1,2);
    call insertarNuevoDetOrden(2,2,3);
   call insertarNuevoDetOrden(2,4,1);
   call insertarNuevoDetOrden(3,3,1);
   call insertarNuevoDetOrden(3,4,2);
-  
+  */
 
  DROP PROCEDURE IF EXISTS updatePuntajePlatilloEnDetOrden;
  CREATE PROCEDURE updatePuntajePlatilloEnDetOrden(/*Puntaje del mesero en una sesion especifica*/
