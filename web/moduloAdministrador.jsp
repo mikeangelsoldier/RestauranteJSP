@@ -33,7 +33,10 @@
         <jsp:include page="seccionClientes.jsp" />
         <% } else if(seccion.equals("platillos")){%>
           <jsp:include page="seccionPlatillos.jsp" />
+        <% } else if(seccion.equals("administradores")){%>
+          <jsp:include page="seccionAdministradores.jsp" />
         <% }%>
+        
         
         
         <script>

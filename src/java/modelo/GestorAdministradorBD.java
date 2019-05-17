@@ -57,7 +57,7 @@ public class GestorAdministradorBD {
         }
     }
 
-    public List<Administrador> getAdministrador() {
+    public List<Administrador> getAdministradores() {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
         conexion = ConectaBD.obtenerConexion();

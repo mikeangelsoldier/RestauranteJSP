@@ -26,7 +26,7 @@
               crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     </head>
-    <body>
+    <body class="kitchen">
         <div class="row" style="margin: 40px">
             <%
                 GestorOrdenBD gestorOrden = new GestorOrdenBD();
@@ -53,10 +53,21 @@
 
                         for (Orden orden : ordenesDesc) {
                     %>
-                    <a href="listarPlatillosPorOrdenEnCocina?idOrdenSeleccionada=<%= orden.getId()%>&numBotonSeleccionado=<%= numeroTopOrden%>" class="list-group-item <% if (((platillosDeLaOrdenSeleccionada.size() == 0) && (numeroTopOrden == 1)) || (orden.getId() == idOrdenSeleccionadaRespuesta)) {
+                    <a href="listarPlatillosPorOrdenEnCocina?idOrdenSeleccionada=<%= orden.getId()%>&numBotonSeleccionado=<%= numeroTopOrden%>" 
+                       class="list-group-item <% if (((platillosDeLaOrdenSeleccionada.size() == 0) && (numeroTopOrden == 1)) || (orden.getId() == idOrdenSeleccionadaRespuesta)) {
                             out.print(" active ");
                         }%> list-group-item-action">
-                        Orden <%= numeroTopOrden%></a>
+                        <%= numeroTopOrden%> - orden  <%= orden.getId()%>
+                        <%
+                            if (orden.getEstadoOrden().equals("PREPARANDO")) {
+                        %>
+                        <span style="float: right; color: <% if (((platillosDeLaOrdenSeleccionada.size() == 0) && (numeroTopOrden == 1)) || (orden.getId() == idOrdenSeleccionadaRespuesta)) {
+                            out.print(" #fff");
+                        } else { out.print(" #0a0");}%>">Preparando...</span>
+                        <%
+                            }
+                        %>
+                    </a>
                         <%
                                 if (numeroTopOrden == 1) { //guardar el id real de la orden mostrda en ese boton
                                     idUltimaOrden = orden.getId();
@@ -75,13 +86,40 @@
             <div class="col-md-8 content">
                 <%
                     if (platillosDeLaOrdenSeleccionada.size() > 0) {
+                        
                 %>
-                <h2>Orden <%= numBotonSeleccionado%></h2> <!--  - mesa - mesero -->
+                <h2 class="orden-titulo">
+                    <%= numBotonSeleccionado%> - orden <%= idOrdenSeleccionadaRespuesta%> 
+                    <% 
+                        GestorOrdenBD ordenTitulo = new GestorOrdenBD();
+                        Orden orden1 = ordenTitulo.getOrdenPorID(idOrdenSeleccionadaRespuesta);
+                        if (orden1.getEstadoOrden().equals("PREPARANDO")) {
+                    %>
+                    <span style="float: right; color: #0a0; font-size: 16px; position: absolute; right: 22px; top: 18px">Preparando...</span>
+                    <%
+                        }
+                    %>
+                </h2> <!--  - mesa - mesero -->
+                
                 <%
-                } else {
+                    } else {
+                        if (ordenesDesc.size() > 0) {
+                            // Mostrar la última orden
                 %>
-                <h2>Orden 1</h2> <!--  - mesa - mesero -->
+                <h2 class="orden-titulo">
+                    1 - orden <%= idUltimaOrden %>
+                    <% 
+                        GestorOrdenBD ordenTitulo = new GestorOrdenBD();
+                        Orden orden2 = ordenTitulo.getOrdenPorID(idUltimaOrden);
+                        if (orden2.getEstadoOrden().equals("PREPARANDO")) {
+                    %>
+                    <span style="float: right; color: #0a0; font-size: 16px; position: absolute; right: 22px; top: 18px">Preparando...</span>
+                    <%
+                        }
+                    %>
+                </h2> <!--  - mesa - mesero -->
                 <%
+                        }
                     }
 
                     List<Platillo> platillosDeLaUltimaOrden = null;
@@ -101,16 +139,26 @@
                         for (Platillo platillo : platillosDeLaOrdenSeleccionada) {
                 %>          
                 <div class="row content-2">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <h4><%= platillo.getNombre()%></h4>
                         <div>
-                            <img src="css/imagenes/platillo1.jpg" width="200px" height="150px"> <br>
+                            <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="230px" height="140px"> <br>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <%= platillo.getDescripcion()%>
+                    <div class="col-md-5">
+                        <h5>Descripción</h5>
+                        <%
+                            String descripcion = "";
+                            if (platillo.getDescripcion().length() >= 150) {
+                                descripcion = descripcion.substring(0, 150);
+                                descripcion += "...";
+                            } else {
+                                descripcion = platillo.getDescripcion();
+                            }
+                        %>
+                        <%= descripcion %>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 cantidad-platillo-cocina">
                         X <%= platillo.getCantidadPlatillos()%>
                     </div>
                 </div> <br>
@@ -123,16 +171,26 @@
                         for (Platillo platillo : platillosDeLaUltimaOrden) {
                 %>          
                 <div class="row content-2">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <h4><%= platillo.getNombre()%></h4>
                         <div>
-                            <img src="css/imagenes/platillo1.jpg" width="200px" height="150px"> <br>
+                            <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="230px" height="140px"> <br>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <%= platillo.getDescripcion()%>
+                    <div class="col-md-5">
+                        <h5>Descripción</h5>
+                        <%
+                            String descripcion = "";
+                            if (platillo.getDescripcion().length() >= 150) {
+                                descripcion = descripcion.substring(0, 150);
+                                descripcion += "...";
+                            } else {
+                                descripcion = platillo.getDescripcion();
+                            }
+                        %>
+                        <%= descripcion %>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 cantidad-platillo-cocina">
                         X <%= platillo.getCantidadPlatillos()%>
                     </div>
                 </div> <br>
@@ -152,45 +210,50 @@
 
                 <div style="text-align: center">
                     <%
-                        GestorOrdenBD gestorOrdenParaBoton = new GestorOrdenBD();
-                        if (idOrdenSeleccionadaRespuesta == 0) {
-                            Orden orden = gestorOrdenParaBoton.getOrdenPorID(idUltimaOrden);
+                        if (ordenesDesc.size() > 0) {
 
-                            if (orden.getEstadoOrden().equals("SOLICITADA")) {
-                                // Habilitar botón prepando y deshabilita botón preparada
+                            GestorOrdenBD gestorOrdenParaBoton = new GestorOrdenBD();
+                            if (idOrdenSeleccionadaRespuesta == 0) {
+                                Orden orden = gestorOrdenParaBoton.getOrdenPorID(idUltimaOrden);
+
+                                if (orden.getEstadoOrden().equals("SOLICITADA")) {
+                                    // Habilitar botón prepando y deshabilita botón preparada
                     %>
-                    <button class="btn btn-lg btn-success">Preparando</button>
+                    <a class="btn btn-lg btn-success" href="IndicarOrdenPreparando?idOrdenSeleccionada=<%= idUltimaOrden %>&numBotonSeleccionado=1">Preparando</a>
                     <button class="btn btn-lg btn-success" disabled>Orden preparada</button>
+                                <%
+                                } else if (orden.getEstadoOrden().equals("PREPARANDO")) {
+                                    // Deshabilitar botón prepando y habilita botón preparada
+                                %>
+                    <button class="btn btn-lg btn-success" disabled>Preparando</button>
+                    <a class="btn btn-lg btn-success" href="IndicarOrdenPreparada?idOrdenSeleccionada=<%= idUltimaOrden %>&numBotonSeleccionado=1">Orden preparada</a>
                             <%
-                            } else if (orden.getEstadoOrden().equals("PREPARANDO")) {
-                                // Deshabilitar botón prepando y habilita botón preparada
-                            %>
-                    <button class="btn btn-lg btn-success" disabled>Preparando</button>
-                    <button class="btn btn-lg btn-success">Orden preparada</button>
-                        <%
-                            }
+                                }
+                            } else {
 
+                                Orden ordenParaSeleccionarBoton = gestorOrdenParaBoton.getOrdenPorID(idOrdenSeleccionadaRespuesta);
+
+                                if (ordenParaSeleccionarBoton.getEstadoOrden().equals("SOLICITADA")) {
+                                    // Habilitar botón prepando y deshabilita botón preparada
                         %>
-
-                    <% } else {
-
-                        Orden ordenParaSeleccionarBoton = gestorOrdenParaBoton.getOrdenPorID(idOrdenSeleccionadaRespuesta);
-
-                        if (ordenParaSeleccionarBoton.getEstadoOrden().equals("SOLICITADA")) {
-                            // Habilitar botón prepando y deshabilita botón preparada
-                    %>
-                    <button class="btn btn-lg btn-success">Preparando</button>
+                    <a class="btn btn-lg btn-success" href="IndicarOrdenPreparando?idOrdenSeleccionada=<%= idOrdenSeleccionadaRespuesta %>&numBotonSeleccionado=<%= numBotonSeleccionado %>">Preparando</a>
                     <button class="btn btn-lg btn-success" disabled>Orden preparada</button>
-                    <%
-                    } else if (ordenParaSeleccionarBoton.getEstadoOrden().equals("PREPARANDO")) {
-                        // Deshabilitar botón prepando y habilita botón preparada
-                    %>
+                                <%
+                                } else if (ordenParaSeleccionarBoton.getEstadoOrden().equals("PREPARANDO")) {
+                                    // Deshabilitar botón prepando y habilita botón preparada
+                                %>
                     <button class="btn btn-lg btn-success" disabled>Preparando</button>
-                    <button class="btn btn-lg btn-success">Orden preparada</button>
+                    <a class="btn btn-lg btn-success" href="IndicarOrdenPreparada?idOrdenSeleccionada=<%= idOrdenSeleccionadaRespuesta %>&numBotonSeleccionado=<%= numBotonSeleccionado %>">Orden preparada</a>
                     <%
+                                }
                             }
+                        } else {
+                    %>
+                    <h4>En espera de nuevas órdenes...</h4>
+                    <%
                         }
                     %>
+                    
 
                 </div>
 
