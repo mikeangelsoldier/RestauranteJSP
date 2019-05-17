@@ -9,11 +9,10 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catálogos</a>
         <div class="dropdown-menu">
+          <a class="dropdown-item" href="ListarAdministradores">Administradores</a>
             <a class="dropdown-item" href="ListarPlatillos">Platillos</a>
             <a class="dropdown-item" href="ListarClientes">Clientes</a>
             <a class="dropdown-item" href="seccionMeseros.jsp">Meseros</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Otro</a>
         </div>
     </li>
     <li class="nav-item">
