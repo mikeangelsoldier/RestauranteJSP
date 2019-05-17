@@ -214,14 +214,14 @@
                             if (orden.getEstadoOrden().equals("SOLICITADA")) {
                                 // Habilitar botón prepando y deshabilita botón preparada
                     %>
-                    <button class="btn btn-lg btn-success" href="IndicarOrdenPreparando?idOrdenSeleccionada=<%= idUltimaOrden %>&numBotonSeleccionado=<%= numBotonSeleccionado %>">Preparando</button>
+                    <a class="btn btn-lg btn-success" href="IndicarOrdenPreparando?idOrdenSeleccionada=<%= idUltimaOrden %>&numBotonSeleccionado=1">Preparando</a>
                     <button class="btn btn-lg btn-success" disabled>Orden preparada</button>
                             <%
                             } else if (orden.getEstadoOrden().equals("PREPARANDO")) {
                                 // Deshabilitar botón prepando y habilita botón preparada
                             %>
                     <button class="btn btn-lg btn-success" disabled>Preparando</button>
-                    <button class="btn btn-lg btn-success">Orden preparada</button>
+                    <a class="btn btn-lg btn-success" href="IndicarOrdenPreparada?idOrdenSeleccionada=<%= idUltimaOrden %>&numBotonSeleccionado=1">Orden preparada</a>
                         <%
                             }
 
@@ -241,7 +241,7 @@
                         // Deshabilitar botón prepando y habilita botón preparada
                     %>
                     <button class="btn btn-lg btn-success" disabled>Preparando</button>
-                    <button class="btn btn-lg btn-success">Orden preparada</button>
+                    <a class="btn btn-lg btn-success" href="IndicarOrdenPreparada?idOrdenSeleccionada=<%= idOrdenSeleccionadaRespuesta %>&numBotonSeleccionado=<%= numBotonSeleccionado %>">Orden preparada</a>
                     <%
                             }
                         }
