@@ -7,6 +7,7 @@ body.kitchen {
 }
 
 .content {
+    position: relative;
     background-color: #fdfdfd;
     height: 90%;
     padding: 10px 25px !important;
