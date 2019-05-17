@@ -26,7 +26,7 @@
               crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     </head>
-    <body>
+    <body class="kitchen">
         <div class="row" style="margin: 40px">
             <%
                 GestorOrdenBD gestorOrden = new GestorOrdenBD();
@@ -53,10 +53,21 @@
 
                         for (Orden orden : ordenesDesc) {
                     %>
-                    <a href="listarPlatillosPorOrdenEnCocina?idOrdenSeleccionada=<%= orden.getId()%>&numBotonSeleccionado=<%= numeroTopOrden%>" class="list-group-item <% if (((platillosDeLaOrdenSeleccionada.size() == 0) && (numeroTopOrden == 1)) || (orden.getId() == idOrdenSeleccionadaRespuesta)) {
+                    <a href="listarPlatillosPorOrdenEnCocina?idOrdenSeleccionada=<%= orden.getId()%>&numBotonSeleccionado=<%= numeroTopOrden%>" 
+                       class="list-group-item <% if (((platillosDeLaOrdenSeleccionada.size() == 0) && (numeroTopOrden == 1)) || (orden.getId() == idOrdenSeleccionadaRespuesta)) {
                             out.print(" active ");
                         }%> list-group-item-action">
-                        Orden <%= numeroTopOrden%></a>
+                        Orden <%= numeroTopOrden%>
+                        <%
+                            if (orden.getEstadoOrden().equals("PREPARANDO")) {
+                        %>
+                        <span style="float: right; color: <% if (((platillosDeLaOrdenSeleccionada.size() == 0) && (numeroTopOrden == 1)) || (orden.getId() == idOrdenSeleccionadaRespuesta)) {
+                            out.print(" #fff");
+                        } else { out.print(" #0a0");}%>">Preparando...</span>
+                        <%
+                            }
+                        %>
+                    </a>
                         <%
                                 if (numeroTopOrden == 1) { //guardar el id real de la orden mostrda en ese boton
                                     idUltimaOrden = orden.getId();
@@ -76,11 +87,11 @@
                 <%
                     if (platillosDeLaOrdenSeleccionada.size() > 0) {
                 %>
-                <h2>Orden <%= numBotonSeleccionado%></h2> <!--  - mesa - mesero -->
+                <h2 class="orden-titulo">Orden <%= numBotonSeleccionado%></h2> <!--  - mesa - mesero -->
                 <%
-                } else {
+                    } else {
                 %>
-                <h2>Orden 1</h2> <!--  - mesa - mesero -->
+                <h2 class="orden-titulo">Orden 1</h2> <!--  - mesa - mesero -->
                 <%
                     }
 
@@ -101,16 +112,26 @@
                         for (Platillo platillo : platillosDeLaOrdenSeleccionada) {
                 %>          
                 <div class="row content-2">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <h4><%= platillo.getNombre()%></h4>
                         <div>
-                            <img src="css/imagenes/platillo1.jpg" width="200px" height="150px"> <br>
+                            <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="230px" height="140px"> <br>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <%= platillo.getDescripcion()%>
+                    <div class="col-md-5">
+                        <h5>Descripción</h5>
+                        <%
+                            String descripcion = "";
+                            if (platillo.getDescripcion().length() >= 150) {
+                                descripcion = descripcion.substring(0, 150);
+                                descripcion += "...";
+                            } else {
+                                descripcion = platillo.getDescripcion();
+                            }
+                        %>
+                        <%= descripcion %>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 cantidad-platillo-cocina">
                         X <%= platillo.getCantidadPlatillos()%>
                     </div>
                 </div> <br>
@@ -123,16 +144,26 @@
                         for (Platillo platillo : platillosDeLaUltimaOrden) {
                 %>          
                 <div class="row content-2">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <h4><%= platillo.getNombre()%></h4>
                         <div>
-                            <img src="css/imagenes/platillo1.jpg" width="200px" height="150px"> <br>
+                            <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="230px" height="140px"> <br>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <%= platillo.getDescripcion()%>
+                    <div class="col-md-5">
+                        <h5>Descripción</h5>
+                        <%
+                            String descripcion = "";
+                            if (platillo.getDescripcion().length() >= 150) {
+                                descripcion = descripcion.substring(0, 150);
+                                descripcion += "...";
+                            } else {
+                                descripcion = platillo.getDescripcion();
+                            }
+                        %>
+                        <%= descripcion %>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 cantidad-platillo-cocina">
                         X <%= platillo.getCantidadPlatillos()%>
                     </div>
                 </div> <br>
