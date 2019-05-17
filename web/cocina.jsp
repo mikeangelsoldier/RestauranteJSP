@@ -103,6 +103,8 @@
                 
                 <%
                     } else {
+                        if (ordenesDesc.size() > 0) {
+                            // Mostrar la última orden
                 %>
                 <h2 class="orden-titulo">
                     1 - orden <%= idUltimaOrden %>
@@ -117,6 +119,7 @@
                     %>
                 </h2> <!--  - mesa - mesero -->
                 <%
+                        }
                     }
 
                     List<Platillo> platillosDeLaUltimaOrden = null;
@@ -207,45 +210,50 @@
 
                 <div style="text-align: center">
                     <%
-                        GestorOrdenBD gestorOrdenParaBoton = new GestorOrdenBD();
-                        if (idOrdenSeleccionadaRespuesta == 0) {
-                            Orden orden = gestorOrdenParaBoton.getOrdenPorID(idUltimaOrden);
+                        if (ordenesDesc.size() > 0) {
 
-                            if (orden.getEstadoOrden().equals("SOLICITADA")) {
-                                // Habilitar botón prepando y deshabilita botón preparada
+                            GestorOrdenBD gestorOrdenParaBoton = new GestorOrdenBD();
+                            if (idOrdenSeleccionadaRespuesta == 0) {
+                                Orden orden = gestorOrdenParaBoton.getOrdenPorID(idUltimaOrden);
+
+                                if (orden.getEstadoOrden().equals("SOLICITADA")) {
+                                    // Habilitar botón prepando y deshabilita botón preparada
                     %>
                     <a class="btn btn-lg btn-success" href="IndicarOrdenPreparando?idOrdenSeleccionada=<%= idUltimaOrden %>&numBotonSeleccionado=1">Preparando</a>
                     <button class="btn btn-lg btn-success" disabled>Orden preparada</button>
-                            <%
-                            } else if (orden.getEstadoOrden().equals("PREPARANDO")) {
-                                // Deshabilitar botón prepando y habilita botón preparada
-                            %>
+                                <%
+                                } else if (orden.getEstadoOrden().equals("PREPARANDO")) {
+                                    // Deshabilitar botón prepando y habilita botón preparada
+                                %>
                     <button class="btn btn-lg btn-success" disabled>Preparando</button>
                     <a class="btn btn-lg btn-success" href="IndicarOrdenPreparada?idOrdenSeleccionada=<%= idUltimaOrden %>&numBotonSeleccionado=1">Orden preparada</a>
-                        <%
-                            }
+                            <%
+                                }
+                            } else {
 
+                                Orden ordenParaSeleccionarBoton = gestorOrdenParaBoton.getOrdenPorID(idOrdenSeleccionadaRespuesta);
+
+                                if (ordenParaSeleccionarBoton.getEstadoOrden().equals("SOLICITADA")) {
+                                    // Habilitar botón prepando y deshabilita botón preparada
                         %>
-
-                    <% } else {
-
-                        Orden ordenParaSeleccionarBoton = gestorOrdenParaBoton.getOrdenPorID(idOrdenSeleccionadaRespuesta);
-
-                        if (ordenParaSeleccionarBoton.getEstadoOrden().equals("SOLICITADA")) {
-                            // Habilitar botón prepando y deshabilita botón preparada
-                    %>
                     <a class="btn btn-lg btn-success" href="IndicarOrdenPreparando?idOrdenSeleccionada=<%= idOrdenSeleccionadaRespuesta %>&numBotonSeleccionado=<%= numBotonSeleccionado %>">Preparando</a>
                     <button class="btn btn-lg btn-success" disabled>Orden preparada</button>
-                    <%
-                    } else if (ordenParaSeleccionarBoton.getEstadoOrden().equals("PREPARANDO")) {
-                        // Deshabilitar botón prepando y habilita botón preparada
-                    %>
+                                <%
+                                } else if (ordenParaSeleccionarBoton.getEstadoOrden().equals("PREPARANDO")) {
+                                    // Deshabilitar botón prepando y habilita botón preparada
+                                %>
                     <button class="btn btn-lg btn-success" disabled>Preparando</button>
                     <a class="btn btn-lg btn-success" href="IndicarOrdenPreparada?idOrdenSeleccionada=<%= idOrdenSeleccionadaRespuesta %>&numBotonSeleccionado=<%= numBotonSeleccionado %>">Orden preparada</a>
                     <%
+                                }
                             }
+                        } else {
+                    %>
+                    <h4>En espera de nuevas órdenes...</h4>
+                    <%
                         }
                     %>
+                    
 
                 </div>
 
