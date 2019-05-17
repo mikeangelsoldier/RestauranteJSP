@@ -36,10 +36,11 @@ public class LoginMesero extends HttpServlet {
       Mesero mesero = gestor.getMeseroLogin(username, password);
 
       if (mesero.getId() > 0) {
+        request.getSession().setAttribute("mesero", mesero);
         request.getSession().setAttribute("usuario", mesero.getUsuario());
         request.getSession().setAttribute("nombreMostrar", mesero.getNombre());
         request.getSession().setAttribute("rol", "Mesero");
-        request.getRequestDispatcher("ListarPlatillos").forward(request, response);
+        request.getRequestDispatcher("/meseros.jsp").forward(request, response);
       } else {
         request.setAttribute("resLogin", "El usuario y contraseña no coinciden");
         // response.sendRedirect(request.getContextPath() + "/loginClientes.jsp");
