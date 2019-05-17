@@ -35,11 +35,11 @@
                 <!-- %@ page import="controlador.LoginClientes" % -->
                 <h5 class="card-title" style="color: snow; text-align: center"> 
                     Introduce tu usuario y contraseña</h5>
-                <form action="" method="post"> <!---->
+                <form action="LoginMesero" method="post"> <!---->
                     <table cellspacing="3" cellpadding="3" class="form-login">
                         <tr>                            
                             <td><input class="form-control" type="text" id="username"
-                                       name="username" required placeholder="Usuario">
+                                       name="usuario" required placeholder="Usuario">
                             </td>
                         </tr>
                         <tr>
