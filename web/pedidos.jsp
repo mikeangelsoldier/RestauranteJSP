@@ -17,6 +17,9 @@
     // Para validar el estado de la última orden para saber si habilitar boton de añadir o pagar
     int idUltimaOrden = gestorOrden.getIdUltimaOrdenPorIdSesion(ultimoIdHttpSesion);
     Orden ultimaOrden = gestorOrden.getOrdenPorID(idUltimaOrden);
+    int idMesero = (int)request.getSession().getAttribute("sesionIdMesero");
+    GestorMeseroBD gestorMesero = new GestorMeseroBD();
+    Mesero mesero = gestorMesero.getMesero(idMesero);
 %>
 
 <!DOCTYPE html>
@@ -40,6 +43,9 @@
                 <button class="none"  id="side-open"  onclick="openAside()">
                     &#9776; Mostrar panel de navegación
                 </button>
+                <span style="color: white; margin-top: 5px">
+                    Te atiende mesero: <%= mesero.getNombre()%> <%= mesero.getApellidos()%>
+                </span>
             </div>
             <div class="username" style="padding: 14px 8px">
                 <img src="css/imagenes/shutdown.png" height="22px" class="shutdown">
@@ -583,14 +589,15 @@
                     </div>
                     <form>
                         <div class="modal-body" style="padding: 20px">
-                            <h5>
-                                ¿Deseas puntuar al mesero que te atendió y a los platillos que consumiste?
-                            </h5>
+                            <p>
+                                Al elegir sí o no, tu sesión será finaliza. <br>
+                                ¿Deseas puntuar al mesero que te atendió y a los platillos que consumiste antes de pagar?
+                            </p>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                            <button type="submit" class="btn btn-primary" data-dismiss="modal">Sí</button>
+                            <a class="btn btn-secondary" href="">No, solo pagar</a>
+                            <a class="btn btn-primary" href="puntuar?totalSesion=<%= totalFinal %>">Sí, quiero puntuar</a>
                         </div>
                     </form>
                 </div>

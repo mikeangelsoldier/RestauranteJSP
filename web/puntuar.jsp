@@ -1,5 +1,11 @@
 
 
+<%@page import="modelo.Mesero"%>
+<%@page import="modelo.GestorMeseroBD"%>
+<%@page import="java.util.Collection"%>
+<%@page import="java.util.List"%>
+<%@page import="modelo.Platillo"%>
+<%@page import="modelo.Cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,17 +24,34 @@
               crossorigin="anonymous">
     </head>
     <body>
+        <%
+            int totalSesion = Integer.parseInt(request.getParameter("totalSesion"));
+            int idMesero = (int)request.getSession().getAttribute("sesionIdMesero");
+            Cliente cliente = (Cliente)request.getSession().getAttribute("usr");
+            Collection<Platillo> listaPlatillosSinRepetir = null;
+            listaPlatillosSinRepetir = (Collection<Platillo>) request.getAttribute("listaPlatillosDeLaSesion");
+            
+            GestorMeseroBD gestorMesero = new GestorMeseroBD();
+            Mesero mesero = gestorMesero.getMesero(idMesero);
+        %>
+        
         <h1 class="title-puntuar">Puntuar platillos</h1>
-
+        
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="0">
+            
             <ol class="carousel-indicators indicadores">
                 <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleControls" data-slide-to="1"></li>
-                <li data-target="#carouselExampleControls" data-slide-to="2"></li>
+                <%
+                    for (int i = 1; i < listaPlatillosSinRepetir.size(); i++) {
+                %>
+                <li data-target="#carouselExampleControls" data-slide-to="<%=i%>"></li>
+                <%
+                    }
+                %>
             </ol>
             <form class="carousel-inner">
                 <div class="carousel-item active">
-                    <h4 class="title-puntuar" style="margin-top: 20px">Platillo 1</h4>
+                    <h4 class="title-puntuar" style="margin-top: 20px">Mesero <%= mesero.getNombre()%> <%= mesero.getApellidos()%></h4>
                     <div class="w-100 content-platillo" >
                         <img src="css/imagenes/res_background.jpg" alt="..." height="300px">
                     </div>
@@ -65,22 +88,20 @@
                                 <span class="icon">★</span>
                             </label>
                         </div>
-                        <!--
-                        <div class="star" id="e1"></div>
-                        <div class="star" id="e2"></div>
-                        <div class="star" id="e3"></div>
-                        <div class="star" id="e4"></div>
-                        <div class="star" id="e5"></div>
-                        -->
-
-                        <!--img src="css/imagenes/star-gris.png" height="60px"-->
                     </div>
                 </div>
+                
+                
+                <!-- iterar con foreach los platillos -->
+                <%
+                    for (Platillo platillo: listaPlatillosSinRepetir) {
+                %>
+                
                 <div class="carousel-item">
-                    <h4 class="title-puntuar" style="margin-top: 20px">Platillo 2</h4>
+                    <h4 class="title-puntuar" style="margin-top: 20px"><%= platillo.getNombre() %></h4>
                     <div class="w-100 content-platillo" >
 
-                        <img src="css/imagenes/res_background.jpg" alt="..." height="300px">
+                        <img src="ObtenerImagenes?id=<%=platillo.getId()%>" alt="..." height="300px" width="450px">
                     </div>
                     <div class="stars">
                         <div class="rating">
@@ -117,7 +138,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item">
+                
+                <%
+                    }
+                %>
+                
+                <!--div class="carousel-item">
                     <h4 class="title-puntuar" style="margin-top: 20px">Platillo 3</h4>
                     <div class="w-100 content-platillo" >
 
@@ -157,7 +183,7 @@
                             </label>
                         </div>
                     </div>
-                </div>
+                </div-->
             </form>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
