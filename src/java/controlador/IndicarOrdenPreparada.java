@@ -49,7 +49,7 @@ public class IndicarOrdenPreparada extends HttpServlet {
                 Orden orden=new Orden();
                 orden=gestorOrden.getOrdenPorID(idOrden);
                 
-                if((!orden.getEstadoOrden().equals("PREPARADA")) || (!orden.getEstadoOrden().equals("ENTREGADA"))){
+                if((!orden.getEstadoOrden().equals("PREPARADA")) && (!orden.getEstadoOrden().equals("ENTREGADA"))){
                     gestorOrden.indicarOrdenPreparada(idOrden);
                 }
                 
