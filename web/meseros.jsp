@@ -346,7 +346,7 @@
                                     // Mostrar botón entregar orden
                             %>
                             <a class="btn btn-lg btn-success" 
-                               href="">
+                               href="IndicarOrdenEntregada?idOrdenSeleccionada=<%= orden.getId() %>&numMesaSeleccionada=<%= numMesaSeleccionada %>">
                                 Orden entregada
                             </a>
                             <%

@@ -390,4 +390,41 @@ public class GestorPlatilloBD {
         }
     }
 
+    public List<Platillo> getPlatillosDeUnaSesion(int isSesion) {
+        ///Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria 
+        conexion = ConectaBD.obtenerConexion();
+        List<Platillo> listaPlatillosDeUnaOrden = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getPlatillosDeUnaSesion(?);");
+            ps.setInt(1, isSesion);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Platillo platillo = new Platillo();
+                platillo.setId(rs.getInt(1));
+                platillo.setImagen(rs.getBinaryStream(2));
+                platillo.setNombre(rs.getString(3));
+                platillo.setDescripcion(rs.getString(4));
+                platillo.setPrecio(rs.getDouble(5));
+                platillo.setCategoria(rs.getString(6));
+                platillo.setPuntuacionTotal(rs.getDouble(7));
+                platillo.setNumeroPuntuaciones(rs.getInt(8));
+                platillo.setStatus(rs.getInt(9));
+                listaPlatillosDeUnaOrden.add(platillo);
+
+            }
+            rs.close();
+            ps.close();
+            conexion.close();
+            return listaPlatillosDeUnaOrden;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
 }
+
+

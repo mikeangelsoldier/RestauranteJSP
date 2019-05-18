@@ -258,6 +258,25 @@ call getPlatillosDeUnaOrden(3);
 */
 
 
+
+DROP PROCEDURE IF EXISTS getPlatillosDeUnaSesion;
+CREATE PROCEDURE getPlatillosDeUnaSesion(
+idSesion bigint
+)
+select p.id as idPlatillo,p.imagen,p.nombre ,p.descripcion,p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones,p.status 
+from sesion_servicio as ss JOIN orden as o ON ss.id=o.fk_sesionservicio
+JOIN det_orden as detor ON o.id=detor.fk_orden
+JOIN platillo as p ON detor.fk_platillo=p.id
+where ss.id=idSesion
+group by p.id;
+/*
+select * from platillo;
+call getPlatillosDeUnaSesion(1);
+call getPlatillosDeUnaSesion(2);
+call getPlatillosDeUnaSesion(3);
+*/
+
+
 DROP PROCEDURE IF EXISTS getPlatillo;
 CREATE PROCEDURE getPlatillo(
 clave int
