@@ -90,6 +90,39 @@ public class GestorDetalleOrdenBD {
         }
 
     }
+    
+    
+    public List<DetalleOrden> getDetallesDeUnaSesion(int idSesion) {
+        /*Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria */
+        conexion = ConectaBD.obtenerConexion();
+        List<DetalleOrden> listaDetallesDeUnaOrden = new ArrayList<>();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getDetallesDeUnaSesion(?);");
+            ps.setInt(1, idSesion);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                DetalleOrden detalleOrden = new DetalleOrden();
+                detalleOrden.setId(rs.getInt(1));
+                detalleOrden.setFk_orden(rs.getInt(2));
+                detalleOrden.setFk_platillo(rs.getInt(3));
+                detalleOrden.setCantidad(rs.getInt(4));
+                detalleOrden.setPuntajePlatillo(rs.getDouble(5));
+                detalleOrden.setStatus(rs.getInt(6));
+                listaDetallesDeUnaOrden.add(detalleOrden);
+
+            }
+            rs.close();
+            ps.close();
+            conexion.close();
+            return listaDetallesDeUnaOrden;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
 
     public int getDetOrdenNextId() {
         /*Devuelve el siguiente número de ID a utilizar*/
