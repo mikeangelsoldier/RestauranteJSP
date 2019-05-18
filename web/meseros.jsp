@@ -146,7 +146,8 @@
                 %>
                 <h2 class="orden-titulo">
                     Mesa <%= numMesaSeleccionada%> 
-
+                    <a href="LiberarMesa?numMesaSeleccionada=<%= numMesaSeleccionada%>" class="btn btn-danger"
+                       style="position: absolute; right: 15px; top: 8px;">Liberar mesa</a>
                 </h2> <!--  - mesa - mesero -->
 
                 <%
@@ -156,7 +157,8 @@
                 %>
                 <h2 class="orden-titulo">
                     Mesa <%= listaMesas.get(0)%>
-
+                    <a href="LiberarMesa?numMesaSeleccionada=<%= listaMesas.get(0)%>" class="btn btn-danger"
+                       style="position: absolute; right: 15px; top: 8px;">Liberar mesa</a>
                 </h2> <!--  - mesa - mesero -->
                 <%
                         }
@@ -201,9 +203,18 @@
                     for (Platillo platillo : platillosDeLaOrdenSeleccionada) {
                              */
                 %>          
-                <div class="row content-2" style="background-color: #eee"> <!-- Div por cada orden -->
+                <div class="row content-2" style="background-color: #ddd"> <!-- Div por cada orden -->
                     <div class="col-md-12" >
-                        <h4>Orden <%= orden.getId()%></h4>
+                        <h4>Orden <%= orden.getId()%> 
+                            <span style="margin-left: 15px; font-size: 16px">(<%= orden.getEstadoOrden() %>)</span>
+                            <%
+                                if (orden.getEstadoOrden().equals("ENTREGADA")) {
+                            %>
+                            <img src="css/imagenes/check.png" height="35px">
+                            <%
+                                }
+                            %>
+                        </h4>
                         <!-- AQUI VA A HACER UN CICLO FOR PARA MOSTRAR LOS PLATILLOS DE CADA ORDEN -->
                         <%
                             GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
@@ -252,7 +263,7 @@
                                     // Mostrar botón entregar orden
                             %>
                             <a class="btn btn-lg btn-success" 
-                               href="">
+                               href="IndicarOrdenEntregada?idOrdenSeleccionada=<%= orden.getId() %>&numMesaSeleccionada=<%= numMesaSeleccionada %>">
                                 Orden entregada
                             </a>
                             <%
@@ -274,9 +285,18 @@
                         // Mostrar las órdenes de la primera mesa
                         for (Orden orden : ordenesDeLaPrimeraMesaDeLaLista) {
                 %>          
-                <div class="row content-2"> <!-- Div por cada orden -->
+                <div class="row content-2" style="background-color: #ddd"> <!-- Div por cada orden -->
                     <div class="col-md-12">
-                        <h4>Orden <%= orden.getId()%></h4>
+                        <h4>Orden <%= orden.getId()%> 
+                            <span style="margin-left: 15px; font-size: 16px">(<%= orden.getEstadoOrden() %>)</span>
+                            <%
+                                if (orden.getEstadoOrden().equals("ENTREGADA")) {
+                            %>
+                            <img src="css/imagenes/check.png" height="35px">
+                            <%
+                                }
+                            %>
+                        </h4>
                         <!-- AQUI VA A HACER UN CICLO FOR PARA MOSTRAR LOS PLATILLOS DE CADA ORDEN -->
                         <%
                             GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
@@ -365,5 +385,16 @@
         crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+        
+        <script>
+      $(document).ready(function () {
+        //Cada 10 segundos (10000 milisegundos) se ejecutará la función refrescar
+        setTimeout(refrescar, 30000);
+      });
+      function refrescar() {
+        //Actualiza la página
+        location.reload();
+      }
+    </script>
     </body>
 </html>

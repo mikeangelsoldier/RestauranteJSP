@@ -19,8 +19,8 @@ public class ConectaBD {
     public static Connection conect;
     private static String bd = "restaurante";//Nombre de la base de datos
     public static String usuario = "root";
-    public static String passw = "Mike123*.";
-    //public static String passw = "Fredy97@";
+    //public static String passw = "Mike123*.";
+    public static String passw = "Fredy97@";
     //public static String passw = "";
     public static String url = "jdbc:mysql://localhost/" + bd;
 
