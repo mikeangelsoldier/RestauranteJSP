@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.GestorOrdenBD;
+import modelo.Orden;
 
 /**
  *
@@ -45,7 +46,13 @@ public class IndicarOrdenPreparada extends HttpServlet {
                 numBotonSeleccionado=Integer.parseInt(request.getParameter("numBotonSeleccionado"));
                 
                 GestorOrdenBD gestorOrden = new GestorOrdenBD();
-                gestorOrden.indicarOrdenPreparada(idOrden);
+                Orden orden=new Orden();
+                orden=gestorOrden.getOrdenPorID(idOrden);
+                
+                if((!orden.getEstadoOrden().equals("PREPARADA")) || (!orden.getEstadoOrden().equals("ENTREGADA"))){
+                    gestorOrden.indicarOrdenPreparada(idOrden);
+                }
+                
             } 
 
             

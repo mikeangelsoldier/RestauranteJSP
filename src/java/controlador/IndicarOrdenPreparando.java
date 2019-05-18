@@ -50,7 +50,14 @@ public class IndicarOrdenPreparando extends HttpServlet {
                 numBotonSeleccionado=Integer.parseInt(request.getParameter("numBotonSeleccionado"));
                 
                 GestorOrdenBD gestorOrden = new GestorOrdenBD();
-                gestorOrden.indicarOrdenEnPreparacion(idOrden);
+                Orden orden=new Orden();
+                orden=gestorOrden.getOrdenPorID(idOrden);
+                
+                if((orden.getEstadoOrden().equals("SOLICITADA"))){
+                    gestorOrden.indicarOrdenEnPreparacion(idOrden);
+                }
+                
+                
             } 
 
             

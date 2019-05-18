@@ -509,7 +509,7 @@
                     <%
                         if (todasLasOrdenesEntregas) {
                     %>
-                    <button name="btnPagar" class="btn btn-lg btn-danger">Pagar</button>
+                    <button name="btnPagar" class="btn btn-lg btn-danger" data-toggle="modal" data-target="#modalPreguntarPuntuar">Pagar</button>
                     <%
                     } else {
                     %>
@@ -541,7 +541,7 @@
                             <label for="efectivo">
                                 <img src="css/imagenes/cash.png" height="60px" />
                                 <span>Efectivo</span>
-                            </label> <br>
+                            </label>a <br>
                             
                             <input 
                                 type="radio" name="metodoPago" 
@@ -563,6 +563,34 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="submit" class="btn btn-primary" data-dismiss="modal">Siguiente</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> 
+        
+        <!-- MODAL PREGUNTAR PUNTUAR -->
+        <div class="modal fade" id="modalPreguntarPuntuar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalCenterTitle">
+                            Confirmación
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form>
+                        <div class="modal-body" style="padding: 20px">
+                            <h5>
+                                ¿Deseas puntuar al mesero que te atendió y a los platillos que consumiste?
+                            </h5>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-primary" data-dismiss="modal">Sí</button>
                         </div>
                     </form>
                 </div>
