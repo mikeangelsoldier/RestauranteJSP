@@ -58,6 +58,7 @@ CREATE TABLE sesion_servicio(
     puntajeMeseroServicio double null,
     totalVenta double null,
     tipoPago varchar(15) null,
+    fecha date null,		/*Es la fecha donde se finalizo la sesion*/
     estadoSesion int null, /*Sesion inciada/finalizada*//*Sesiones activas*//*1=Iniciada,   0=Finalizada*/
 	status int not null/*Agregada/eliminada*//*Conocer si esta eliminada o no de la BD*/
 )ENGINE=InnoDB;
@@ -797,6 +798,17 @@ call getSesionNextId();
 /*
  call updateTotalVentaYTipoPagoSesion(1,0.0,'EFECTIVO');
  */
+ 
+   DROP PROCEDURE IF EXISTS colocarFechaActualPagoSesionServicio;
+ CREATE PROCEDURE colocarFechaActualPagoSesionServicio(/*Puntaje del mesro en una sesion especifica*/
+ 	claveSesion bigint
+ )
+ update sesion_servicio as ss set ss.fecha=curdate()
+ where ss.id =claveSesion;
+/*
+ call colocarFechaActualPagoSesionServicio(1);
+ */
+ 
  
    DROP PROCEDURE IF EXISTS colocarSesionComoInactiva;
  CREATE PROCEDURE colocarSesionComoInactiva(/*Puntaje del mesro en una sesion especifica*/

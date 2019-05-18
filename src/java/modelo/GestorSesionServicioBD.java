@@ -47,8 +47,9 @@ public class GestorSesionServicioBD {
                 sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
                 sesionServicio.setTotalVenta(rs.getDouble(6));
                 sesionServicio.setTipoPago(rs.getString(7));
-                sesionServicio.setEstadoSesion(rs.getInt(8));
-                sesionServicio.setStatus(rs.getInt(9));
+                sesionServicio.setFecha(rs.getString(8));
+                sesionServicio.setEstadoSesion(rs.getInt(9));
+                sesionServicio.setStatus(rs.getInt(10));
                 listaSesiones.add(sesionServicio);
 
             }
@@ -159,8 +160,9 @@ public class GestorSesionServicioBD {
             sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
             sesionServicio.setTotalVenta(rs.getDouble(6));
             sesionServicio.setTipoPago(rs.getString(7));
-            sesionServicio.setEstadoSesion(rs.getInt(8));
-            sesionServicio.setStatus(rs.getInt(9));
+           sesionServicio.setFecha(rs.getString(8));
+                sesionServicio.setEstadoSesion(rs.getInt(9));
+                sesionServicio.setStatus(rs.getInt(10));
             rs.close();
             ps.close();
             conexion.close();
@@ -189,8 +191,9 @@ public class GestorSesionServicioBD {
             sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
             sesionServicio.setTotalVenta(rs.getDouble(6));
             sesionServicio.setTipoPago(rs.getString(7));
-            sesionServicio.setEstadoSesion(rs.getInt(8));
-            sesionServicio.setStatus(rs.getInt(9));
+            sesionServicio.setFecha(rs.getString(8));
+                sesionServicio.setEstadoSesion(rs.getInt(9));
+                sesionServicio.setStatus(rs.getInt(10));
 
             rs.close();
             ps.close();
@@ -301,7 +304,26 @@ public class GestorSesionServicioBD {
 
         }
     }
+    
+    public void colocarFechaActualPagoSesionServicio(int idSesion) {
+//        Modifica un objeto en la base de datos, 
+//         cada atributo se utiliza en la posición que le corresponde 
+//         de la instrucción SQL 
+        conexion = ConectaBD.obtenerConexion();
+        try {
+            PreparedStatement st = conexion.prepareStatement(
+                    "call colocarFechaActualPagoSesionServicio(?);");
+            st.setInt(1, idSesion);
+            st.execute();
+            st.close();
+            conexion.close();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+    
     public void deleteSesion(int id) {
 //        Elimina un registro en la base de datos de acuerdo a su llave primaria 
         conexion = ConectaBD.obtenerConexion();

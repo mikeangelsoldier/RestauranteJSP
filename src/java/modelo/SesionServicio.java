@@ -14,6 +14,7 @@ public class SesionServicio {
     private double puntajeMeseroServicio;
     private double totalVenta;
     private String tipoPago;
+    private String fecha;
     private int estadoSesion;
     private int status;
     
@@ -26,7 +27,8 @@ public class SesionServicio {
     public SesionServicio() {
     }
 
-    public SesionServicio(int id, int fk_cliente, int fk_mesero, int numMesa, double puntajeMeseroServicio, double totalVenta, String tipoPago, int estadoSesion, int status) {
+
+    public SesionServicio(int id, int fk_cliente, int fk_mesero, int numMesa, double puntajeMeseroServicio, double totalVenta, String tipoPago, String fecha, int estadoSesion, int status) {
         this.id = id;
         this.fk_cliente = fk_cliente;
         this.fk_mesero = fk_mesero;
@@ -34,9 +36,14 @@ public class SesionServicio {
         this.puntajeMeseroServicio = puntajeMeseroServicio;
         this.totalVenta = totalVenta;
         this.tipoPago = tipoPago;
+        this.fecha = fecha;
         this.estadoSesion = estadoSesion;
         this.status = status;
     }
+    
+    
+    
+    
 
     public int getId() {
         return id;
@@ -140,6 +147,14 @@ public class SesionServicio {
 
     public void setEstadoOrden(String estadoOrden) {
         this.estadoOrden = estadoOrden;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     
