@@ -305,9 +305,9 @@ call getPlatilloNextId();
  )
  update platillo as p set p.imagen=imagen,p.nombre=nombre,p.descripcion=descripcion,p.precio=precio,p.categoria=categoria
  where p.id =clave;
-
+/*
  call updatePlatillo(1,'','Gringas','muy buenas',36.5,'Comidas');
- 
+ */
  
  
   DROP PROCEDURE IF EXISTS updatePlatilloNoImage;
