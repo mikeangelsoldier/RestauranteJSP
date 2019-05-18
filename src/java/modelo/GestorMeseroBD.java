@@ -231,7 +231,7 @@ public class GestorMeseroBD {
         /*Almacena un objeto en la base de datos, 
          cada atributo se utiliza en la posición que le corresponde 
          de la instrucción SQL */
-
+conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement("call insertarMesero (?, ?, ?, ?, ?);");
             st.setString(1, mesero.getNombre());

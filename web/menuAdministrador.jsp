@@ -12,7 +12,7 @@
           <a class="dropdown-item" href="ListarAdministradores">Administradores</a>
             <a class="dropdown-item" href="ListarPlatillos">Platillos</a>
             <a class="dropdown-item" href="ListarClientes">Clientes</a>
-            <a class="dropdown-item" href="seccionMeseros.jsp">Meseros</a>
+            <a class="dropdown-item" href="ListarMeseros">Meseros</a>
         </div>
     </li>
     <li class="nav-item">
