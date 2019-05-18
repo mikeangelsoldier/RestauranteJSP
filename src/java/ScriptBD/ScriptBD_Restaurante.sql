@@ -306,12 +306,12 @@ call getPlatilloNextId();
     categoria varchar(50)/*Se obtienen de tabla categoria*/
  )
  insert into platillo  values(null,imagen,nombre,descripcion,precio,categoria,5,1,1);
- 
+ /*
  call insertarPlatillo('','Enchiladas rojas','muy buenas',35.50,'Comidas');
  call insertarPlatillo('','Enchiladas verde','tambien muy buenas',36.50,'Comidas');
   call insertarPlatillo('','Jugo naranja','muy fresca',10.50,'Bebidas');
   call insertarPlatillo('chhdghdn475','Jugo naranja','muy fresca',10.50,'Bebidas');
- 
+ */
  
  DROP PROCEDURE IF EXISTS updatePlatillo;
  CREATE PROCEDURE updatePlatillo(
