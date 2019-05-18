@@ -1,5 +1,6 @@
 
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="modelo.Mesero"%>
 <%@page import="modelo.GestorMeseroBD"%>
 <%@page import="java.util.Collection"%>
@@ -25,14 +26,17 @@
     </head>
     <body>
         <%
-            int totalSesion = Integer.parseInt(request.getParameter("totalSesion"));
+            double totalSesion = Double.parseDouble(request.getParameter("totalSesion"));
             int idMesero = (int)request.getSession().getAttribute("sesionIdMesero");
             Cliente cliente = (Cliente)request.getSession().getAttribute("usr");
-            Collection<Platillo> listaPlatillosSinRepetir = null;
-            listaPlatillosSinRepetir = (Collection<Platillo>) request.getAttribute("listaPlatillosDeLaSesion");
+            ArrayList<Platillo> listaPlatillosSinRepetir = null;
+            listaPlatillosSinRepetir = (ArrayList<Platillo>) request.getAttribute("listaPlatillosDeLaSesion");
             
             GestorMeseroBD gestorMesero = new GestorMeseroBD();
             Mesero mesero = gestorMesero.getMesero(idMesero);
+            
+            request.setAttribute("listaPlatillosSinRepetir", listaPlatillosSinRepetir);
+            request.setAttribute("totalSesion", totalSesion);
         %>
         
         <h1 class="title-puntuar">Puntuar platillos</h1>
@@ -42,14 +46,16 @@
             <ol class="carousel-indicators indicadores">
                 <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
                 <%
-                    for (int i = 1; i < listaPlatillosSinRepetir.size(); i++) {
+                    for (int i = 0; i < listaPlatillosSinRepetir.size(); i++) {
                 %>
-                <li data-target="#carouselExampleControls" data-slide-to="<%=i%>"></li>
+                <li data-target="#carouselExampleControls" data-slide-to="<%=i+1%>"></li>
                 <%
                     }
                 %>
             </ol>
-            <form class="carousel-inner">
+            <form action="ProcesarPuntuaciones" method="post" class="carousel-inner">
+              
+              
                 <div class="carousel-item active">
                     <h4 class="title-puntuar" style="margin-top: 20px">Mesero <%= mesero.getNombre()%> <%= mesero.getApellidos()%></h4>
                     <div class="w-100 content-platillo" >
@@ -94,41 +100,41 @@
                 
                 <!-- iterar con foreach los platillos -->
                 <%
-                    for (Platillo platillo: listaPlatillosSinRepetir) {
+                    for (int i = 0; i < listaPlatillosSinRepetir.size(); i++) {
                 %>
                 
                 <div class="carousel-item">
-                    <h4 class="title-puntuar" style="margin-top: 20px"><%= platillo.getNombre() %></h4>
+                  <h4 class="title-puntuar" style="margin-top: 20px"><%= listaPlatillosSinRepetir.get(i).getNombre() %></h4>
                     <div class="w-100 content-platillo" >
 
-                        <img src="ObtenerImagenes?id=<%=platillo.getId()%>" alt="..." height="300px" width="450px">
+                      <img src="ObtenerImagenes?id=<%=listaPlatillosSinRepetir.get(i).getId()%>" alt="..." height="300px" width="450px">
                     </div>
                     <div class="stars">
                         <div class="rating">
                             <label>
-                                <input type="radio" name="puntaje2" value="1" />
+                                <input type="radio" name="puntaje<%= i+2 %>" value="1" />
                                 <span class="icon">★</span>
                             </label>
                             <label>
-                                <input type="radio" name="puntaje2" value="2" />
+                                <input type="radio" name="puntaje<%= i+2 %>" value="2" />
                                 <span class="icon">★</span>
                                 <span class="icon">★</span>
                             </label>
                             <label>
-                                <input type="radio" name="puntaje2" value="3" />
+                                <input type="radio" name="puntaje<%= i+2 %>" value="3" />
                                 <span class="icon">★</span>
                                 <span class="icon">★</span>
                                 <span class="icon">★</span>   
                             </label>
                             <label>
-                                <input type="radio" name="puntaje2" value="4" />
+                                <input type="radio" name="puntaje<%= i+2 %>" value="4" />
                                 <span class="icon">★</span>
                                 <span class="icon">★</span>
                                 <span class="icon">★</span>
                                 <span class="icon">★</span>
                             </label>
                             <label>
-                                <input type="radio" name="puntaje2" value="5" />
+                                <input type="radio" name="puntaje<%= i+2 %>" value="5" />
                                 <span class="icon">★</span>
                                 <span class="icon">★</span>
                                 <span class="icon">★</span>
@@ -142,6 +148,7 @@
                 <%
                     }
                 %>
+                <button type="submit"  class="btn btn-primary" style="position: fixed; bottom: 40px; right: 40px;">Guardar puntuaciones</button>
                 
                 <!--div class="carousel-item">
                     <h4 class="title-puntuar" style="margin-top: 20px">Platillo 3</h4>
@@ -193,6 +200,8 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Atrás</span>
             </a>
+                
+                
         </div>
     </body>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
