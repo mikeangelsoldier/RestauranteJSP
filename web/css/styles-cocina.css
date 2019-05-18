@@ -60,6 +60,7 @@ body.kitchen {
 
 
 .orden-titulo {
+    position: relative;
     text-align: center;
     color: cornflowerblue;
 }
