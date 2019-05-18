@@ -249,7 +249,7 @@ CREATE PROCEDURE getPlatillosDeUnaOrden(
 idOrden bigint
 )
 select deto.id as idDetORden,deto.cantidad as cantidadPlatillos,p.id as idPlatillo,p.imagen,p.nombre ,p.descripcion,p.precio,p.categoria,p.puntuacionTotal,p.numPuntuaciones,p.status from platillo as p JOIN det_orden as deto ON p.id=deto.fk_platillo
-where deto.fk_orden=idOrden;
+where deto.fk_orden=idOrden and deto.status=1;
 /*
 select * from platillo;
 call getPlatillosDeUnaOrden(1);
