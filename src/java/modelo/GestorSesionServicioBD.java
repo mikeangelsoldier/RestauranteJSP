@@ -152,17 +152,21 @@ public class GestorSesionServicioBD {
             PreparedStatement ps = conexion.prepareStatement("call getSesionPorId(?);");
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            rs.next();
-            sesionServicio.setId(rs.getInt(1));
-            sesionServicio.setFk_cliente(rs.getInt(2));
-            sesionServicio.setFk_mesero(rs.getInt(3));
-            sesionServicio.setNumMesa(rs.getInt(4));
-            sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
-            sesionServicio.setTotalVenta(rs.getDouble(6));
-            sesionServicio.setTipoPago(rs.getString(7));
-           sesionServicio.setFecha(rs.getString(8));
+
+            while (rs.next()) {
+
+                sesionServicio.setId(rs.getInt(1));
+                sesionServicio.setFk_cliente(rs.getInt(2));
+                sesionServicio.setFk_mesero(rs.getInt(3));
+                sesionServicio.setNumMesa(rs.getInt(4));
+                sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
+                sesionServicio.setTotalVenta(rs.getDouble(6));
+                sesionServicio.setTipoPago(rs.getString(7));
+                sesionServicio.setFecha(rs.getString(8));
                 sesionServicio.setEstadoSesion(rs.getInt(9));
                 sesionServicio.setStatus(rs.getInt(10));
+            }
+
             rs.close();
             ps.close();
             conexion.close();
@@ -182,18 +186,19 @@ public class GestorSesionServicioBD {
             PreparedStatement ps = conexion.prepareStatement("call getIdSesionDeUnaMesa(?);");
             ps.setInt(1, numMesa);
             rs = ps.executeQuery();
-            rs.next();
+            while (rs.next()) {
 
-            sesionServicio.setId(rs.getInt(1));
-            sesionServicio.setFk_cliente(rs.getInt(2));
-            sesionServicio.setFk_mesero(rs.getInt(3));
-            sesionServicio.setNumMesa(rs.getInt(4));
-            sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
-            sesionServicio.setTotalVenta(rs.getDouble(6));
-            sesionServicio.setTipoPago(rs.getString(7));
-            sesionServicio.setFecha(rs.getString(8));
+                sesionServicio.setId(rs.getInt(1));
+                sesionServicio.setFk_cliente(rs.getInt(2));
+                sesionServicio.setFk_mesero(rs.getInt(3));
+                sesionServicio.setNumMesa(rs.getInt(4));
+                sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
+                sesionServicio.setTotalVenta(rs.getDouble(6));
+                sesionServicio.setTipoPago(rs.getString(7));
+                sesionServicio.setFecha(rs.getString(8));
                 sesionServicio.setEstadoSesion(rs.getInt(9));
                 sesionServicio.setStatus(rs.getInt(10));
+            }
 
             rs.close();
             ps.close();
@@ -304,7 +309,7 @@ public class GestorSesionServicioBD {
 
         }
     }
-    
+
     public void colocarFechaActualPagoSesionServicio(int idSesion) {
 //        Modifica un objeto en la base de datos, 
 //         cada atributo se utiliza en la posición que le corresponde 
@@ -323,7 +328,7 @@ public class GestorSesionServicioBD {
 
         }
     }
-    
+
     public void deleteSesion(int id) {
 //        Elimina un registro en la base de datos de acuerdo a su llave primaria 
         conexion = ConectaBD.obtenerConexion();
