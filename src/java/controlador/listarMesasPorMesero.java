@@ -57,7 +57,7 @@ public class listarMesasPorMesero extends HttpServlet {
 
       if (request.getParameter("numMesaSeleccionada") != null) {
         numMesaSeleccionada = Integer.parseInt(request.getParameter("numMesaSeleccionada"));
-        numBotonSeleccionado = Integer.parseInt(request.getParameter("numBotonSeleccionado"));
+        
 
         SesionServicio sesionServicio = gestorSesionServicioBD.getIdSesionDeUnaMesa(numMesaSeleccionada);
         idSesionDeMesaSeleccionada = sesionServicio.getId();
