@@ -42,17 +42,17 @@ public class puntuar extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            // Id de la orden seleccionada
             Double totalSesion = 0.0;
-            System.out.println("ENTRANDO AL SERVLET PUNTUAR");
+            String t = null;
             int idSesion = (int)request.getSession().getAttribute("idSesion_http");
-            // int idMesero = (int)request.getSession().getAttribute("sesionIdMesero");
-            // Cliente cliente = (Cliente)request.getSession().getAttribute("usr");
+            
             List<Platillo> listaPlatillosDeLaSesion = null;
             
             if (request.getParameter("totalSesion") != null) {
-                totalSesion = Double.parseDouble(request.getParameter("totalSesion"));
-
+                // totalSesion = Double.parseDouble(request.getParameter("totalSesion"));
+                t = request.getParameter("totalSesion");
+                totalSesion = Double.parseDouble(t);
+                System.out.println("t: " + t);
                 GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
                 listaPlatillosDeLaSesion = gestorPlatillo.getPlatillosDeUnaSesion(idSesion);
                 
