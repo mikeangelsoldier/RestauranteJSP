@@ -496,7 +496,11 @@ call getMeseroNextId();
  )
  insert into mesero  values(null,nombre, apellidos, correo, usuario, password, 5, 1,1);
  
- call insertarMesero('Juana','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
+ call insertarMesero('José','Cervera Barbosa','jose85@hotmail.com', '1','1');
+call insertarMesero('Miguel','Ramírez Lira','mike85@hotmail.com', '2','2');
+call insertarMesero('Alfredo Dios','Valdivia Barajas','frodo85@hotmail.com', '3','3');
+call insertarMesero('Alfredo Dios Especial','Valdivia Barajas','frodo85@hotmail.com', '4','4');
+call insertarMesero('Juana','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
  call insertarMesero('Cinthia','Nava verde','navachin8@outlook.com', 'cinthia','13791379');
   call insertarMesero('Natalia','Méndez','natymendez20@gmail.com', 'naty','abc');
   call insertarMesero('Georgina','Aguada','georagua12@hotmail.com','gio','123');
