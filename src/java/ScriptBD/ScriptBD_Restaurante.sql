@@ -491,7 +491,7 @@ clave int
 )
 select * from mesero where mesero.id=clave and status=1;
 /*
-call getMesero(2);
+call getMesero(1);
 */
 
 
@@ -1057,6 +1057,19 @@ select * from det_orden where det_orden.fk_orden=claveOrden and det_orden.status
 /*
 call getDetallesDeUnaOrden(1);
 */
+
+
+ DROP PROCEDURE IF EXISTS getDetallesDeUnaSesion;
+CREATE PROCEDURE getDetallesDeUnaSesion(
+	idSesion bigint
+)
+select detor.id,detor.fk_orden,detor.fk_platillo,detor.cantidad,detor.puntajePlatillo,detor.status 
+from sesion_servicio as ss jOIN orden as o ON ss.id=o.fk_sesionservicio
+JOIN det_orden as detor on o.id=detor.fk_orden where ss.id=idSesion and  detor.status=1;
+/*
+call getDetallesDeUnaSesion(1);
+*/
+
 
 
 DROP PROCEDURE IF EXISTS getDetOrdenNextId;
