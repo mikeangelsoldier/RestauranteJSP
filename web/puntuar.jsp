@@ -26,7 +26,8 @@
     </head>
     <body>
         <%
-            double totalSesion = Double.parseDouble(request.getParameter("totalSesion"));
+            String totalSesion = request.getParameter("totalSesion");
+            System.out.println("totalSesionDesdeJSP = "+totalSesion);
             int idMesero = (int)request.getSession().getAttribute("sesionIdMesero");
             Cliente cliente = (Cliente)request.getSession().getAttribute("usr");
             ArrayList<Platillo> listaPlatillosSinRepetir = null;
@@ -35,8 +36,9 @@
             GestorMeseroBD gestorMesero = new GestorMeseroBD();
             Mesero mesero = gestorMesero.getMesero(idMesero);
             
-            request.setAttribute("listaPlatillosSinRepetir", listaPlatillosSinRepetir);
-            request.setAttribute("totalSesion", totalSesion);
+            session.setAttribute("listaPlatillosSinRepetir", listaPlatillosSinRepetir);
+            // request.setAttribute("listaPlatillosSinRepetir", listaPlatillosSinRepetir);
+            // request.setAttribute("totalSesion", totalSesion);
         %>
         
         <h1 class="title-puntuar">Puntuar platillos</h1>
@@ -55,7 +57,7 @@
             </ol>
             <form action="ProcesarPuntuaciones" method="post" class="carousel-inner">
               
-              
+                <input type="hidden" name="totalSesionForm" value="<%= totalSesion %>">
                 <div class="carousel-item active">
                     <h4 class="title-puntuar" style="margin-top: 20px">Mesero <%= mesero.getNombre()%> <%= mesero.getApellidos()%></h4>
                     <div class="w-100 content-platillo" >

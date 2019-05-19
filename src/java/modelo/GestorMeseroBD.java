@@ -368,15 +368,17 @@ public class GestorMeseroBD {
         conexion = ConectaBD.obtenerConexion();
         try {
             PreparedStatement st = conexion.prepareStatement(
-                    "call updatePuntajePlatillo(?,?,?);");
+                    "call updatePuntajeMesero(?,?,?);");
             st.setInt(1, mesero.getId());
             st.setDouble(2, mesero.getPuntuacionTotal());
             st.setInt(3, mesero.getNumPuntuaciones());
             st.execute();
             st.close();
             conexion.close();
+            System.out.println("ENTRO AL TRY");
 
         } catch (SQLException e) {
+            System.out.println("Valio versh");
             e.printStackTrace();
 
         }

@@ -35,14 +35,14 @@ public class ProcesarPuntuaciones extends HttpServlet {
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
     try (PrintWriter out = response.getWriter()) {
-      /* TODO output your page here. You may use following sample code. */
 
-      ArrayList<Platillo> listaPlatillosSinRepetir = (ArrayList<Platillo>) request.getAttribute("listaPlatillosSinRepetir");
-      double totalSesion = (double) request.getAttribute("totalSesion");
+      ArrayList<Platillo> listaPlatillosSinRepetir = (ArrayList<Platillo>)request.getSession().getAttribute("listaPlatillosSinRepetir");
+      String totalSesionForm = request.getParameter("totalSesionForm");
 
       int idMesero = (int) request.getSession().getAttribute("sesionIdMesero");
       GestorMeseroBD gestorMesero = new GestorMeseroBD();
       Mesero mesero = gestorMesero.getMesero(idMesero);
+      Mesero mesero2 = new Mesero();
       int idSesion = (int) request.getSession().getAttribute("idSesion_http");
       double puntajeMesero = 0;
 
@@ -56,13 +56,12 @@ public class ProcesarPuntuaciones extends HttpServlet {
         double puntuacionAnterior = mesero.getPuntuacionTotal();
         int cantidadPuntuaciones = mesero.getNumPuntuaciones();
         double puntuacionTotalNueva = ((puntuacionAnterior * cantidadPuntuaciones) + puntajeMesero) / (cantidadPuntuaciones + 1);
-        mesero.setPuntuacionTotal(puntuacionTotalNueva);
-        mesero.setNumPuntuaciones(cantidadPuntuaciones + 1);
+        mesero2.setId(idMesero);
+        mesero2.setPuntuacionTotal(puntuacionTotalNueva);
+        mesero2.setNumPuntuaciones(cantidadPuntuaciones + 1);
+          
+        gestorMesero.updatePuntaje(mesero2);
 
-        gestorMesero.updatePuntaje(mesero);
-
-        mesero.setPuntuacionTotal(puntajeMesero);
-        gestorMesero.updateMesero(mesero);
       }
       /*Fin de puntuar Mesero*/
 
