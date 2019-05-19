@@ -1,10 +1,16 @@
+<%-- 
+    Document   : modificarMesero
+    Created on : 18-may-2019, 16:29:34
+    Author     : Sammy Guergachi <sguergachi at gmail.com>
+--%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Collection"%>
 <%@page import="modelo.*"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
+  <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Modificar cliente</title>
         <link rel="stylesheet" href="css/stylesAdmin.css">
@@ -16,22 +22,24 @@
     </head>
     <body style="background-color: #444">
         <%
-            GestorClienteBD gestor = new GestorClienteBD();
+            GestorMeseroBD gestor = new GestorMeseroBD();
 
-            Cliente cliente = gestor.getCliente(Integer.parseInt(request.getParameter("id")));
+            Mesero mesero = gestor.getMesero(Integer.parseInt(request.getParameter("id")));
         %>
         <div class="container">
             <div>
-                <form action="ActualizarCliente" 
+                <form action="ActualizarMesero" 
                       method="post" class="modal-content"> <!--enctype="multipart/form-data" -->
                     <div class="modal-header">
                         <h4 class="modal-title">
                             <span style="position: relative">
-                                Editar cliente
-                                <div style="position: absolute; top: 0; right: -50px"> 
-                                    <input type="hidden" name="id" value="<%= cliente.getClientId()%>">
+                                Editar Mesero
+                                <div style="position: absolute; top: 0; right: -50px">
+                                    <input type="hidden" name="id" value="<%= mesero.getId()%>">
+                                     <input type="hidden" name="puntacionTotal" value="<%= mesero.getPuntuacionTotal() %>">
+                                      <input type="hidden" name="numPuntuaciones" value="<%= mesero.getNumPuntuaciones() %>">
                                     <span style="margin-top: 0px" class="badge badge-secondary">
-                                        <%= cliente.getClientId()%> </span>
+                                        <%= mesero.getId()%> </span>
                                 </div>
                             </span>
 
@@ -44,42 +52,42 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Nombre</label>
                                 <input type="text" class="form-control" placeholder="Nombre" id="name" 
-                                       name="name" value="<%= cliente.getName()%>" required>
+                                       name="name" value="<%= mesero.getNombre() %>" required>
                             </div>
                             
                             <div class="form-group col-md-6">
                                 <label for="lastname">Apellidos</label>
                                 <input type="text" class="form-control" placeholder="Apellidos" id="lastname" 
-                                       name="lastname"  value="<%= cliente.getLastname()%>" required>
+                                       name="lastname"  value="<%= mesero.getApellidos()  %>" required>
                             </div>
                             
                             <div class="form-group col-md-6">
                                 <label for="email">Correo electrónico</label>
                                 <input type="email" class="form-control" placeholder="Correo electrónico" id="email" 
-                                       name="email"  value="<%= cliente.getEmail() %>" required>
+                                       name="email"  value="<%= mesero.getCorreo() %>" required>
                             </div>
                             
                             <div class="form-group col-md-6">
                                 <label for="username">Usuario</label>
                                 <input type="text" class="form-control" placeholder="Usuario" id="username" 
-                                       name="username" value="<%= cliente.getUsername()%>" required>
+                                       name="username" value="<%= mesero.getUsuario() %>" required>
                             </div>
                             
                             <div class="form-group col-md-6">
                                 <label for="password">Contraseña</label>
                                 <input type="text" class="form-control" placeholder="Contraseña" id="password" 
-                                       name="password"  value="<%= cliente.getPassword()%>" required>
+                                       name="password"  value="<%= mesero.getPassword()  %>" required>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <a href="ListarClientes" 
+                        <a href="ListarMeseros" 
                            class="btn btn-secondary">Cancelar</a>
                         <button type="submit" name="guardar" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
-            </div>
+            </div> 
         </div>
     </body>
 </html>
