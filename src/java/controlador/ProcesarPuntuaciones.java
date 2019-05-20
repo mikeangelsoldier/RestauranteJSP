@@ -85,8 +85,9 @@ public class ProcesarPuntuaciones extends HttpServlet {
         }
 
       }
-
-      request.getRequestDispatcher("index.jsp").forward(request, response);
+      
+      request.setAttribute("totalSesion", totalSesionForm);
+      request.getRequestDispatcher("pagar.jsp").forward(request, response);
     }
   }
 
