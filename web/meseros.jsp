@@ -145,6 +145,20 @@
 
                 %>
                 <h2 class="orden-titulo">
+                    <%
+                        SesionServicio sesionServicio = gestorSesionServicioBD.getIdSesionDeUnaMesa(numMesaSeleccionada);
+                        // gestorSesionServicioBD
+                        String tipoDePagoLeido = "";
+                        if (sesionServicio.getTipoPago() != null) {
+                            tipoDePagoLeido = sesionServicio.getTipoPago();
+                        }
+                        if (tipoDePagoLeido.equals("EFECTIVO")) {
+                    %>
+                    <a href="LiberarMesa?numMesaSeleccionada=<%= numMesaSeleccionada%>" class="btn btn-warning"
+                       style="position: absolute; left: 15px; top: 8px;">Cobrar efectivo</a>
+                    <%
+                        }
+                    %>
                     Mesa <%= numMesaSeleccionada%> 
                     <a href="LiberarMesa?numMesaSeleccionada=<%= numMesaSeleccionada%>" class="btn btn-danger"
                        style="position: absolute; right: 15px; top: 8px;">Liberar mesa</a>
@@ -156,6 +170,20 @@
                         // Mostrar la última orden
                 %>
                 <h2 class="orden-titulo">
+                    <%
+                        SesionServicio sesionServicio = gestorSesionServicioBD.getIdSesionDeUnaMesa(listaMesas.get(0));
+                        // gestorSesionServicioBD
+                        String tipoDePagoLeido = "";
+                        if (sesionServicio.getTipoPago() != null) {
+                            tipoDePagoLeido = sesionServicio.getTipoPago();
+                        }
+                        if (tipoDePagoLeido.equals("EFECTIVO")) {
+                    %>
+                    <a href="LiberarMesa?numMesaSeleccionada=<%= listaMesas.get(0)%>" class="btn btn-warning"
+                       style="position: absolute; left: 15px; top: 8px;">Cobrar efectivo</a>
+                    <%
+                        }
+                    %>
                     Mesa <%= listaMesas.get(0)%>
                     <a href="LiberarMesa?numMesaSeleccionada=<%= listaMesas.get(0)%>" class="btn btn-danger"
                        style="position: absolute; right: 15px; top: 8px;">Liberar mesa</a>

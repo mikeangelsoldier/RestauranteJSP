@@ -29,24 +29,24 @@
                 <form>
                     <div class="modal-body" style="padding: 20px">
                         <input 
-                            type="radio" name="metodoPago" checked onclick="actualizarValor('efectivo')"
-                            id="efectivo" class="input-hidden" value="efectivo"/>
+                            type="radio" name="metodoPago" checked onclick="actualizarValor('EFECTIVO')"
+                            id="efectivo" class="input-hidden" value="EFECTIVO"/>
                         <label for="efectivo">
                             <img src="css/imagenes/cash.png" height="60px" />
                             <span>Efectivo</span>
                         </label> <br>
 
                         <input 
-                            type="radio" name="metodoPago" onclick="actualizarValor('tarjeta')"
-                            id="tarjeta" class="input-hidden" value="tarjeta"/>
+                            type="radio" name="metodoPago" onclick="actualizarValor('TARJETA')"
+                            id="tarjeta" class="input-hidden" value="TARJETA"/>
                         <label for="tarjeta">
                             <img src="css/imagenes/credit.png" height="60px" />
                             <span>Tarjeta de crédito/débito</span>
                         </label> <br>
 
                         <input 
-                            type="radio" name="metodoPago" onclick="actualizarValor('paypal')"
-                            id="paypal" class="input-hidden" value="paypal" />
+                            type="radio" name="metodoPago" onclick="actualizarValor('PAYPAL')"
+                            id="paypal" class="input-hidden" value="PAYPAL" />
                         <label for="paypal">
                             <img src="css/imagenes/paypal.png" height="60px" />
                             <span>Paypal</span>
@@ -77,18 +77,19 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form>
+                    <form action="PagarEfectivo" method="post">
                         <div class="modal-body" style="padding: 20px">
                             <div class="row">
-                                <p>Estás seguro de pagar con efectivo? <p>
+                                <p>¿Estás seguro de pagar con efectivo? <br>
+                                Si es así, espera a que tu mesero pase a tu mesa por el efectivo<p>
                             </div>
                             <!-- Guardar -->
-                            <input type="hidden" name="totalPago" value="<%= totalSesion %>">
-                            <input type="hidden" name="metodoPago" value="efectivo">
+                            <input type="hidden" name="totalSesion" value="<%= totalSesion %>">
+                            <input type="hidden" name="metodoPago" value="EFECTIVO">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Atras</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="alert('Tu mesero en breve pasará a cobrar el pago');">Pagar</button>
+                            <button type="submit" class="btn btn-primary" onclick="alert('Tu mesero en breve pasará a cobrar el pago');">Pagar</button>
                         </div>
                     </form>
                 </div>
@@ -150,7 +151,7 @@
                             </div>
                             <!-- Guardar -->
                             <input type="hidden" name="totalSesion" value="<%= totalSesion %>">
-                            <input type="hidden" name="metodoPago" value="tarjeta">
+                            <input type="hidden" name="metodoPago" value="TARJETA">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Atras</button>
@@ -189,7 +190,7 @@
                             </div>
                             <!-- Guardar -->
                             <input type="hidden" name="totalSesion" value="<%= totalSesion %>">
-                            <input type="hidden" name="metodoPago" value="paypal">
+                            <input type="hidden" name="metodoPago" value="PAYPAL">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Atrás</button>
@@ -203,7 +204,7 @@
 
     </body>
     <script>
-        var metodoPago = 'efectivo';
+        var metodoPago = 'EFECTIVO';
 
         function actualizarValor(valor) {
             metodoPago = valor;
@@ -211,13 +212,13 @@
 
         function mostrarModal() {
             switch (metodoPago) {
-                case 'efectivo':
+                case 'EFECTIVO':
                     $("#modalPagarEfectivo").modal();
                     break;
-                case 'tarjeta':
+                case 'TARJETA':
                     $("#modalPagarTarjeta").modal();
                     break;
-                case 'paypal':
+                case 'PAYPAL':
                     $("#modalPagarPaypal").modal();
                     // console.log('Abrir paypal');
                     break;

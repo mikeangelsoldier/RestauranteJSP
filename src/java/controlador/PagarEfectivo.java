@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import modelo.GestorPlatilloBD;
 import modelo.GestorSesionServicioBD;
 import modelo.Platillo;
 import modelo.SesionServicio;
@@ -23,8 +22,8 @@ import modelo.SesionServicio;
  *
  * @author Personal
  */
-@WebServlet(name = "PagarTarjetaPaypalYCerrarSesion", urlPatterns = {"/PagarTarjetaPaypalYCerrarSesion"})
-public class PagarTarjetaPaypalYCerrarSesion extends HttpServlet {
+@WebServlet(name = "PagarEfectivo", urlPatterns = {"/PagarEfectivo"})
+public class PagarEfectivo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,27 +40,26 @@ public class PagarTarjetaPaypalYCerrarSesion extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             String totalSesion = null;
-            String metodoPago = null;
+            //String metodoPago = null;
             
             int idSesion = (int)request.getSession().getAttribute("idSesion_http");
             
-            List<Platillo> listaPlatillosDeLaSesion = null;
-
+            // List<Platillo> listaPlatillosDeLaSesion = null;
+            System.out.println("Total en servlet pagarEfectivo: " + request.getParameter("totalSesion"));
             if (request.getParameter("totalSesion") != null) {
                 // totalSesion = Double.parseDouble(request.getParameter("totalSesion"));
                 totalSesion = request.getParameter("totalSesion");
-                metodoPago = request.getParameter("metodoPago");
+                // metodoPago = request.getParameter("metodoPago");
                 
                 
                 GestorSesionServicioBD gestorSesionServicioBD = new GestorSesionServicioBD();
                 SesionServicio sesionServicio = new SesionServicio();
                 sesionServicio.setId(idSesion);
                 sesionServicio.setTotalVenta(Double.parseDouble(totalSesion));
-                sesionServicio.setTipoPago(metodoPago);
+                sesionServicio.setTipoPago("EFECTIVO");
                 
                 gestorSesionServicioBD.updateTotalVentaYTipoPagoSesion(sesionServicio);
                 gestorSesionServicioBD.colocarFechaActualPagoSesionServicio(idSesion);
-                gestorSesionServicioBD.colocarSesionComoInactiva(sesionServicio);
                 
             } 
 

@@ -51,6 +51,7 @@ public class ProcesarPuntuaciones extends HttpServlet {
         GestorSesionServicioBD gestorSesionServicioBD = new GestorSesionServicioBD();
         SesionServicio sesionServicio = gestorSesionServicioBD.getSesionPorID(idSesion);
         sesionServicio.setPuntajeMeseroServicio(puntajeMesero);
+        gestorSesionServicioBD.updatePuntajeMeseroSesion(sesionServicio);
 
         /*Actualizar el promedio de puntaje del mesero de la sesión*/
         double puntuacionAnterior = mesero.getPuntuacionTotal();
