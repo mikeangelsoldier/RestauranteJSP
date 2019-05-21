@@ -15,6 +15,12 @@ CREATE TABLE categoriaPlatillo(
 	status int not null
 )ENGINE=InnoDB;
 
+
+CREATE TABLE platillosDelDia(
+	idRegistro int PRIMARY KEY AUTO_INCREMENT not null,
+	idPlatillo varchar(50) not null
+)ENGINE=InnoDB;
+
 /********************************************************************/
 
 
@@ -396,6 +402,43 @@ CREATE PROCEDURE getPlatillosPorCategoria(
  /*
  call getPlatillosPorCategoria('Bebi');
  */
+ 
+ 
+ /*--------------------------------------------------------------------------------------------*/
+ 
+ /****************************************PROCEDIMIENTOS DE platillosDelDia**********/
+ DROP PROCEDURE IF EXISTS getPlatillosDelDia;
+CREATE PROCEDURE getPlatillosDelDia(
+)
+select * from platillosDelDia;
+/*
+select * from platillosDelDia;
+call getPlatillosDelDia();
+*/
+ 
+ 
+ DROP PROCEDURE IF EXISTS insertarPlatilloDelDia;
+ CREATE PROCEDURE insertarPlatilloDelDia(
+    idPlatillo int
+ )
+ insert into platillosDelDia values(null,idPlatillo);
+ /*
+ call insertarPlatilloDelDia(1);
+ call insertarPlatilloDelDia(5);
+ call insertarPlatilloDelDia(4);
+ call insertarPlatilloDelDia(2);
+ */
+ 
+ DROP PROCEDURE IF EXISTS deletePlatillosDelDia;
+CREATE PROCEDURE deletePlatillosDelDia(
+	idRegistroEnTabla int
+)
+ delete from platillosDelDia 
+ where idRegistro =idRegistroEnTabla;
+ /*
+ call deletePlatillosDelDia(1);
+ */
+ 
  
  
 /****************************************PROCEDIMIENTOS DE categoriaPlatillo**********/
@@ -956,7 +999,7 @@ DROP PROCEDURE IF EXISTS getTopOrdenesSolicitadasEnCocina;
 CREATE PROCEDURE getTopOrdenesSolicitadasEnCocina(
 )
 select * from orden where (orden.estadoOrden='SOLICITADA' or orden.estadoOrden='PREPARANDO' ) 
-and orden.status=1 order by orden.id asc limit 10;
+and orden.status=1 and orden.estadoOrden=1 order by orden.id asc limit 10;
 /*
 SELECT * FROM orden;
 call getTopOrdenesSolicitadasEnCocina();
