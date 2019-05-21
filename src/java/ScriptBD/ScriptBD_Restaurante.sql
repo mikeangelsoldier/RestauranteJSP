@@ -427,7 +427,16 @@ call getPlatillosDelDia();
  call insertarPlatilloDelDia(5);
  call insertarPlatilloDelDia(4);
  call insertarPlatilloDelDia(2);
-   
+ */
+ 
+ DROP PROCEDURE IF EXISTS deletePlatillosDelDia;
+CREATE PROCEDURE deletePlatillosDelDia(
+	idRegistroEnTabla int
+)
+ delete from platillosDelDia 
+ where idRegistro =idRegistroEnTabla;
+ /*
+ call deletePlatillosDelDia(1);
  */
  
  
