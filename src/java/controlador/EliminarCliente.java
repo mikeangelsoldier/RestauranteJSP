@@ -25,7 +25,7 @@ public class EliminarCliente extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
+ 
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             GestorClienteBD gestor = new GestorClienteBD();

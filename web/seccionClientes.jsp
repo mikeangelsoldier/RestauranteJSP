@@ -15,7 +15,7 @@
   <aside class="menuAdmin" style="z-index: 8;">
     <div class="logo"></div>
     <nav class="row navbar navbar-light">
-      <form action="ListarClientes" class="form-inline" method="post">
+      <form action="ListarClientes" class="form-inline" method="post"> 
         <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." 
                aria-label="Search" id="searchInput" name="search" value="<% if (request.getParameter("search") != null) out.print(request.getParameter("search")); %>">
         <button class="btn btn-dark my-2 my-sm-0" id="searchButton" type="submit">Buscar</button>
@@ -76,7 +76,7 @@
               <%= cliente.getType().equals("2") ? "Invitado" : "Registrado"%>
             </td>
             <td >
-              <div >
+              <div > 
                 <a href="modificarCliente.jsp?id=<%= cliente.getClientId()%>" 
                    class="btn btn-sm btn-primary btn-block d-inline  <%= cliente.getClientId() == 1 ? "disabled" : ""%>" >
                   Editar

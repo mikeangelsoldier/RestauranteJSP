@@ -273,7 +273,7 @@ select p.id as idPlatillo,p.imagen,p.nombre ,p.descripcion,p.precio,p.categoria,
 from sesion_servicio as ss JOIN orden as o ON ss.id=o.fk_sesionservicio
 JOIN det_orden as detor ON o.id=detor.fk_orden
 JOIN platillo as p ON detor.fk_platillo=p.id
-where ss.id=idSesion
+where ss.id=idSesion and detor.status=1
 group by p.id;
 /*
 select * from platillo;
