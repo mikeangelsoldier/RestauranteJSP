@@ -63,9 +63,14 @@
                     </a>
                 </div>
                 <nav class="row navbar navbar-light">
-                    <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
-                        <button class="btn btn-light my-2 my-sm-0" type="submit">Buscar</button>
+                    <%
+                        String busquedaPlatillo = request.getParameter("search");
+                    %>
+                    <form action="ListarPlatillosSesion" method="post" class="form-inline">
+                        <input class="form-control mr-sm-2" 
+                               value="<% if (busquedaPlatillo != null) out.print(busquedaPlatillo); %>"
+                               type="search" name="search" placeholder="Buscar..." aria-label="Search">
+                        <button class="btn btn-light my-2 my-sm-0" id="searchButton" type="submit">Buscar</button>
                     </form>
                 </nav>
                 <!-- Categorías -->
@@ -87,7 +92,9 @@
                         categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
                         for (CategoriaPlatillo categoria : categorias) {
                     %>
-                    <a class="nav-link item"
+                    <a class="nav-link item <% if (categoria.getCategoria().equals(filterParameter)) {
+                            out.print("active");
+                        } %>"
                        href="ListarPlatillosSesion?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
                     <%
                         }
@@ -139,7 +146,22 @@
                         Collection<Platillo> platillos = null;
                         platillos = (Collection<Platillo>) request.getAttribute("PlatillosSesion");
                     %>
+                    <%
+                        
+                        if(filterParameter == null && busquedaPlatillo == null) {
+                    %>
                     <h4 class="submenu">Todos</h4>
+                    <%
+                        } else if (filterParameter != null) {
+                    %>
+                    <h4 class="submenu"><%= filterParameter %></h4>
+                    <%
+                        } else {
+                    %>
+                    <h4 class="submenu">Resultado de búsqueda</h4>
+                    <%
+                        }
+                    %>
                     <div class="row" style="margin-left: 6px;">
                         <%
                             int n = 1;
@@ -346,6 +368,12 @@
                                 if (!orden.getEstadoOrden().equals("REGISTRADA")) {
                             %>
                             <img src="css/imagenes/check.png" height="25px">
+                            <%
+                                }
+                                
+                                if (!orden.getEstadoOrden().equals("REGISTRADA") && !orden.getEstadoOrden().equals("SOLICITADA")) {
+                            %>
+                            <span style="color: #090; font-size: 11px"><%= orden.getEstadoOrden() %></span>
                             <%
                                 }
                             %>
