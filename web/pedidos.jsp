@@ -17,7 +17,7 @@
     // Para validar el estado de la última orden para saber si habilitar boton de añadir o pagar
     int idUltimaOrden = gestorOrden.getIdUltimaOrdenPorIdSesion(ultimoIdHttpSesion);
     Orden ultimaOrden = gestorOrden.getOrdenPorID(idUltimaOrden);
-    int idMesero = (int)request.getSession().getAttribute("sesionIdMesero");
+    int idMesero = (int) request.getSession().getAttribute("sesionIdMesero");
     GestorMeseroBD gestorMesero = new GestorMeseroBD();
     Mesero mesero = gestorMesero.getMesero(idMesero);
 %>
@@ -43,7 +43,7 @@
                 <button class="none"  id="side-open"  onclick="openAside()">
                     &#9776; Mostrar panel de navegación
                 </button>
-                <span style="color: white; margin-top: 5px">
+                <span id="nombreMesero" class="mesero-sesion-cliente">
                     Te atiende mesero: <%= mesero.getNombre()%> <%= mesero.getApellidos()%>
                 </span>
             </div>
@@ -53,6 +53,12 @@
             <div class="username" style="margin-right: 12px">
                 ${usr.username}
             </div>
+            <div>
+                <a class="refresh" href="ListarPlatillosSesion">
+                    <i class="fas fa-redo-alt"></i>
+                </a>
+            </div>
+
         </div>
         <div class="row" style="margin: 60px 10px; z-index: 0;">
 
@@ -68,7 +74,9 @@
                     %>
                     <form action="ListarPlatillosSesion" method="post" class="form-inline">
                         <input class="form-control mr-sm-2" 
-                               value="<% if (busquedaPlatillo != null) out.print(busquedaPlatillo); %>"
+                               value="<% if (busquedaPlatillo != null) {
+                                       out.print(busquedaPlatillo);
+                                   } %>"
                                type="search" name="search" placeholder="Buscar..." aria-label="Search">
                         <button class="btn btn-light my-2 my-sm-0" id="searchButton" type="submit">Buscar</button>
                     </form>
@@ -94,7 +102,7 @@
                     %>
                     <a class="nav-link item <% if (categoria.getCategoria().equals(filterParameter)) {
                             out.print("active");
-                        } %>"
+                        }%>"
                        href="ListarPlatillosSesion?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
                     <%
                         }
@@ -147,16 +155,15 @@
                         platillos = (Collection<Platillo>) request.getAttribute("PlatillosSesion");
                     %>
                     <%
-                        
-                        if(filterParameter == null && busquedaPlatillo == null) {
+                        if (filterParameter == null && busquedaPlatillo == null) {
                     %>
                     <h4 class="submenu">Todos</h4>
                     <%
-                        } else if (filterParameter != null) {
+                    } else if (filterParameter != null) {
                     %>
-                    <h4 class="submenu"><%= filterParameter %></h4>
+                    <h4 class="submenu"><%= filterParameter%></h4>
                     <%
-                        } else {
+                    } else {
                     %>
                     <h4 class="submenu">Resultado de búsqueda</h4>
                     <%
@@ -172,7 +179,10 @@
                                 $<%=platillo.getPrecio()%>
                             </div>
                             <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
-                                <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
+                                <button style="border: none; background-color: transparent; outline: none"
+                                    data-toggle="modal" data-target="#modalVerPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
+                                    <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
+                                </button>
                             </div>
                             <div class="card-body" style="text-align: center">
                                 <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre()%></h5>
@@ -305,7 +315,61 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>        
+                        </div>  
+
+                        <!-- Modal ver imagen en platillos -->
+                        <div class="modal fade" id="modalVerPlatillo<%=n%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="exampleModalCenterTitle">
+                                            <%= platillo.getNombre()%>
+                                        </h4>
+                                        <div style="margin: 5px 0px 0px 10px">
+                                            <%
+                                                tieneDecimal = false;
+                                                for (int i = 0; i < puntuacion; i++) {
+                                            %>
+                                            <img src="css/imagenes/star.png" height="20px" style="display: inline">
+                                            <%
+                                                }
+                                            %>
+                                            <%
+                                                if (platillo.getPuntuacionTotal() % 1 != 0) {
+                                                    tieneDecimal = true;
+                                            %>
+                                            <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
+                                            <%
+                                                }
+                                            %>
+                                            <%
+                                                estrellasGrises = 0;
+                                                if (tieneDecimal) {
+                                                    estrellasGrises = 5 - puntuacion - 1;
+                                                } else {
+                                                    estrellasGrises = 5 - puntuacion;
+                                                }
+                                                for (int i = 0; i < estrellasGrises; i++) {
+                                            %>
+                                            <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
+                                            <%
+                                                }
+                                            %>
+                                        </div>
+
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="padding: 0px">
+                                        <img src="ObtenerImagenes?id=<%= platillo.getId()%>" width="498" height="310">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
 
 
                         <%
@@ -370,10 +434,26 @@
                             <img src="css/imagenes/check.png" height="25px">
                             <%
                                 }
-                                
-                                if (!orden.getEstadoOrden().equals("REGISTRADA") && !orden.getEstadoOrden().equals("SOLICITADA")) {
+
+                                if (!orden.getEstadoOrden().equals("REGISTRADA")) {
+                                    String estadoDeLaOrden = orden.getEstadoOrden();
+                                    switch (estadoDeLaOrden) {
+                                        case "SOLICITADA":
+                                            break;
+                                    }
                             %>
-                            <span style="color: #090; font-size: 11px"><%= orden.getEstadoOrden() %></span>
+                            <!--
+                            Progress bar
+                            div class="progress" style="width: 20px">
+                                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div-->
+                            <span style="color: #090; font-size: 11px <% if (estadoDeLaOrden.equals("ENTREGADA")) {
+                                    out.print("; font-weight: 800;");
+                                }%>">
+                                <%= orden.getEstadoOrden()%><% if (estadoDeLaOrden.equals("PREPARANDO")) {
+                                        out.print("...");
+                                    } %>
+                            </span>
                             <%
                                 }
                             %>
@@ -431,7 +511,7 @@
                                                 </td>
                                             </tr>
 
-                                            <!-- Modal ver imagen -->
+                                            <!-- Modal ver imagen en detalle orden -->
                                         <div class="modal fade" id="modalVerPlatilloOrden<%=numeroDetalleOrden%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -576,7 +656,7 @@
                                 <img src="css/imagenes/cash.png" height="60px" />
                                 <span>Efectivo</span>
                             </label>a <br>
-                            
+
                             <input 
                                 type="radio" name="metodoPago" 
                                 id="tarjeta" class="input-hidden" />
@@ -584,7 +664,7 @@
                                 <img src="css/imagenes/credit.png" height="60px" />
                                 <span>Tarjeta de crédito/débito</span>
                             </label> <br>
-                            
+
                             <input 
                                 type="radio" name="metodoPago" 
                                 id="paypal" class="input-hidden" />
@@ -602,7 +682,7 @@
                 </div>
             </div>
         </div> 
-        
+
         <!-- MODAL PREGUNTAR PUNTUAR -->
         <div class="modal fade" id="modalPreguntarPuntuar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
             <div class="modal-dialog" role="document">
@@ -624,8 +704,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-secondary" href="">No, solo pagar</a>
-                            <a class="btn btn-primary" href="puntuar?totalSesion=<%= totalFinal %>">Sí, quiero puntuar</a>
+                            <a class="btn btn-secondary" href="PagarSinPuntuar?totalSesionForm=<%= totalFinal%>">No, solo pagar</a>
+                            <a class="btn btn-primary" href="puntuar?totalSesion=<%= totalFinal%>">Sí, quiero puntuar</a>
                         </div>
                     </form>
                 </div>
@@ -650,6 +730,7 @@
             function openAside() {
                 document.getElementById("sidebarCategorias").style.width = "23%";
                 document.getElementById("sidebarCategorias").style.marginLeft = "-175px";
+                document.getElementById("nombreMesero").style.marginLeft = "10px";
                 var sp = document.getElementById("seccionPlatillos");
                 sp.className = "col-md-6 platillos";
                 var coll = document.getElementById("collapse");
@@ -661,6 +742,7 @@
             function closeAside() {
                 document.getElementById("sidebarCategorias").style.width = "0";
                 document.getElementById("sidebarCategorias").style.marginLeft = "-1000px";
+                document.getElementById("nombreMesero").style.marginLeft = "270px";
                 var sp = document.getElementById("seccionPlatillos");
                 sp.className = "col-md-9 platillos";
                 var coll = document.getElementById("collapse");

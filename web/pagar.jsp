@@ -16,7 +16,7 @@
             String totalSesion = (String)request.getAttribute("totalSesion");
             System.out.println("total sesion en pagar jsp" + totalSesion);
         %>
-        <div class="container" style="background-color: white">
+        <div class="container container-pago">
             <div>
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalCenterTitle">
@@ -66,7 +66,7 @@
         
         
         <!-- MODAL PAGO EFECTIVO -->
-        <div class="modal fade" id="modalPagarEfectivo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
+        <div class="modal fade" id="modalPagarEfectivo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 40px">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -97,7 +97,7 @@
         </div> 
 
         <!-- MODAL PAGO TARJETA -->
-        <div class="modal fade" id="modalPagarTarjeta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
+        <div class="modal fade" id="modalPagarTarjeta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 30px">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -163,7 +163,7 @@
         </div> 
 
         <!-- MODAL PAGO PAYPAL -->
-        <div class="modal fade" id="modalPagarPaypal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
+        <div class="modal fade" id="modalPagarPaypal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 40px">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
