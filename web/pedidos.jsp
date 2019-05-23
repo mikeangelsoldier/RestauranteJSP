@@ -10,9 +10,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%
+    Cliente cliente = (Cliente) request.getSession().getAttribute("usr");
     int ultimoIdHttpSesion = (int) request.getSession().getAttribute("idSesion_http");
+    String filterParameter = request.getParameter("filter");
 
     GestorOrdenBD gestorOrden = new GestorOrdenBD();
+    GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
+    int n = 1; // Para el id de los modales
 
     // Para validar el estado de la última orden para saber si habilitar boton de añadir o pagar
     int idUltimaOrden = gestorOrden.getIdUltimaOrdenPorIdSesion(ultimoIdHttpSesion);
@@ -84,7 +88,7 @@
                 <!-- Categorías -->
                 <div id="menuCliente" class="nav flex-column menuI" >
                     <%
-                        String filterParameter = request.getParameter("filter");
+
                     %>
                     <a class="nav-link item <% if (filterParameter == null) {
                             out.print("active");
@@ -122,6 +126,11 @@
                 <div class="display-platillos">
                     <h1 style="margin-bottom: 30px">Platillos</h1>
                     <!--------------------PLATILLOS DEL DIA------------------------>
+
+                    <%
+                        if (filterParameter == null) {
+                            // Mostrar platillos más consumidos por el usuario que inicio sesión
+                    %>
                     <div>
                         <h4 class="submenu">Platillos del día</h4>
                         <div class="row" style="margin-left: 6px">
@@ -147,7 +156,303 @@
                             %>
                         </div>
                     </div>
+                    <%
+                        }
+                    %>
                     <!-----------------/PLATILLOS DEL DIA-------------------------->
+
+                    <!------------ PLATILLOS MÁS CONSUMIDOS POR UN USUARIO REGISTRADO ------------->
+                    <%
+                        if (cliente.getClientId() > 1) {
+
+                            Collection<Platillo> platillosMasConsumidosDeUnUsuarioSoloConId = null;
+                            platillosMasConsumidosDeUnUsuarioSoloConId = gestorPlatillo.getTopPlatillosMasConsumidosPorUsuario(cliente.getClientId());
+                            ArrayList<Platillo> platillosMasConsumidosDeUnUsuario = new ArrayList<>();
+                            if (platillosMasConsumidosDeUnUsuarioSoloConId.size() > 0) {
+                                for (Platillo platilloSoloConId : platillosMasConsumidosDeUnUsuarioSoloConId) {
+                                    Platillo p = gestorPlatillo.getPlatillo(platilloSoloConId.getId());
+                                    System.out.println("p = " + p.getNombre());
+                                    platillosMasConsumidosDeUnUsuario.add(p);
+                                }
+
+                                n = 1;
+                                if (filterParameter == null) {
+                                    System.out.println("FilterParameter = " + filterParameter);
+                    %>
+                    <h4 class="submenu">Tus platillos favoritos</h4>
+                    <div class="row" style="margin-left: 6px;">
+                        <%
+                            for (Platillo platillo : platillosMasConsumidosDeUnUsuario) {
+                        %> 
+                        <div class="card platillo" style="display: flex; padding: 2px; position: relative; height: 270px; width: 200px;">
+                            <div class="precio-platillo badge badge-primary">
+                                $<%=platillo.getPrecio()%>
+                            </div>
+                            <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
+                                <button style="border: none; background-color: transparent; outline: none"
+                                        data-toggle="modal" data-target="#modalVerPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
+                                    <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
+                                </button>
+                            </div>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre()%></h5>
+                                <%  //Limitar texto descripción
+                                    String desc = "";
+                                    if (platillo.getDescripcion().length() > 50) {
+                                        desc = platillo.getDescripcion().substring(0, 50);
+                                        desc += "...";
+                                    } else {
+                                        desc = platillo.getDescripcion();
+                                    }
+                                %>
+                                <div class="puntuaciones">
+                                    <%
+                                        int puntuacion = (int) platillo.getPuntuacionTotal();
+                                        boolean tieneDecimal = false;
+                                        for (int i = 0; i < puntuacion; i++) {
+                                    %>
+                                    <img src="css/imagenes/star.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                    <%
+                                        if (platillo.getPuntuacionTotal() % 1 != 0) {
+                                            tieneDecimal = true;
+                                    %>
+                                    <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                    <%
+                                        int estrellasGrises = 0;
+                                        if (tieneDecimal) {
+                                            estrellasGrises = 5 - puntuacion - 1;
+                                        } else {
+                                            estrellasGrises = 5 - puntuacion;
+                                        }
+                                        for (int i = 0; i < estrellasGrises; i++) {
+                                    %>
+                                    <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                                <p class="card-text font-small"><%=desc%></p> 
+                                <%
+                                    if (ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
+                                %>
+                                <a class="btn btn-sm btn-dark btn-platillo-sesion"
+                                   data-toggle="modal" 
+                                   data-target="#modalAgregarPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
+                                    Agregar
+                                </a>
+                                <%
+                                    }
+                                %>
+                            </div>
+                        </div>
+                        <%
+                                n++;
+                            }
+                        %>
+                    </div>
+                    <%
+                                }
+                            }
+                        }
+                    %>
+                    <!------------ / PLATILLOS MÁS CONSUMIDOS POR UN USUARIO REGISTRADO ----------->
+
+                    <!------------ PLATILLOS MEJOR PUNTUADOS ------------->
+                    <%
+                        Collection<Platillo> platillosMejorPuntuados = null;
+                        platillosMejorPuntuados = gestorPlatillo.getTopPlatillosMejorPuntuadosEnGeneral();
+                        n = 1;
+                        if (filterParameter == null) {
+                            System.out.println("FilterParameter = " + filterParameter);
+                    %>
+                    <h4 class="submenu">Platillos mejor puntuados</h4>
+                    <div class="row" style="margin-left: 6px;">
+                        <%
+                            for (Platillo platillo : platillosMejorPuntuados) {
+                        %> 
+                        <div class="card platillo" style="display: flex; padding: 2px; position: relative; height: 270px; width: 200px;">
+                            <div class="precio-platillo badge badge-primary">
+                                $<%=platillo.getPrecio()%>
+                            </div>
+                            <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
+                                <button style="border: none; background-color: transparent; outline: none"
+                                        data-toggle="modal" data-target="#modalVerPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
+                                    <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
+                                </button>
+                            </div>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre()%></h5>
+                                <%  //Limitar texto descripción
+                                    String desc = "";
+                                    if (platillo.getDescripcion().length() > 50) {
+                                        desc = platillo.getDescripcion().substring(0, 50);
+                                        desc += "...";
+                                    } else {
+                                        desc = platillo.getDescripcion();
+                                    }
+                                %>
+                                <div class="puntuaciones">
+                                    <%
+                                        int puntuacion = (int) platillo.getPuntuacionTotal();
+                                        boolean tieneDecimal = false;
+                                        for (int i = 0; i < puntuacion; i++) {
+                                    %>
+                                    <img src="css/imagenes/star.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                    <%
+                                        if (platillo.getPuntuacionTotal() % 1 != 0) {
+                                            tieneDecimal = true;
+                                    %>
+                                    <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                    <%
+                                        int estrellasGrises = 0;
+                                        if (tieneDecimal) {
+                                            estrellasGrises = 5 - puntuacion - 1;
+                                        } else {
+                                            estrellasGrises = 5 - puntuacion;
+                                        }
+                                        for (int i = 0; i < estrellasGrises; i++) {
+                                    %>
+                                    <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                                <p class="card-text font-small"><%=desc%></p> 
+                                <%
+                                    if (ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
+                                %>
+                                <a class="btn btn-sm btn-dark btn-platillo-sesion"
+                                   data-toggle="modal" 
+                                   data-target="#modalAgregarPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
+                                    Agregar
+                                </a>
+                                <%
+                                    }
+                                %>
+                            </div>
+                        </div>
+                        <%
+                                n++;
+                            }
+                        %>
+                    </div>
+                    <%
+                        }
+                    %>
+                    <!------------ / PLATILLOS MEJOR PUNTUADOS ----------->
+
+
+                    <!------------ PLATILLOS MÁS CONSUMIDOS ------------->
+                    <%
+                        Collection<Platillo> platillosMasConsumidosSoloConId = null;
+                        platillosMasConsumidosSoloConId = gestorPlatillo.getTopPlatillosMasConsumidosEnGeneral();
+                        ArrayList<Platillo> platillosMasConsumidos = new ArrayList<Platillo>();
+                        if (platillosMasConsumidosSoloConId.size() > 0) {
+                            for (Platillo platilloSoloConId : platillosMasConsumidosSoloConId) {
+                                Platillo p = gestorPlatillo.getPlatillo(platilloSoloConId.getId());
+                                System.out.println("p = " + p.getNombre());
+                                platillosMasConsumidos.add(p);
+                            }
+
+                            n = 1;
+                            if (filterParameter == null) {
+                                System.out.println("FilterParameter = " + filterParameter);
+                    %>
+                    <h4 class="submenu">Los Platillos más consumidos</h4>
+                    <div class="row" style="margin-left: 6px;">
+                        <%
+                            for (Platillo platillo : platillosMasConsumidos) {
+                        %> 
+                        <div class="card platillo" style="display: flex; padding: 2px; position: relative; height: 270px; width: 200px;">
+                            <div class="precio-platillo badge badge-primary">
+                                $<%=platillo.getPrecio()%>
+                            </div>
+                            <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
+                                <button style="border: none; background-color: transparent; outline: none"
+                                        data-toggle="modal" data-target="#modalVerPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
+                                    <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
+                                </button>
+                            </div>
+                            <div class="card-body" style="text-align: center">
+                                <h5 class="card-title title-platillo" style="margin-top: -12px"><%= platillo.getNombre()%></h5>
+                                <%  //Limitar texto descripción
+                                    String desc = "";
+                                    if (platillo.getDescripcion().length() > 50) {
+                                        desc = platillo.getDescripcion().substring(0, 50);
+                                        desc += "...";
+                                    } else {
+                                        desc = platillo.getDescripcion();
+                                    }
+                                %>
+                                <div class="puntuaciones">
+                                    <%
+                                        int puntuacion = (int) platillo.getPuntuacionTotal();
+                                        boolean tieneDecimal = false;
+                                        for (int i = 0; i < puntuacion; i++) {
+                                    %>
+                                    <img src="css/imagenes/star.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                    <%
+                                        if (platillo.getPuntuacionTotal() % 1 != 0) {
+                                            tieneDecimal = true;
+                                    %>
+                                    <img src="css/imagenes/star-mitad.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                    <%
+                                        int estrellasGrises = 0;
+                                        if (tieneDecimal) {
+                                            estrellasGrises = 5 - puntuacion - 1;
+                                        } else {
+                                            estrellasGrises = 5 - puntuacion;
+                                        }
+                                        for (int i = 0; i < estrellasGrises; i++) {
+                                    %>
+                                    <img src="css/imagenes/star-gris.png" height="20px" style="display: inline">
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                                <p class="card-text font-small"><%=desc%></p> 
+                                <%
+                                    if (ultimaOrden.getEstadoOrden().equals("REGISTRADA")) {
+                                %>
+                                <a class="btn btn-sm btn-dark btn-platillo-sesion"
+                                   data-toggle="modal" 
+                                   data-target="#modalAgregarPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
+                                    Agregar
+                                </a>
+                                <%
+                                    }
+                                %>
+                            </div>
+                        </div>
+                        <%
+                                n++;
+                            }
+                        %>
+                    </div>
+                    <%
+                            }
+                        }
+                    %>
+                    <!------------ / PLATILLOS MÁS CONSUMIDOS ----------->
+
 
                     <!------------------------ TODOS ---------------------------->
                     <%
@@ -171,7 +476,7 @@
                     %>
                     <div class="row" style="margin-left: 6px;">
                         <%
-                            int n = 1;
+                            n = 1;
                             for (Platillo platillo : platillos) {
                         %> 
                         <div class="card platillo" style="display: flex; padding: 2px; position: relative; height: 270px; width: 200px;">
@@ -180,7 +485,7 @@
                             </div>
                             <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
                                 <button style="border: none; background-color: transparent; outline: none"
-                                    data-toggle="modal" data-target="#modalVerPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
+                                        data-toggle="modal" data-target="#modalVerPlatillo<%=n%>" data-sfid="<%= platillo.getId()%>">
                                     <img src="ObtenerImagenes?id=<%=platillo.getId()%>" height="100px" width="170px">
                                 </button>
                             </div>
@@ -474,7 +779,6 @@
                                         <tbody>
                                             <%
                                                 GestorDetalleOrdenBD gestorDetalleOrden = new GestorDetalleOrdenBD();
-                                                GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
 
                                                 List<DetalleOrden> detalleOrdenes = gestorDetalleOrden.getDetallesDeUnaOrden(orden.getId());
 
