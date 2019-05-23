@@ -405,6 +405,44 @@ CREATE PROCEDURE getPlatillosPorCategoria(
  
  
  /*--------------------------------------------------------------------------------------------*/
+ DROP PROCEDURE IF EXISTS getTopPlatillosMasConsumidosEnGeneral;
+CREATE PROCEDURE getTopPlatillosMasConsumidosEnGeneral( 
+)
+	SELECT fk_platillo,count(fk_platillo) as cantidadVecesConsumido from det_orden AS detor
+	group by fk_platillo 
+     order by cantidadVecesConsumido desc limit 10;
+ /*
+ call getTopPlatillosMasConsumidosEnGeneral();
+ */
+ 
+ 
+  DROP PROCEDURE IF EXISTS getTopPlatillosMejorPuntuadosEnGeneral;
+CREATE PROCEDURE getTopPlatillosMejorPuntuadosEnGeneral( 
+)
+	SELECT * from platillo AS p 
+    order by puntuacionTotal desc
+    limit 10;
+ /*
+ call getTopPlatillosMejorPuntuadosEnGeneral();
+ */
+ 
+DROP PROCEDURE IF EXISTS getTopPlatillosMasConsumidosPorUsuario;
+CREATE PROCEDURE getTopPlatillosMasConsumidosPorUsuario( 
+idCliente int
+)
+	SELECT fk_platillo,count(fk_platillo) as cantidadVecesConsumido from det_orden AS detor JOIN orden as o
+    ON detor.fk_orden=o.id JOIN sesion_servicio as ss ON ss.id=o.fk_sesionservicio
+    JOIN cliente as c ON c.id=ss.fk_cliente where c.id=idCliente
+	group by fk_platillo 
+     order by cantidadVecesConsumido desc limit 10;
+ /*
+ call getTopPlatillosMasConsumidosPorUsuario(2);
+ */
+ 
+ 
+ 
+ 
+ 
  
  /****************************************PROCEDIMIENTOS DE platillosDelDia**********/
  DROP PROCEDURE IF EXISTS getPlatillosDelDia;
