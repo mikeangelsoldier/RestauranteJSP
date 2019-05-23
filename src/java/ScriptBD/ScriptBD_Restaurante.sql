@@ -409,8 +409,9 @@ CREATE PROCEDURE getPlatillosPorCategoria(
 CREATE PROCEDURE getTopPlatillosMasConsumidosEnGeneral( 
 )
 	SELECT fk_platillo,count(fk_platillo) as cantidadVecesConsumido from det_orden AS detor
+    where detor.status=1 
 	group by fk_platillo 
-     order by cantidadVecesConsumido desc limit 10;
+     order by cantidadVecesConsumido desc limit 9;
  /*
  call getTopPlatillosMasConsumidosEnGeneral();
  */
@@ -421,7 +422,7 @@ CREATE PROCEDURE getTopPlatillosMejorPuntuadosEnGeneral(
 )
 	SELECT * from platillo AS p 
     order by puntuacionTotal desc
-    limit 10;
+    limit 9;
  /*
  call getTopPlatillosMejorPuntuadosEnGeneral();
  */
@@ -434,7 +435,7 @@ idCliente int
     ON detor.fk_orden=o.id JOIN sesion_servicio as ss ON ss.id=o.fk_sesionservicio
     JOIN cliente as c ON c.id=ss.fk_cliente where c.id=idCliente
 	group by fk_platillo 
-     order by cantidadVecesConsumido desc limit 10;
+     order by cantidadVecesConsumido desc limit 9;
  /*
  call getTopPlatillosMasConsumidosPorUsuario(2);
  */
