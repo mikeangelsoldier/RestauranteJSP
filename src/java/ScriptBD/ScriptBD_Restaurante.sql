@@ -1360,3 +1360,47 @@ CREATE PROCEDURE deleteClaveAcceso(
  call deleteClaveAcceso();
  */
 
+
+
+
+
+
+/****************************************PROCEDIMIENTOS DE REPORTES DE sesion_servicio**********/
+DROP PROCEDURE IF EXISTS getFiltroReporteVenta;
+CREATE PROCEDURE getFiltroReporteVenta(  
+fecha_ventaInicio date ,
+fecha_ventaFin date ,
+id_mesero_asignado varchar(100),/*Se pasa como string para que pueda comparar*/
+id_cliente varchar(100)/*Se pasa como string para que pueda comparar*/
+)
+    SELECT *
+    FROM sesion_servicio as ss 
+    WHERE (ss.fecha between fecha_ventaInicio AND fecha_ventaFin)
+    AND CONVERT(ss.fk_mesero,CHAR) like (CONCAT('%',id_mesero_asignado,'%'))
+    AND CONVERT(ss.fk_cliente,CHAR) like (CONCAT('%',id_cliente,'%'))
+    AND ss.estadoSesion=0 and ss.status=1 order by ss.fecha;
+/*
+call getFiltroReporteVenta('2018-12-24','2019-06-24','','2');
+*/
+
+
+
+DROP PROCEDURE IF EXISTS getFiltroReporteVentaConNombres;
+CREATE PROCEDURE getFiltroReporteVentaConNombres(  
+fecha_ventaInicio date ,
+fecha_ventaFin date ,
+id_mesero_asignado varchar(100),/*Se pasa como string para que pueda comparar*/
+id_cliente varchar(100)/*Se pasa como string para que pueda comparar*/
+)
+    SELECT ss.id,ss.fk_cliente,CONCAT(c.nombre, ' ', c.apellidos) As nombreCliente,
+		ss.fk_mesero,CONCAT(m.nombre, ' ', m.apellidos) As nombreMesero,ss.numMesa,ss.puntajeMeseroServicio,
+        ss.totalVenta,ss.tipoPago,ss.fecha,ss.estadoSesion,ss.status
+    FROM sesion_servicio as ss JOIN cliente as c ON ss.fk_cliente=c.id
+		JOIN mesero as m ON ss.fk_mesero=m.id
+    WHERE (ss.fecha between fecha_ventaInicio AND fecha_ventaFin)
+    AND CONVERT(ss.fk_mesero,CHAR) like (CONCAT('%',id_mesero_asignado,'%'))
+    AND CONVERT(ss.fk_cliente,CHAR) like (CONCAT('%',id_cliente,'%'))
+    AND ss.estadoSesion=0 and ss.status=1 order by ss.fecha;
+/*
+call getFiltroReporteVentaConNombres('2018-12-24','2019-06-24','','2');
+*/

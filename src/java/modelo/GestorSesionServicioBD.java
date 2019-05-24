@@ -417,5 +417,86 @@ public class GestorSesionServicioBD {
             return null;
         }
     }
+    
+    public List<SesionServicio> getFiltroReporteVenta(String fechaInicial,String fechaFinal,String idMeseroAsignado,String idCliente) {
+        ///Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria 
+        conexion = ConectaBD.obtenerConexion();
+        List<SesionServicio> listaSesionesTotalPorOrden = new ArrayList<>();
 
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getFiltroReporteVenta(?,?,?,?);");
+            ps.setString(1, fechaInicial);
+            ps.setString(2, fechaFinal);
+            ps.setString(3, idMeseroAsignado);
+            ps.setString(4, idCliente);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SesionServicio sesionServicio = new SesionServicio();
+                sesionServicio.setId(rs.getInt(1));
+                sesionServicio.setFk_cliente(rs.getInt(2));
+                sesionServicio.setFk_mesero(rs.getInt(3));
+                sesionServicio.setNumMesa(rs.getInt(4));
+                sesionServicio.setPuntajeMeseroServicio(rs.getDouble(5));
+                sesionServicio.setTotalVenta(rs.getDouble(6));
+                sesionServicio.setTipoPago(rs.getString(7));
+                sesionServicio.setFecha(rs.getString(8));
+                sesionServicio.setEstadoSesion(rs.getInt(9));
+                sesionServicio.setStatus(rs.getInt(10));
+                listaSesionesTotalPorOrden.add(sesionServicio);
+
+            }
+            rs.close();
+            ps.close();
+            conexion.close();
+            return listaSesionesTotalPorOrden;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    
+    
+    public List<SesionServicio> getFiltroReporteVentaConNombres(String fechaInicial,String fechaFinal,String idMeseroAsignado,String idCliente) {
+        ///Devuelve un objeto de tipo Cliente de acuerdo a su llave primaria 
+        conexion = ConectaBD.obtenerConexion();
+        List<SesionServicio> listaSesionesTotalPorOrden = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement("call getFiltroReporteVentaConNombres(?,?,?,?);");
+            ps.setString(1, fechaInicial);
+            ps.setString(2, fechaFinal);
+            ps.setString(3, idMeseroAsignado);
+            ps.setString(4, idCliente);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SesionServicio sesionServicio = new SesionServicio();
+                sesionServicio.setId(rs.getInt(1));
+                sesionServicio.setFk_cliente(rs.getInt(2));
+                sesionServicio.setNombreConcatenadoCliente(rs.getString(3));
+                sesionServicio.setFk_mesero(rs.getInt(4));
+                sesionServicio.setNombreConcatenadoMeseroAsignado(rs.getString(5));
+                sesionServicio.setNumMesa(rs.getInt(6));
+                sesionServicio.setPuntajeMeseroServicio(rs.getDouble(7));
+                sesionServicio.setTotalVenta(rs.getDouble(8));
+                sesionServicio.setTipoPago(rs.getString(9));
+                sesionServicio.setFecha(rs.getString(10));
+                sesionServicio.setEstadoSesion(rs.getInt(11));
+                sesionServicio.setStatus(rs.getInt(12));
+                listaSesionesTotalPorOrden.add(sesionServicio);
+            }
+            rs.close();
+            ps.close();
+            conexion.close();
+            return listaSesionesTotalPorOrden;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+    
 }

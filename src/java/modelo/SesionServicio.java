@@ -23,6 +23,10 @@ public class SesionServicio {
     private double totalPorOrdenCalculado;
     
     private double totalPorSesionCalculado;
+    
+    
+    private String nombreConcatenadoMeseroAsignado;
+    private String nombreConcatenadoCliente;
 
     public SesionServicio() {
     }
@@ -155,6 +159,22 @@ public class SesionServicio {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getNombreConcatenadoMeseroAsignado() {
+        return nombreConcatenadoMeseroAsignado;
+    }
+
+    public void setNombreConcatenadoMeseroAsignado(String nombreConcatenadoMeseroAsignado) {
+        this.nombreConcatenadoMeseroAsignado = nombreConcatenadoMeseroAsignado;
+    }
+
+    public String getNombreConcatenadoCliente() {
+        return nombreConcatenadoCliente;
+    }
+
+    public void setNombreConcatenadoCliente(String nombreConcatenadoCliente) {
+        this.nombreConcatenadoCliente = nombreConcatenadoCliente;
     }
 
     
