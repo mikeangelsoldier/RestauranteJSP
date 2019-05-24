@@ -1403,6 +1403,7 @@ id_cliente varchar(100)/*Se pasa como string para que pueda comparar*/
     AND ss.estadoSesion=0 and ss.status=1 order by ss.fecha;
 /*
 call getFiltroReporteVentaConNombres('2018-12-24','2019-06-24','','2');
+call getFiltroReporteVentaConNombres('2018-12-24','2019-06-24','','');
 */
 
 
@@ -1434,6 +1435,32 @@ categoria varchar (100)
  call getFiltroReportePlatillosMasConsumidosEnGeneralEnRangoFechas('2019-02-23','2019-02-23','Comidas');  en un dia
  */
  
+ 
+ 
+  DROP PROCEDURE IF EXISTS getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas;
+CREATE PROCEDURE getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas( 
+fecha_ventaInicio date ,
+fecha_ventaFin date,
+categoria varchar (100)
+)
+	SELECT fk_platillo,count(fk_platillo) as cantidadVecesConsumido, p.imagen, p.nombre,p.descripcion,p.precio,
+			p.categoria,p.puntuacionTotal,p.numPuntuaciones,p.status 
+            from det_orden AS detor
+    JOIN orden as o ON o.id=detor.fk_orden JOIN sesion_servicio as ss 
+    ON ss.id=o.fk_sesionservicio join platillo as p ON p.id=detor.fk_platillo
+    where detor.status=1 and ss.estadoSesion=0 and (ss.fecha between fecha_ventaInicio AND fecha_ventaFin)
+    AND p.categoria like (CONCAT('%',categoria,'%'))
+	group by fk_platillo
+     order by cantidadVecesConsumido desc ;
+ /*
+  call getTopPlatillosMasConsumidosEnGeneral();
+  
+  
+ call getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas('2018-12-24','2019-06-24','');   En un rango de fechas
+ call getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas('2018-12-24','2019-06-24','Bebidas');   En un rango de fechas
+ call getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas('2019-02-23','2019-02-23','');  en un dia
+ call getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas('2019-02-23','2019-02-23','Comidas');  en un dia
+ */
  
  
  

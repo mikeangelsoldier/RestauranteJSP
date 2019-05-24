@@ -559,6 +559,48 @@ public class GestorPlatilloBD {
         }
     }
 
+     
+     public List<Platillo> getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas(String fechaInicial,String fechaFinal,String categoria) {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+        conexion = ConectaBD.obtenerConexion();
+        List<Platillo> listaPlatillo = new ArrayList<>();
+
+        try {
+            PreparedStatement prest = conexion.prepareStatement("call getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas(?,?,?);");
+
+            prest.setString(1, fechaInicial);
+            prest.setString(2, fechaFinal);
+            prest.setString(3, categoria);
+            
+            rs = prest.executeQuery();
+
+            while (rs.next()) {
+                Platillo platillo = new Platillo();
+                platillo.setFechaCantidadDeVecesComsumido(rs.getNString(1));
+                platillo.setId(rs.getInt(2));
+                platillo.setCantidadDeVecesComsumido(rs.getInt(3));
+                platillo.setImagen(rs.getBinaryStream(4));
+                platillo.setNombre(rs.getString(5));
+                platillo.setDescripcion(rs.getString(6));
+                platillo.setPrecio(rs.getDouble(7));
+                platillo.setCategoria(rs.getString(8));
+                platillo.setPuntuacionTotal(rs.getDouble(9));
+                platillo.setNumeroPuntuaciones(rs.getInt(10));
+                platillo.setStatus(rs.getInt(11));
+                listaPlatillo.add(platillo);
+
+            }
+            rs.close();
+            prest.close();
+            conexion.close();
+            return listaPlatillo;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
 }
 
 

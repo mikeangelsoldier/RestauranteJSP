@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Reportes</title>
+        <title>Reportes de platillos por puntaje</title>
         <link rel="stylesheet" href="css/stylesAdmin.css">
         <link rel="stylesheet" href="css/modal-styles.css">
         <link rel="stylesheet" href="css/styles-reportes.css">
@@ -21,7 +21,7 @@
         
         <!--  Contenido -->
         <div class="container-reportes" style="margin-top: 70px">
-            <h3>Reportes Platillos</h3>
+            <h3>Reportes de platillos por puntaje</h3>
 
             <div class="form-row">
                 <div class="form-group col-md">
@@ -33,13 +33,19 @@
                     <input type="date" class="form-control" id="inputPassword4" min="2000-01-01" max="2030-12-31">
                 </div>
                 <div class="form-group col-md">
-                    <label for="inputPassword4">Categoria</label>
+                    <label for="inputPassword4">Cliente</label>
                     <select class="form-control">
-                        <option value="todos">Todas</option>
+                        <option value="todos">Todos</option>
                         <!--For de todos los clientes para cada option-->
                     </select>
                 </div>
-           
+                <div class="form-group col-md">
+                    <label for="inputPassword4">Mesero</label>
+                    <select class="form-control">
+                        <option value="todos">Todos</option>
+                        <!--For de todos los meseros para cada option-->
+                    </select>
+                </div>
                 <div class="form-group col-md">
                     <br>
                     <button class="btn btn-secondary">Filtrar</button>
@@ -51,13 +57,15 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Venta</th>
+                            <th>ID Cliente</th>
+                            <th>Cliente</th>
+                            <th>ID Mesero</th>
+                            <th>Mesero</th>
+                            <th>Mesa</th>
+                            <th>Tipo de pago</th>
+                            <th>Total</th>
                             <th>Fecha</th>
-                            <th>Cantidad Vendidos</th>
-                            <th>ID Platillo</th>
-                            <th>Platillo</th>
-                            <th>nombre</th>
-                            <th>Categoria</th>
-                            <th>Precio</th>
                         </tr>
                     </thead>
                     <tbody>

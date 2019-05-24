@@ -20,7 +20,8 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" href="seccionReportesVentas.jsp">Ventas generales</a>
           <a class="dropdown-item" href="seccionReportesPlatillos.jsp">Platillos por ventas</a>
-          <a class="dropdown-item" href="seccionReportesPlatillos.jsp">Platillos por puntuación</a>
+          <a class="dropdown-item" href="seccionReportesPlatillosTablaSinFechas.jsp">PlatillosPorVentasGeneral</a> 
+          <a class="dropdown-item" href="seccionReportesPlatillosPorPuntaje.jsp">Platillos por puntuación</a>
         </div>
     </li>
     <li class="nav-item">

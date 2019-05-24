@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Reportes</title>
+        <title>Reportes de platillos sin fecha</title>
         <link rel="stylesheet" href="css/stylesAdmin.css">
         <link rel="stylesheet" href="css/modal-styles.css">
         <link rel="stylesheet" href="css/styles-reportes.css">
@@ -21,7 +21,7 @@
         
         <!--  Contenido -->
         <div class="container-reportes" style="margin-top: 70px">
-            <h3>Reportes Platillos</h3>
+            <h3>Reportes de platillos sin fecha</h3>
 
             <div class="form-row">
                 <div class="form-group col-md">
@@ -39,7 +39,6 @@
                         <!--For de todos los clientes para cada option-->
                     </select>
                 </div>
-           
                 <div class="form-group col-md">
                     <br>
                     <button class="btn btn-secondary">Filtrar</button>
@@ -51,7 +50,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Fecha</th>
                             <th>Cantidad Vendidos</th>
                             <th>ID Platillo</th>
                             <th>Platillo</th>
