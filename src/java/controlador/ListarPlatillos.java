@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import modelo.CategoriaPlatillo;
 import modelo.GestorCategoriaPlatilloBD;
 import modelo.GestorPlatilloBD;
+import modelo.GestorPlatilloDelDiaBD;
 import modelo.Platillo;
+import modelo.PlatilloDelDia;
 
 /**
  *
@@ -56,9 +59,21 @@ public class ListarPlatillos extends HttpServlet {
         categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
         // Filtro por categoría
       } else if (request.getParameter("filter") != null) {
-        filter = request.getParameter("filter");
-        platillos = gestorPlatilloBD.getPlatillosPorCategoria(filter);
-
+          if (request.getParameter("filter").equals("platillosDelDia")) {
+              GestorPlatilloDelDiaBD gestorPlatilloDelDiaBD = new GestorPlatilloDelDiaBD();
+              List<PlatilloDelDia> listaPlatillosDelDia = gestorPlatilloDelDiaBD.getPlatillosDelDia();
+              
+              for (PlatilloDelDia platilloDelDia : listaPlatillosDelDia) {
+                  Platillo platillo = gestorPlatilloBD.getPlatillo(platilloDelDia.getIdPlatillo());
+                  platillos.add(platillo);
+              }
+              
+              
+          } else {
+              filter = request.getParameter("filter");
+              platillos = gestorPlatilloBD.getPlatillosPorCategoria(filter);
+          }
+        
       } else {
         // Sin filtros
         platillos = gestorPlatilloBD.getPlatillos();

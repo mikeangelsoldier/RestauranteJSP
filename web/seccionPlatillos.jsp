@@ -1,5 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Collection"%>
+<%@page import="java.util.List"%>
 <%@page import="modelo.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="row" style="margin: 60px 10px; z-index: 0;">
@@ -16,6 +17,8 @@
         <%
             // Parámetro del filtro
             String filterParameter = request.getParameter("filter");
+            GestorPlatilloDelDiaBD gestorPlatilloDelDiaBD = new GestorPlatilloDelDiaBD();
+            List<PlatilloDelDia> listaPlatillosDelDia = gestorPlatilloDelDiaBD.getPlatillosDelDia();
         %>
         
         
@@ -27,8 +30,8 @@
             </a>
             <a class="nav-link item <% if (filterParameter == null) out.print(" active"); %>"
                 href="ListarPlatillos">Todos</a>
-            <a class="nav-link item"
-                href="ListarPlatillos">Platillos del día</a>
+            <a class="nav-link item <% if ((filterParameter != null) && (filterParameter.equals("platillosDelDia"))) out.print(" active"); %>"
+                href="ListarPlatillos?filter=platillosDelDia">Platillos del día</a>
             <%
                 Collection <CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
                 GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
@@ -70,8 +73,52 @@
                 platillos = (Collection<Platillo>) request.getAttribute("Platillos");
             %>
             <%
+                int idRegistroPlatilloDelDia = 0;
                 for (Platillo platillo : platillos) {
+                    if ((request.getParameter("filter") != null) && (request.getParameter("filter").equals("platillosDelDia"))) {
+                        
+                        for (PlatilloDelDia platilloDelDia : listaPlatillosDelDia) {
+                            if (platilloDelDia.getIdPlatillo() == platillo.getId()) {
+                                idRegistroPlatilloDelDia = platilloDelDia.getIdRegistro();
+                            }
+                        }
+                        
             %> 
+            <div class="card platillo" style="display: flex; padding: 2px; position: relative">
+                <div style="position: absolute; top: 0; left: 0">
+                    <span class="badge badge-secondary"><%=platillo.getId()%></span>
+                </div>
+                
+                
+                <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
+                    <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="120px" height="75px">
+                </div>
+                <div class="card-body" style="text-align: center">
+                    <h5 class="card-title font-smallN"><%=platillo.getNombre()%></h5>
+                    <%  //Limitar texto descripción
+                        String desc = "";
+                        if (platillo.getDescripcion().length() > 35) {
+                            desc = platillo.getDescripcion().substring(0, 35);
+                            desc += "...";
+                        } else {
+                            desc = platillo.getDescripcion();
+                        }
+                    %>
+                    <p class="card-text font-small"><%=desc%></p>                                
+                    <div>
+                        <a href="eliminarDePlatillosDelDia?idPlatillo=<%= idRegistroPlatilloDelDia %>" 
+                           onclick="return confirm('¿Estás seguro de eliminar de platillos del día?');"
+                          class="btn btn-sm btn-danger btn-block">
+                          - Platillos del día
+                        </a>
+                        
+                    </div>
+                </div>
+
+            </div>
+            <%  
+                } else {
+            %>
             <div class="card platillo" style="display: flex; padding: 2px; position: relative">
                 <div style="position: absolute; top: 0; left: 0">
                     <span class="badge badge-secondary"><%=platillo.getId()%></span>
@@ -104,17 +151,34 @@
                           class="btn btn-sm btn-primary btn-block">
                           Editar
                         </a>
+                        <%
+                            boolean existeIdPlatilloEnPlatillosDelDia = false;
+                            for (PlatilloDelDia platilloDelDia : listaPlatillosDelDia) {
+                            if (platilloDelDia.getIdPlatillo() == platillo.getId()) {
+                                existeIdPlatilloEnPlatillosDelDia = true;
+                            }
+                        }
+                            if (listaPlatillosDelDia.size() < 9 && !existeIdPlatilloEnPlatillosDelDia) {
+                                // Mostrar platillos del día
+                        %>
                         <a class="btn btn-sm btn-success btn-block"
-                          href="">
+                           onclick="return confirm('¿Deseas agregar este platillo a los 9 platillos del día?');"
+                           href="AgregarPlatilloDeldia?idPlatillo=<%= platillo.getId() %>">
                             <!--onclick="return confirm('¿Estás seguro de eliminar este platillo?')"
                           href="EliminarPlatillo?id=< %=platillo.getId()%>"-->
-                            <span>Platillos del día</span>
+                            <span style="font-size: 13px"><i class="fas fa-plus"></i> Platillos del día</span>
                         </a>
+                        <%
+                            }
+                        %>
                     </div>
                 </div>
 
             </div>
-            <% }%>
+            <%
+                }
+                }
+            %>
         </div>
     </div>
 </div>
