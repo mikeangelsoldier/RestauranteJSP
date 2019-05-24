@@ -27,8 +27,8 @@ import modelo.SesionServicio;
  *
  * @author Personal
  */
-@WebServlet(name = "listarReporteCantidadPlatillosVendidos", urlPatterns = {"/listarReporteCantidadPlatillosVendidos"})
-public class listarReporteCantidadPlatillosVendidos extends HttpServlet {
+@WebServlet(name = "listarReporteCantidadPlatillosSinFechaEnTabla", urlPatterns = {"/listarReporteCantidadPlatillosSinFechaEnTabla"})
+public class listarReporteCantidadPlatillosSinFechaEnTabla extends HttpServlet {
 
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class listarReporteCantidadPlatillosVendidos extends HttpServlet {
                     categoria = "";
                 }
 
-                listaPlatillos = gestorPlatilloBD.getFiltroReportePlatillosMasConsumidosEnGeneralEnRangoFechas(fechaInicio, fechaFinal, categoria);
+                listaPlatillos = gestorPlatilloBD.getFiltroReporteElPlatillosMasConsumidosEnGeneralEnRangoFechas(fechaInicio, fechaFinal, categoria);
             }
 
             if (listaPlatillos != null) {
@@ -59,7 +59,7 @@ public class listarReporteCantidadPlatillosVendidos extends HttpServlet {
                 request.setAttribute("fechaInicio", fechaInicio); //Se coloca el num del boton seleccionado
                 request.setAttribute("fechaFinal", fechaFinal); //Se coloca el num del boton seleccionado
 
-                request.getRequestDispatcher("/seccionReportesPlatillos.jsp").forward(request, response);//Se envia                
+                request.getRequestDispatcher("/seccionReportesPlatillosTablaSinFechas.jsp").forward(request, response);//Se envia                
             } else {
                 // request.getRequestDispatcher("/noHayRegistros.jsp").forward(request, response);
             }

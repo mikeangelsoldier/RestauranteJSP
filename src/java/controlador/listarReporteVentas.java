@@ -27,39 +27,45 @@ import modelo.SesionServicio;
  *
  * @author Personal
  */
-@WebServlet(name = "listarReporteCantidadPlatillosVendidos", urlPatterns = {"/listarReporteCantidadPlatillosVendidos"})
-public class listarReporteCantidadPlatillosVendidos extends HttpServlet {
+@WebServlet(name = "listarReporteVentas", urlPatterns = {"/listarReporteVentas"})
+public class listarReporteVentas extends HttpServlet {
 
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            Collection<Platillo> listaPlatillos = new ArrayList<Platillo>();
-            GestorPlatilloBD gestorPlatilloBD = new GestorPlatilloBD();
+            Collection<SesionServicio> listaSesionServicio = new ArrayList<>();
+            GestorSesionServicioBD gestorSesionServicioBD = new GestorSesionServicioBD();
 
             // Id de la orden seleccionada
             String fechaInicio = "";
             String fechaFinal = "";
-            String categoria = "";
+            String idCliente = "";
+            String idMesero = "";
 
             if (request.getParameter("fechaInicio") != null && request.getParameter("fechaFinal") != null) {
                 fechaInicio = request.getParameter("fechaInicio");
                 fechaFinal = request.getParameter("fechaFinal");
-                categoria = request.getParameter("categoria");
-                if(categoria.equals("todos")) {
-                    categoria = "";
+                idCliente = request.getParameter("idCliente");
+                idMesero = request.getParameter("idMesero");
+                
+                if(idCliente.equals("todos")) {
+                    idCliente = "";
+                }
+                if(idMesero.equals("todos")) {
+                    idMesero = "";
                 }
 
-                listaPlatillos = gestorPlatilloBD.getFiltroReportePlatillosMasConsumidosEnGeneralEnRangoFechas(fechaInicio, fechaFinal, categoria);
+                listaSesionServicio = gestorSesionServicioBD.getFiltroReporteVentaConNombres(fechaInicio, fechaFinal, idMesero, idCliente);
             }
 
-            if (listaPlatillos != null) {
-                request.setAttribute("listaPlatillos", listaPlatillos); //Se coloca el num del boton seleccionado
+            if (listaSesionServicio != null) {
+                request.setAttribute("listaSesiones", listaSesionServicio); //Se coloca el num del boton seleccionado
                 request.setAttribute("fechaInicio", fechaInicio); //Se coloca el num del boton seleccionado
                 request.setAttribute("fechaFinal", fechaFinal); //Se coloca el num del boton seleccionado
 
-                request.getRequestDispatcher("/seccionReportesPlatillos.jsp").forward(request, response);//Se envia                
+                request.getRequestDispatcher("/seccionReportesVentas.jsp").forward(request, response);//Se envia                
             } else {
                 // request.getRequestDispatcher("/noHayRegistros.jsp").forward(request, response);
             }

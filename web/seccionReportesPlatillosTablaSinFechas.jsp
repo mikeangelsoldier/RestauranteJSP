@@ -1,3 +1,11 @@
+<%@page import="java.util.List"%>
+<%@page import="modelo.GestorCategoriaPlatilloBD"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="modelo.CategoriaPlatillo"%>
+<%@page import="modelo.Platillo"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,31 +28,67 @@
         <jsp:include page="menuAdministrador.jsp" />
         
         <!--  Contenido -->
-        <div class="container-reportes" style="margin-top: 70px">
-            <h3>Reportes de platillos sin fecha</h3>
+        <%
+            GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
+            List<CategoriaPlatillo> listaCategorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
 
-            <div class="form-row">
+            ArrayList<Platillo> listaPlatillos = new ArrayList<>();
+            
+            boolean hayLista = false;
+            System.out.println("listPlatillos = " + request.getAttribute("listaPlatillos"));
+            if (request.getAttribute("listaPlatillos") != null) {
+                listaPlatillos = (ArrayList<Platillo>) request.getAttribute("listaPlatillos");
+                hayLista = true;
+            }
+            
+            Date fechaActual = new Date();
+            DateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaFormateada = formatoFecha.format(fechaActual);
+            
+            String fechaInicial = "2010-01-01"; 
+            if (request.getAttribute("fechaInicio") != null && request.getAttribute("fechaFinal") != null) {
+                fechaInicial = (String) request.getAttribute("fechaInicio");
+                fechaFormateada = (String) request.getAttribute("fechaFinal");
+            }
+        %>
+        <div class="container-reportes" style="margin-top: 70px">
+            <h3>Reportes Platillos más vendidos</h3>
+
+            <form action="listarReporteCantidadPlatillosSinFechaEnTabla" method="post" class="form-row">
                 <div class="form-group col-md">
                     <label for="inputEmail4">Fecha inicio</label>
-                    <input type="date" class="form-control" id="inputEmail4" min="2000-01-01" max="2030-12-31">
+                    <input type="date" class="form-control" id="inputEmail4" name="fechaInicio"
+                           min="2000-01-01" max="2030-12-31" value="<%= fechaInicial %>" required>
                 </div>
                 <div class="form-group col-md">
                     <label for="inputPassword4">Fecha fin</label>
-                    <input type="date" class="form-control" id="inputPassword4" min="2000-01-01" max="2030-12-31">
+                    <input type="date" class="form-control" id="inputPassword4" name="fechaFinal"
+                           min="2000-01-01" max="2030-12-31" value="<%= fechaFormateada %>" required>
                 </div>
                 <div class="form-group col-md">
                     <label for="inputPassword4">Categoria</label>
-                    <select class="form-control">
-                        <option value="todos">Todas</option>
+                    <select class="form-control" name="categoria">
+                        <option value="todos" selected>Todas</option>
+                        <%
+                            for (CategoriaPlatillo categoriaPlatillo : listaCategorias) {
+                                // Mostrar el nombre de la categoría y en value
+%>
+                        <option value="<%= categoriaPlatillo.getCategoria()%>">
+                            <%= categoriaPlatillo.getCategoria()%>
+                        </option>
+                        <%
+                            }
+                        %>
                         <!--For de todos los clientes para cada option-->
                     </select>
                 </div>
+
                 <div class="form-group col-md">
                     <br>
-                    <button class="btn btn-secondary">Filtrar</button>
+                    <button class="btn btn-secondary" type="submit">Filtrar</button>
                 </div>
-            </div>
-            
+            </form>
+
             <!-- Tabla -->
             <div >
                 <table class="table">
@@ -52,14 +96,29 @@
                         <tr>
                             <th>Cantidad Vendidos</th>
                             <th>ID Platillo</th>
-                            <th>Platillo</th>
-                            <th>nombre</th>
+                            <th>Nombre platillo</th>
                             <th>Categoria</th>
                             <th>Precio</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        <%
+                            if (hayLista) {
+                                for (Platillo platillo : listaPlatillos) {
+                                    // Desplegar cada platillo del reporte en la tabla
+                        %>
+                        <tr>
+                            <td><%= platillo.getCantidadDeVecesComsumido()%></td>
+                            <td><%= platillo.getId()%></td>
+                            <td><%= platillo.getNombre()%></td>
+                            <td><%= platillo.getCategoria()%></td>
+                            <td><%= platillo.getPrecio()%></td>
+                        </tr>
+                        <%
+                                }
+                            }
+                        %>
+
                     </tbody>
                 </table>
             </div>

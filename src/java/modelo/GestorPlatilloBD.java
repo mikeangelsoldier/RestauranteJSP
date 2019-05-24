@@ -534,7 +534,7 @@ public class GestorPlatilloBD {
 
             while (rs.next()) {
                 Platillo platillo = new Platillo();
-                platillo.setFechaCantidadDeVecesComsumido(rs.getNString(1));
+                platillo.setFechaCantidadDeVecesComsumido(rs.getString(1));
                 platillo.setId(rs.getInt(2));
                 platillo.setCantidadDeVecesComsumido(rs.getInt(3));
                 platillo.setImagen(rs.getBinaryStream(4));
@@ -577,17 +577,16 @@ public class GestorPlatilloBD {
 
             while (rs.next()) {
                 Platillo platillo = new Platillo();
-                platillo.setFechaCantidadDeVecesComsumido(rs.getNString(1));
-                platillo.setId(rs.getInt(2));
-                platillo.setCantidadDeVecesComsumido(rs.getInt(3));
-                platillo.setImagen(rs.getBinaryStream(4));
-                platillo.setNombre(rs.getString(5));
-                platillo.setDescripcion(rs.getString(6));
-                platillo.setPrecio(rs.getDouble(7));
-                platillo.setCategoria(rs.getString(8));
-                platillo.setPuntuacionTotal(rs.getDouble(9));
-                platillo.setNumeroPuntuaciones(rs.getInt(10));
-                platillo.setStatus(rs.getInt(11));
+                platillo.setId(rs.getInt(1));
+                platillo.setCantidadDeVecesComsumido(rs.getInt(2));
+                platillo.setImagen(rs.getBinaryStream(3));
+                platillo.setNombre(rs.getString(4));
+                platillo.setDescripcion(rs.getString(5));
+                platillo.setPrecio(rs.getDouble(6));
+                platillo.setCategoria(rs.getString(7));
+                platillo.setPuntuacionTotal(rs.getDouble(8));
+                platillo.setNumeroPuntuaciones(rs.getInt(9));
+                platillo.setStatus(rs.getInt(10));
                 listaPlatillo.add(platillo);
 
             }

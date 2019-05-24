@@ -26,11 +26,11 @@
             <div class="form-row">
                 <div class="form-group col-md">
                     <label for="inputEmail4">Fecha inicio</label>
-                    <input type="date" class="form-control" id="inputEmail4" min="2000-01-01" max="2030-12-31">
+                    <input type="date" class="form-control" id="inputEmail4" min="2000-01-01" max="2030-12-31" required>
                 </div>
                 <div class="form-group col-md">
                     <label for="inputPassword4">Fecha fin</label>
-                    <input type="date" class="form-control" id="inputPassword4" min="2000-01-01" max="2030-12-31">
+                    <input type="date" class="form-control" id="inputPassword4" min="2000-01-01" max="2030-12-31" required>
                 </div>
                 <div class="form-group col-md">
                     <label for="inputPassword4">Cliente</label>

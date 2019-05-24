@@ -1,4 +1,17 @@
+<%@page import="modelo.SesionServicio"%>
+<%@page import="modelo.Mesero"%>
+<%@page import="modelo.Cliente"%>
+<%@page import="modelo.GestorMeseroBD"%>
+<%@page import="modelo.GestorClienteBD"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="modelo.Platillo"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelo.CategoriaPlatillo"%>
+<%@page import="java.util.List"%>
+<%@page import="modelo.GestorCategoriaPlatilloBD"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,56 +33,127 @@
         <jsp:include page="menuAdministrador.jsp" />
 
         <!--  Contenido -->
-        <div class="container-reportes" style="margin-top: 70px">
-            <h3>Reportes Ventas</h3>
+        <%
+            GestorClienteBD gestorClienteBD = new GestorClienteBD();
+            GestorMeseroBD gestorMeseroBD = new GestorMeseroBD();
+            List<Cliente> listaClientes = gestorClienteBD.getClientes();
+            List<Mesero> listaMeseros = gestorMeseroBD.getMeseros();
 
-            <div class="form-row">
+            ArrayList<SesionServicio> listaSesionServicio = new ArrayList<>();
+
+            boolean hayLista = false;
+            System.out.println("listPlatillos = " + request.getAttribute("listaSesiones"));
+            if (request.getAttribute("listaSesiones") != null) {
+                listaSesionServicio = (ArrayList<SesionServicio>) request.getAttribute("listaSesiones");
+                hayLista = true;
+            }
+
+            Date fechaActual = new Date();
+            DateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaFormateada = formatoFecha.format(fechaActual);
+
+            String fechaInicial = "2010-01-01";
+            if (request.getAttribute("fechaInicio") != null && request.getAttribute("fechaFinal") != null) {
+                fechaInicial = (String) request.getAttribute("fechaInicio");
+                fechaFormateada = (String) request.getAttribute("fechaFinal");
+            }
+
+
+        %>
+        <div class="container-reportes" style="margin-top: 70px">
+            <h3>Reportes Platillos</h3>
+
+            <form action="listarReporteVentas" method="post" class="form-row">
                 <div class="form-group col-md">
                     <label for="inputEmail4">Fecha inicio</label>
-                    <input type="date" class="form-control" id="inputEmail4" min="2000-01-01" max="2030-12-31">
+                    <input type="date" class="form-control" id="inputEmail4" name="fechaInicio"
+                           min="2000-01-01" max="2030-12-31" value="<%= fechaInicial%>" required>
                 </div>
                 <div class="form-group col-md">
                     <label for="inputPassword4">Fecha fin</label>
-                    <input type="date" class="form-control" id="inputPassword4" min="2000-01-01" max="2030-12-31">
+                    <input type="date" class="form-control" id="inputPassword4" name="fechaFinal"
+                           min="2000-01-01" max="2030-12-31" value="<%= fechaFormateada%>" required>
                 </div>
                 <div class="form-group col-md">
-                    <label for="inputPassword4">Cliente</label>
-                    <select class="form-control">
-                        <option value="todos">Todos</option>
+                    <label for="inputPassword4">Clientes</label>
+                    <select class="form-control" name="idCliente">
+                        <option value="todos" selected>Todos</option>
+                        <%
+                            for (Cliente cliente : listaClientes) {
+                                // Mostrar el nombre de la categoría y en value
+                        %>
+                        <option value="<%= cliente.getClientId()%>">
+                            <%= cliente.getName()%> <%= cliente.getLastname()%>
+                        </option>
+                        <%
+                            }
+                        %>
                         <!--For de todos los clientes para cada option-->
                     </select>
                 </div>
+
                 <div class="form-group col-md">
-                    <label for="inputPassword4">Mesero</label>
-                    <select class="form-control">
-                        <option value="todos">Todos</option>
-                        <!--For de todos los meseros para cada option-->
+                    <label for="inputPassword4">Meseros</label>
+                    <select class="form-control" name="idMesero">
+                        <option value="todos" selected>Todos</option>
+                        <%
+                            for (Mesero mesero : listaMeseros) {
+                                // Mostrar el nombre de la categoría y en value
+%>
+                        <option value="<%= mesero.getId()%>">
+                            <%= mesero.getNombre() %> <%= mesero.getApellidos() %>
+                        </option>
+                        <%
+                            }
+                        %>
+                        <!--For de todos los clientes para cada option-->
                     </select>
                 </div>
+
                 <div class="form-group col-md">
                     <br>
-                    <button class="btn btn-secondary">Filtrar</button>
+                    <button class="btn btn-secondary" type="submit">Filtrar</button>
                 </div>
-            </div>
-            
+            </form>
+
             <!-- Tabla -->
             <div >
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Venta</th>
-                            <th>ID Cliente</th>
-                            <th>Cliente</th>
-                            <th>ID Mesero</th>
-                            <th>Mesero</th>
-                            <th>Mesa</th>
+                            <th>Id Cliente</th>
+                            <th>Nombre cliente</th>
+                            <th>Id Mesero</th>
+                            <th>Nombre mesero</th>
+                            <th>No. Mesa</th>
+                            <th>Total venta</th>
                             <th>Tipo de pago</th>
-                            <th>Total</th>
                             <th>Fecha</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        <%
+                            if (hayLista) {
+                                for (SesionServicio sesionServicio : listaSesionServicio) {
+                                    // Desplegar cada platillo del reporte en la tabla
+%>
+                        <tr>
+                            <td><%= sesionServicio.getId()%></td>
+                            <td><%= sesionServicio.getFk_cliente()%></td>
+                            <td><%= sesionServicio.getNombreConcatenadoCliente()%></td>
+                            <td><%= sesionServicio.getFk_mesero()%></td>
+                            <td><%= sesionServicio.getNombreConcatenadoMeseroAsignado()%></td>
+                            <td><%= sesionServicio.getNumMesa()%></td>
+                            <td><%= sesionServicio.getTotalVenta()%></td>
+                            <td><%= sesionServicio.getTipoPago()%></td>
+                            <td><%= sesionServicio.getFecha()%></td>
+                        </tr>
+                        <%
+                                }
+                            }
+                        %>
+
                     </tbody>
                 </table>
             </div>
