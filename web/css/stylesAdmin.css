@@ -231,7 +231,8 @@ ul.menuI {
 
 .platillo {
     margin: 8px 2px 10px 5px;
-    width: 160px;
+    width: 170px;
+    transition: .3s ease-in-out;
 }
 
 .submenu {
@@ -444,4 +445,23 @@ ul.menuI {
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #999;     
+  }
+  
+  .delete-platillo {
+      background-image: url('imagenes/delete.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+  }
+  
+  .div-delete-platillo {
+      display: none;
+      position: absolute; 
+      top: 2px; 
+      right: 0px;
+      
+  }
+  
+  .platillo:hover .div-delete-platillo {
+      display: inline;
   }

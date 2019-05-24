@@ -148,3 +148,32 @@ input[type=radio]:checked + label>img {
   border-radius: 8px;
   box-shadow: 0 0 4px 4px #090;
 }
+
+.mesero-sesion-cliente {
+    color: white;
+    margin-top: 12px;
+    position: absolute;
+    margin-left: 10px;
+}
+
+.refresh {
+    float: right !important; 
+}
+
+.refresh:hover {
+    color: #fff !important;
+    background-color: transparent !important;
+    transform: scale(1.15, 1.15);
+}
+
+.container-pago {
+    background-color: white !important;
+    max-width: 540px !important; 
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 560px) {
+    .container-pago {
+         max-width: 480px !important;
+    }
+}

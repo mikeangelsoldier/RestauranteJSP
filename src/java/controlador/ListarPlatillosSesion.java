@@ -40,6 +40,7 @@ public class ListarPlatillosSesion extends HttpServlet {
             String filter = null;
 
             // Filtro por nombre
+            System.out.println("Search = " + request.getParameter("search"));
             if (request.getParameter("search") != null) {
                 String filterName = request.getParameter("search");
                 platillos = gestorPlatilloBD.getPlatillosPorNombre(filterName);

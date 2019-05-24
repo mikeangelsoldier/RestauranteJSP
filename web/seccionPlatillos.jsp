@@ -13,21 +13,29 @@
             </form>
         </nav>
         
+        <%
+            // Parámetro del filtro
+            String filterParameter = request.getParameter("filter");
+        %>
+        
+        
         <!-- Categorías -->
         <div id="menuCliente" class="nav flex-column menuI maxCategorias" >
             <a class="btn btn-primary" href="ListarCategoriasPlatillos">
                 <i class="fas fa-cogs"></i>
                 <span>Gestionar Categorías</span>
             </a>
-            <a class="nav-link item"
+            <a class="nav-link item <% if (filterParameter == null) out.print(" active"); %>"
                 href="ListarPlatillos">Todos</a>
+            <a class="nav-link item"
+                href="ListarPlatillos">Platillos del día</a>
             <%
                 Collection <CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
                 GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
                 categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
                 for (CategoriaPlatillo categoria : categorias) {                    
             %>
-                <a class="nav-link item"
+            <a class="nav-link item <% if (categoria.getCategoria().equals(filterParameter)) out.print(" active"); %>"
                     href="ListarPlatillos?filter=<%=categoria.getCategoria()%>"><%=categoria.getCategoria()%></a>
             <% 
                 }
@@ -56,7 +64,7 @@
         <div>
             <h2>Platillos</h2>
         </div>                
-        <div class="row" style="margin-left: 6px;">
+        <div class="row" style="margin-left: 6px; margin-right: 70px;">
             <%
                 Collection<Platillo> platillos = null;
                 platillos = (Collection<Platillo>) request.getAttribute("Platillos");
@@ -67,7 +75,15 @@
             <div class="card platillo" style="display: flex; padding: 2px; position: relative">
                 <div style="position: absolute; top: 0; left: 0">
                     <span class="badge badge-secondary"><%=platillo.getId()%></span>
-                  </div>
+                </div>
+                <div class="div-delete-platillo">
+                    <a 
+                        onclick="return confirm('¿Estás seguro de eliminar este platillo?')"
+                        href="EliminarPlatillo?id=<%=platillo.getId()%>">
+                        <img src="css/imagenes/delete2.png" height="25px">
+                    </a>
+                </div>
+                
                 <div class="card-img-top" style="text-align: center; padding: 10px 2px 2px 2px;">
                     <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="120px" height="75px">
                 </div>
@@ -88,10 +104,11 @@
                           class="btn btn-sm btn-primary btn-block">
                           Editar
                         </a>
-                        <a class="btn btn-sm btn-danger btn-block"
-                          onclick="return confirm('¿Estás seguro de eliminar este platillo?')"
-                          href="EliminarPlatillo?id=<%=platillo.getId()%>">
-                          Eliminar
+                        <a class="btn btn-sm btn-success btn-block"
+                          href="">
+                            <!--onclick="return confirm('¿Estás seguro de eliminar este platillo?')"
+                          href="EliminarPlatillo?id=< %=platillo.getId()%>"-->
+                            <span>Platillos del día</span>
                         </a>
                     </div>
                 </div>
