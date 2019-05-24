@@ -22,6 +22,7 @@ public class Platillo {
     private int idDetOrdenDePlatillo;/*Solo para saber en que detOrden esta el platillo*/
     private int cantidadPlatillos;
     private int cantidadDeVecesComsumido;
+    private String fechaCantidadDeVecesComsumido;
 
     public Platillo(int id, InputStream imagen, String nombre, String descripcion, double precio, String categoria, double puntuacionTotal, int numeroPuntuaciones, int status) {
         this.id = id;
@@ -149,6 +150,14 @@ public class Platillo {
 
     public void setCantidadDeVecesComsumido(int cantidadDeVecesComsumido) {
         this.cantidadDeVecesComsumido = cantidadDeVecesComsumido;
+    }
+
+    public String getFechaCantidadDeVecesComsumido() {
+        return fechaCantidadDeVecesComsumido;
+    }
+
+    public void setFechaCantidadDeVecesComsumido(String fechaCantidadDeVecesComsumido) {
+        this.fechaCantidadDeVecesComsumido = fechaCantidadDeVecesComsumido;
     }
     
     
