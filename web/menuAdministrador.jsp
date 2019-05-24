@@ -15,8 +15,13 @@
             <a class="dropdown-item" href="ListarMeseros">Meseros</a>
         </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="seccionReportes.jsp">Reportes</a>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="seccionReportesVentas.jsp">Ventas generales</a>
+          <a class="dropdown-item" href="seccionReportesPlatillos.jsp">Platillos por ventas</a>
+          <a class="dropdown-item" href="seccionReportesPlatillos.jsp">Platillos por puntuación</a>
+        </div>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="seccionClaveAccesoCocina.jsp">Clave de acceso cocina</a>

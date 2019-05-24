@@ -6,6 +6,7 @@
         <title>Reportes</title>
         <link rel="stylesheet" href="css/stylesAdmin.css">
         <link rel="stylesheet" href="css/modal-styles.css">
+        <link rel="stylesheet" href="css/styles-reportes.css">
         <link rel="stylesheet" 
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
@@ -19,7 +20,7 @@
         <jsp:include page="menuAdministrador.jsp" />
         
         <!--  Contenido -->
-        <div style="margin-top: 60px">
+        <div class="container container-reportes" style="margin-top: 70px">
             <h3>Reportes</h3>
         </div>
         <!--  / Contenido -->
