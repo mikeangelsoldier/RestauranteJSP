@@ -7,9 +7,13 @@
     <aside class="menuAdmin" style="z-index: 8;">
         <div class="logo"></div>
         <nav class="row navbar navbar-light">
+            <%
+                String search = (String)request.getAttribute("search");
+            %>
             <form action="ListarPlatillos" method="post" class="form-inline">
                 <input class="form-control mr-sm-2" type="search" 
-                    placeholder="Buscar..." aria-label="Search" id="searchInput" name="search">
+                    placeholder="Buscar..." aria-label="Search" id="searchInput" name="search"
+                    value="<% if(search != null) out.print(search); %>">
                 <button class="btn btn-dark my-2 my-sm-0" id="searchButton" type="submit">Buscar</button>
             </form>
         </nav>

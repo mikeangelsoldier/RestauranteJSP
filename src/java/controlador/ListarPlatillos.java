@@ -51,10 +51,11 @@ public class ListarPlatillos extends HttpServlet {
 
       // Para los filtros
       String filter = null;
+      String filterName = null;
 
       // Filtro por nombre
       if (request.getParameter("search") != null) {
-        String filterName = request.getParameter("search");
+        filterName = request.getParameter("search");
         platillos = gestorPlatilloBD.getPlatillosPorNombre(filterName);
         categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
         // Filtro por categoría
@@ -84,6 +85,7 @@ public class ListarPlatillos extends HttpServlet {
       if (platillos != null) {
         request.setAttribute("Platillos", platillos);//Se coloca la lista de platillos con el nombre de parámetro "Platillos"
         request.setAttribute("seccion", "platillos");
+        request.setAttribute("search", filterName);
         request.getRequestDispatcher("/moduloAdministrador.jsp").forward(request, response);//Se envia                
       } else {
         // request.getRequestDispatcher("/noHayRegistros.jsp").forward(request, response);
