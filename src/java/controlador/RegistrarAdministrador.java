@@ -42,7 +42,7 @@ public class RegistrarAdministrador extends HttpServlet {
             GestorAdministradorBD gestor = new GestorAdministradorBD();
             gestor.addAdministrador(user);
 
-            request.setAttribute("resInsert", "¡Felicidades! Has agregado el cliemnte satisfactoriamente");
+            request.setAttribute("resInsert", "¡Felicidades! Has agregado el administrador satisfactoriamente");
             request.getRequestDispatcher("/ListarAdministradores").forward(request, response);
         } finally {
             out.close();

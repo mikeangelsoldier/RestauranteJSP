@@ -75,7 +75,7 @@
                 </a>
                 &nbsp;
                 <a class="btn btn-sm btn-danger btn-block d-inline " 
-                   onclick="return confirm('¿Estás seguro de eliminar este platillo?')"
+                   onclick="return confirm('¿Estás seguro de eliminar este administrador?')"
                    href="EliminarAdministrador?id=<%= administrador.getId()%>">
                   Eliminar
                 </a>
@@ -122,7 +122,7 @@
 
             <div class="form-group col-md-6">
               <label for="nombre">Correo electrónico</label>
-              <input type="text" class="form-control" placeholder="Correo electrónico" id="nombre" name="email" required>
+              <input type="email" class="form-control" placeholder="Correo electrónico" id="nombre" name="email" required>
             </div>
 
             <div class="form-group col-md-6">

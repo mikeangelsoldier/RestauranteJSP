@@ -42,7 +42,7 @@ public class RegistrarCliente extends HttpServlet {
             GestorClienteBD gestor = new GestorClienteBD();
             gestor.addCliente(user);
 
-            request.setAttribute("resInsert", "¡Felicidades! Has agregado el cliemnte satisfactoriamente");
+            request.setAttribute("resInsert", "¡Felicidades! Has agregado el cliente satisfactoriamente");
             request.getRequestDispatcher("/ListarClientes").forward(request, response);
         } finally {
             out.close();
