@@ -617,12 +617,17 @@ call getMeseroNextId();
  
  call insertarMesero('José','Cervera Barbosa','jose85@hotmail.com', '1','1');
 call insertarMesero('Miguel','Ramírez Lira','mike85@hotmail.com', '2','2');
-call insertarMesero('Alfredo Dios','Valdivia Barajas','frodo85@hotmail.com', '3','3');
+call insertarMesero('Alfredo','Valdivia Barajas','frodo85@hotmail.com', '3','3');
+/*
 call insertarMesero('Alfredo Dios Especial','Valdivia Barajas','frodo85@hotmail.com', '4','4');
-call insertarMesero('Juana','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
+*/
+
+call insertarMesero('Juan','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
+/*
  call insertarMesero('Cinthia','Nava verde','navachin8@outlook.com', 'cinthia','13791379');
   call insertarMesero('Natalia','Méndez','natymendez20@gmail.com', 'naty','abc');
   call insertarMesero('Georgina','Aguada','georagua12@hotmail.com','gio','123');
+  */
  
  DROP PROCEDURE IF EXISTS updateMesero;
  CREATE PROCEDURE updateMesero(
@@ -636,8 +641,9 @@ call insertarMesero('Juana','Márquez rojas','juan85@hotmail.com', 'juan','pass9
  update mesero as p set p.nombre=nombre,p.apellidos=apellidos,p.correo=correo,p.usuario=usuario,p.pass=pass
  where p.id =clave;
 
+/*
  call updateMesero(1, 'Juan','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
-
+*/
  
 DROP PROCEDURE IF EXISTS deleteMesero;
 CREATE PROCEDURE deleteMesero(
@@ -769,7 +775,8 @@ call getAdministradorNextId();
  )
  insert into administrador values(null,nombre, correo, usuario, password,1);
  
- call insertarAdministrador('Juana','juan85@hotmail.com', 'juan','pass987');
+ call insertarAdministrador('Administrador','admin@restaurante.com', 'admin','123');
+ call insertarAdministrador('Juana','juan85@hotmail.com', 'juana','pass987');
  call insertarAdministrador('Cinthia','navachin8@outlook.com', 'cinthia','13791379');
  call insertarAdministrador('Natalia','natymendez20@gmail.com', 'naty','abc');
  call insertarAdministrador('Georgina','georagua12@hotmail.com','gio','123');
@@ -784,9 +791,9 @@ call getAdministradorNextId();
  )
  update administrador as p set p.nombre=nombre,p.correo=correo,p.usuario=usuario,p.pass=pass
  where p.id =clave;
-
+/*
  call updateAdministrador(1, 'Juan','juan85@hotmail.com', 'juan','pass987');
-
+*/
  
 DROP PROCEDURE IF EXISTS deleteAdministrador;
 CREATE PROCEDURE deleteAdministrador(
