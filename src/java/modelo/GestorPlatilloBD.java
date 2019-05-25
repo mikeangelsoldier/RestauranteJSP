@@ -62,16 +62,17 @@ public class GestorPlatilloBD {
         }
     }
     
-    public List<Platillo> getListaPlatillosPuntaje(String puntuacionAfiltrar) {
+    public List<Platillo> getListaPlatillosPuntaje(String puntuacionAfiltrar,String categoria) {
         /*Devuelve una lista con todos los usuarios 
          leidos de la base de datos*/
         conexion = ConectaBD.obtenerConexion();
         List<Platillo> listaPlatillo = new ArrayList<>();
 
         try {
-            PreparedStatement prest = conexion.prepareStatement("call getListaPlatillosPuntaje(?);");
+            PreparedStatement prest = conexion.prepareStatement("call getListaPlatillosPuntaje(?,?);");
 
             prest.setString(1, puntuacionAfiltrar);
+            prest.setString(2, categoria);
 
             rs = prest.executeQuery();
 
