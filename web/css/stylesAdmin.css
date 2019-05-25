@@ -465,3 +465,10 @@ ul.menuI {
   .platillo:hover .div-delete-platillo {
       display: inline;
   }
+
+  
+  @media screen and (max-width: 400px) {
+      .menuAdmin {
+          width: 85%;
+      }
+  }

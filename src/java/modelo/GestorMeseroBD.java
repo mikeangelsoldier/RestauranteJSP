@@ -38,17 +38,18 @@ public class GestorMeseroBD {
             ps.setString(2, password);
 
             rs = ps.executeQuery();
-            rs.next();
-            mesero.setId(rs.getInt(1));
-            mesero.setNombre(rs.getString(2));
-            mesero.setApellidos(rs.getString(3));
-            mesero.setCorreo(rs.getString(4));
-            mesero.setUsuario(rs.getString(5));
-            mesero.setPassword(rs.getString(6));
-            mesero.setPuntuacionTotal(rs.getDouble(7));
-            mesero.setNumPuntuaciones(rs.getInt(8));
-            mesero.setStatus(rs.getInt(9));
-
+            while (rs.next()) {
+            
+                mesero.setId(rs.getInt(1));
+                mesero.setNombre(rs.getString(2));
+                mesero.setApellidos(rs.getString(3));
+                mesero.setCorreo(rs.getString(4));
+                mesero.setUsuario(rs.getString(5));
+                mesero.setPassword(rs.getString(6));
+                mesero.setPuntuacionTotal(rs.getDouble(7));
+                mesero.setNumPuntuaciones(rs.getInt(8));
+                mesero.setStatus(rs.getInt(9));
+            }
             rs.close();
             ps.close();
             conexion.close();
