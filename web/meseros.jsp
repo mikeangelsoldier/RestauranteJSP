@@ -26,6 +26,33 @@
     </head>
     <body style="background-color: #ddd">
         <!-- Menú principial -->
+        <%
+             Mesero meseroSesion = (Mesero) request.getSession().getAttribute("mesero");//Mesero que inició sesión
+                 int contadorOrdenesPreparadas = 0; // para las órdenes que ya están preparadas
+             
+            GestorMeseroBD gestorMeserosNotificacion = new GestorMeseroBD();
+            GestorSesionServicioBD gestorSesionServicioBD = new GestorSesionServicioBD();
+            List<Integer> listaMesasParaContador = gestorMeserosNotificacion.getMesasMesero(meseroSesion.getId());
+            
+            GestorOrdenBD gestorOrdenNotificacion=new GestorOrdenBD();
+            
+            for (Integer c: listaMesasParaContador) {
+                SesionServicio sesionServicioDeMesa=gestorSesionServicioBD.getIdSesionDeUnaMesa(c);
+                
+                List<Orden> listOrdenes = gestorOrdenNotificacion.getOrdenesPorIdSesion(sesionServicioDeMesa.getId());
+                
+            
+                for(Orden o: listOrdenes){
+                    if(o.getEstadoOrden().equals("PREPARADA")){
+                        contadorOrdenesPreparadas++;
+                    }
+                }
+                
+            }
+           
+
+            //si envia algo por post entonces dale ese valor
+%>
         <ul class="nav nav-tabs navbarAdmin">
             <li class="nav-item dropdown" style="float: right">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -56,8 +83,14 @@
             </li-->
             <li class="nav-item" style="float: right; position: relative;">
                 <div class="notification" style="margin-right: 22px;">
-                    <img src="css/imagenes/notification.png" height="30px" class="notification-icon">
-                    <span class="badge badge-danger notification-number">4</span>
+                    <img style="position: absolute; top: 12px; right: 30px; filter: brightness(2)" src="css/imagenes/notification.png" height="30px" class="notification-icon">
+                    <%
+                        if (contadorOrdenesPreparadas > 0) {
+                    %>
+                    <span id="contador" class="badge badge-danger notification-number"><%= contadorOrdenesPreparadas%></span>
+                    <%
+                        }
+                    %>
                 </div>
             </li>
         </ul>
@@ -75,12 +108,10 @@
 
         <!-- Lista de mesas -->
         <div class="row" style="margin: 70px 40px 40px 40px">
-            <%
-                Mesero meseroSesion = (Mesero) request.getSession().getAttribute("mesero");//Mesero que inició sesión
-                GestorMeseroBD gestorMeseros = new GestorMeseroBD();
+            <%               GestorMeseroBD gestorMeseros = new GestorMeseroBD();
                 List<Integer> listaMesas = gestorMeseros.getMesasMesero(meseroSesion.getId());
 
-                GestorSesionServicioBD gestorSesionServicioBD = new GestorSesionServicioBD();
+                //GestorSesionServicioBD gestorSesionServicioBD = new GestorSesionServicioBD();
                 /*GestorOrdenBD gestorOrden = new GestorOrdenBD();
               List<Orden> ordenes = gestorOrden.getTopOrdenesSolicitadasEnCocina();
               List<Orden> ordenesDesc = new ArrayList<>();
@@ -145,8 +176,7 @@
 
                 %>
                 <h2 class="orden-titulo">
-                    <%
-                        SesionServicio sesionServicio = gestorSesionServicioBD.getIdSesionDeUnaMesa(numMesaSeleccionada);
+                    <%                        SesionServicio sesionServicio = gestorSesionServicioBD.getIdSesionDeUnaMesa(numMesaSeleccionada);
                         // gestorSesionServicioBD
                         String tipoDePagoLeido = "";
                         if (sesionServicio.getTipoPago() != null) {
@@ -161,6 +191,7 @@
                     %>
                     Mesa <%= numMesaSeleccionada%> 
                     <a href="LiberarMesa?numMesaSeleccionada=<%= numMesaSeleccionada%>" class="btn btn-danger"
+                       onclick="return confirm('Esta acción es solo para emergencias \n ¿Estás seguro de liberar la mesa?');"
                        style="position: absolute; right: 15px; top: 8px;">Liberar mesa</a>
                 </h2> <!--  - mesa - mesero -->
 
@@ -210,9 +241,12 @@
                     }
 
                     if (ordenesDeMesaSeleccionada.size() > 0) {
-                        // Mostrar platillos de orden seleccionada
 
+                        // Mostrar platillos de orden seleccionada
                         for (Orden orden : ordenesDeMesaSeleccionada) {
+                            if (orden.getEstadoOrden().equals("PREPARADA")) {
+                                contadorOrdenesPreparadas++;
+                            }
                             /*
                   List<Platillo> platillosDeLaUltimaOrden = null;
                   if (ordenesDesc.size() > 0) {
@@ -234,7 +268,7 @@
                 <div class="row content-2" style="background-color: #ddd"> <!-- Div por cada orden -->
                     <div class="col-md-12" >
                         <h4>Orden <%= orden.getId()%> 
-                            <span style="margin-left: 15px; font-size: 16px">(<%= orden.getEstadoOrden() %>)</span>
+                            <span style="margin-left: 15px; font-size: 16px">(<%= orden.getEstadoOrden()%>)</span>
                             <%
                                 if (orden.getEstadoOrden().equals("ENTREGADA")) {
                             %>
@@ -247,20 +281,19 @@
                         <%
                             GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
                             List<Platillo> platillos = gestorPlatillo.getPlatillosDeUnaOrden(orden.getId());
-                            
+
                         %>
                         <div class="lista-platillos-orden-mesero">
-                        <%
-                            for (Platillo platillo: platillos) {
-                        %>
+                            <%                            for (Platillo platillo : platillos) {
+                            %>
                             <div class="elemento-lista-orden-mesero">
-                                <span class="cantidad-elemento-lista">X <%= platillo.getCantidadPlatillos() %></span>
-                                <%= platillo.getNombre() %> <br>
+                                <span class="cantidad-elemento-lista">X <%= platillo.getCantidadPlatillos()%></span>
+                                <%= platillo.getNombre()%> <br>
                                 <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="140px" height="80px">
                             </div>
-                        <%
-                            }
-                        %>
+                            <%
+                                }
+                            %>
                         </div>
                         <!--div>
                           <img src="ObtenerImagenes?id=< %=platillo.getId()%>" width="230px" height="140px"> <br>
@@ -289,9 +322,9 @@
                             <%
                                 if (orden.getEstadoOrden().equals("PREPARADA")) {
                                     // Mostrar botón entregar orden
-                            %>
+%>
                             <a class="btn btn-lg btn-success" 
-                               href="IndicarOrdenEntregada?idOrdenSeleccionada=<%= orden.getId() %>&numMesaSeleccionada=<%= numMesaSeleccionada %>">
+                               href="IndicarOrdenEntregada?idOrdenSeleccionada=<%= orden.getId()%>&numMesaSeleccionada=<%= numMesaSeleccionada%>">
                                 Orden entregada
                             </a>
                             <%
@@ -312,11 +345,14 @@
                     if (listaMesas.size() > 0) {
                         // Mostrar las órdenes de la primera mesa
                         for (Orden orden : ordenesDeLaPrimeraMesaDeLaLista) {
+                            if (orden.getEstadoOrden().equals("PREPARADA")) {
+                                contadorOrdenesPreparadas++;
+                            }
                 %>          
                 <div class="row content-2" style="background-color: #ddd"> <!-- Div por cada orden -->
                     <div class="col-md-12">
                         <h4>Orden <%= orden.getId()%> 
-                            <span style="margin-left: 15px; font-size: 16px">(<%= orden.getEstadoOrden() %>)</span>
+                            <span style="margin-left: 15px; font-size: 16px">(<%= orden.getEstadoOrden()%>)</span>
                             <%
                                 if (orden.getEstadoOrden().equals("ENTREGADA")) {
                             %>
@@ -329,20 +365,19 @@
                         <%
                             GestorPlatilloBD gestorPlatillo = new GestorPlatilloBD();
                             List<Platillo> platillos = gestorPlatillo.getPlatillosDeUnaOrden(orden.getId());
-                            
+
                         %>
                         <div class="lista-platillos-orden-mesero">
-                        <%
-                            for (Platillo platillo: platillos) {
-                        %>
+                            <%                            for (Platillo platillo : platillos) {
+                            %>
                             <div class="elemento-lista-orden-mesero">
-                                <span class="cantidad-elemento-lista">X <%= platillo.getCantidadPlatillos() %></span>
-                                <%= platillo.getNombre() %> <br>
+                                <span class="cantidad-elemento-lista">X <%= platillo.getCantidadPlatillos()%></span>
+                                <%= platillo.getNombre()%> <br>
                                 <img src="ObtenerImagenes?id=<%=platillo.getId()%>" width="140px" height="80px">
                             </div>
-                        <%
-                            }
-                        %>
+                            <%
+                                }
+                            %>
                         </div>    
 
                         <!--div>
@@ -372,9 +407,9 @@
                             <%
                                 if (orden.getEstadoOrden().equals("PREPARADA")) {
                                     // Mostrar botón entregar orden
-                            %>
+%>
                             <a class="btn btn-lg btn-success" 
-                               href="IndicarOrdenEntregada?idOrdenSeleccionada=<%= orden.getId() %>&numMesaSeleccionada=<%= numMesaSeleccionada %>">
+                               href="IndicarOrdenEntregada?idOrdenSeleccionada=<%= orden.getId()%>&numMesaSeleccionada=<%= numMesaSeleccionada%>">
                                 Orden entregada
                             </a>
                             <%
@@ -397,6 +432,7 @@
                 <%
                         } // Fin de no hay mesas asignadas al mesero
                     } // fin del else
+                    System.out.println("Contador = " + contadorOrdenesPreparadas);
                 %>
 
 
@@ -413,15 +449,16 @@
         crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-        
+
         <script>
-      $(document).ready(function () {
-        setTimeout(refrescar, 30000);
-      });
-      function refrescar() {
-        //Actualiza la página
-        location.reload();
-      }
-    </script>
+            $(document).ready(function () {
+                setTimeout(refrescar, 30000);
+            });
+            function refrescar() {
+                //Actualiza la página
+                location.reload();
+            }
+
+        </script>
     </body>
 </html>
