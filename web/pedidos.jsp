@@ -51,11 +51,25 @@
                     Te atiende mesero: <%= mesero.getNombre()%> <%= mesero.getApellidos()%>
                 </span>
             </div>
-            <div class="username" style="padding: 14px 8px">
+            <!--<div class="username" style="padding: 14px 8px">
                 <img src="css/imagenes/shutdown.png" height="22px" class="shutdown">
-            </div>
+            </div>-->
             <div class="username" style="margin-right: 12px">
+                <img src="css/imagenes/avatar.png" height="20px" style="margin-top: -3px">
                 ${usr.username}
+            </div>
+            <div class="nav-item dropdown" style="float: right">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Conócenos</a>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item acercaDe" data-toggle="modal" 
+                            data-target="#modalAcercaSoftware">Acerca del software</button>
+                    <button class="dropdown-item acercaDe" data-toggle="modal" 
+                            data-target="#modalAcercaNegocio">Acerca del negocio</button>
+                    <button class="dropdown-item acercaDe" data-toggle="modal" 
+                            data-target="#modalContacto">Contacto</button>
+                    <button class="dropdown-item acercaDe" data-toggle="modal" 
+                            data-target="#modalUbicacion">Ubicación</button>
+                </div>
             </div>
             <div>
                 <a class="refresh" href="ListarPlatillosSesion">
@@ -64,6 +78,102 @@
             </div>
 
         </div>
+
+
+        <!-- MODAL ACERCA DEL SOFTWARE -->
+        <div class="modal fade" id="modalAcercaSoftware" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalCenterTitle">
+                            Acerca del software
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px">
+                        <img src="css/imagenes/res_background2.jpg" height="120px">
+                        <p>Información respecto al software</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL ACERCA DEL NEGOCIO -->
+        <div class="modal fade" id="modalAcercaNegocio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalCenterTitle">
+                            Acerca del negocio
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px">
+                        <img src="css/imagenes/res_background2.jpg" height="120px">
+                        <p>Información respecto al negocio</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL CONTACTO -->
+        <div class="modal fade" id="modalContacto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 60px">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalCenterTitle">
+                            Contacto
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px">
+                        <img src="css/imagenes/res_background2.jpg" height="120px">
+                        <p>Contacto de los desarrolladores</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL UBICACIÓN -->
+        <div class="modal fade" id="modalUbicacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 20px">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalCenterTitle">
+                            Ubicación
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px">
+                        <div id="googleMap" style="width:100%;height:300px;"></div>
+                        <p>Principal Las Haciendas 205, San Pedro Del Monte
+                            <br>C.P.37660 León, Gto.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <!-- CONTENIDO -->
         <div class="row" style="margin: 60px 10px; z-index: 0;">
 
             <aside class="menu" id="sidebarCategorias">
@@ -99,7 +209,7 @@
                     <a class="nav-link item"
                        href="ListarPlatillosSesion">Recomendados</a>
                     <%
-                        Collection<CategoriaPlatillo> categorias = new ArrayList<CategoriaPlatillo>();
+                        Collection<CategoriaPlatillo> categorias = new ArrayList<>();
                         GestorCategoriaPlatilloBD gestorCategoriaPlatilloBD = new GestorCategoriaPlatilloBD();
                         categorias = gestorCategoriaPlatilloBD.getCategoriasPlatillos();
                         for (CategoriaPlatillo categoria : categorias) {
@@ -125,23 +235,19 @@
 
                 <div class="display-platillos">
                     <h1 style="margin-bottom: 30px">Platillos</h1>
-                    
+
                     <!------------ PLATILLOS DEL DIA ------------->
                     <%
                         GestorPlatilloDelDiaBD gestorPlatilloDelDiaBD = new GestorPlatilloDelDiaBD();
                         List<PlatilloDelDia> listaPlatillosDelDia = gestorPlatilloDelDiaBD.getPlatillosDelDia();
                         ArrayList<Platillo> platillosDelDia = new ArrayList<>();
-                        
-                        
-                       
+
                         if (listaPlatillosDelDia.size() > 0) {
-                            
-                        for (PlatilloDelDia platilloDelDia : listaPlatillosDelDia) {
-                            Platillo p = gestorPlatillo.getPlatillo(platilloDelDia.getIdPlatillo());
-                            platillosDelDia.add(p);
-                        }
-                        
-                            
+
+                            for (PlatilloDelDia platilloDelDia : listaPlatillosDelDia) {
+                                Platillo p = gestorPlatillo.getPlatillo(platilloDelDia.getIdPlatillo());
+                                platillosDelDia.add(p);
+                            }
 
                             n = 1;
                             if (filterParameter == null) {
@@ -1124,6 +1230,18 @@
                 ss.className = "btn-collapse";
             }
         </script>
+
+        <script>
+            function myMap() {
+                var mapProp = {
+                    center: new google.maps.LatLng(21.0761053, -101.7371088),
+                    zoom: 12
+                };
+                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

@@ -286,7 +286,7 @@ ul.menuI {
 
 .heead {
   z-index: 9;
-  overflow: hidden;
+  /*overflow: hidden;*/
   background-color: orange;
   position: fixed;
   top: 0;
