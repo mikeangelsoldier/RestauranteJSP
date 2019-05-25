@@ -64,6 +64,8 @@ public class listarReporteVentas extends HttpServlet {
                 request.setAttribute("listaSesiones", listaSesionServicio); //Se coloca el num del boton seleccionado
                 request.setAttribute("fechaInicio", fechaInicio); //Se coloca el num del boton seleccionado
                 request.setAttribute("fechaFinal", fechaFinal); //Se coloca el num del boton seleccionado
+                request.setAttribute("idCliente", idCliente); //Se coloca el num del boton seleccionado
+                request.setAttribute("idMesero", idMesero); //Se coloca el num del boton seleccionado
 
                 request.getRequestDispatcher("/seccionReportesVentas.jsp").forward(request, response);//Se envia                
             } else {

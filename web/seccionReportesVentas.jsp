@@ -57,11 +57,24 @@
                 fechaInicial = (String) request.getAttribute("fechaInicio");
                 fechaFormateada = (String) request.getAttribute("fechaFinal");
             }
+            
+            String idClienteAttribute = "Todos";
+            String idMeseroAttribute = "Todos";
 
+            if (request.getAttribute("idCliente") != null) {
+                idClienteAttribute = (String) request.getAttribute("idCliente");
+            }
+
+            if (request.getAttribute("idMesero") != null) {
+                idMeseroAttribute = (String) request.getAttribute("idMesero");
+            }
+            
+            System.out.println("idClienteeee: " + idClienteAttribute);
+            System.out.println("idMeseroooo: " + idMeseroAttribute);
 
         %>
         <div class="container-reportes" style="margin-top: 70px">
-            <h3>Reportes Platillos</h3>
+            <h3>Reporte Ventas generales</h3>
 
             <form action="listarReporteVentas" method="post" class="form-row">
                 <div class="form-group col-md">
@@ -77,12 +90,17 @@
                 <div class="form-group col-md">
                     <label for="inputPassword4">Clientes</label>
                     <select class="form-control" name="idCliente">
-                        <option value="todos" selected>Todos</option>
+                        <option value="todos" <% if (idClienteAttribute.equals("Todos")) {
+                                out.print(" selected");
+                            } %>>Todos</option>
                         <%
                             for (Cliente cliente : listaClientes) {
                                 // Mostrar el nombre de la categoría y en value
                         %>
-                        <option value="<%= cliente.getClientId()%>">
+                        <option value="<%= cliente.getClientId()%>"
+                                <% if (idClienteAttribute.equals(cliente.getClientId()+"")) {
+                                    out.print(" selected");
+                                }%>>
                             <%= cliente.getName()%> <%= cliente.getLastname()%>
                         </option>
                         <%
@@ -95,12 +113,17 @@
                 <div class="form-group col-md">
                     <label for="inputPassword4">Meseros</label>
                     <select class="form-control" name="idMesero">
-                        <option value="todos" selected>Todos</option>
+                        <option value="todos" <% if (idMeseroAttribute.equals("Todos")) {
+                                out.print(" selected");
+                            } %>>Todos</option>
                         <%
                             for (Mesero mesero : listaMeseros) {
                                 // Mostrar el nombre de la categoría y en value
 %>
-                        <option value="<%= mesero.getId()%>">
+                        <option value="<%= mesero.getId()%>"
+                                <% if (idMeseroAttribute.equals(mesero.getId()+"")) {
+                                    out.print(" selected");
+                                }%>>
                             <%= mesero.getNombre() %> <%= mesero.getApellidos() %>
                         </option>
                         <%

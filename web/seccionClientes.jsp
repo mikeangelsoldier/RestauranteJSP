@@ -130,7 +130,7 @@
 
             <div class="form-group col-md-6">
               <label for="nombre">Correo electrónico</label>
-              <input type="text" class="form-control" placeholder="Correo electrónico" id="nombre" name="email" required>
+              <input type="email" class="form-control" placeholder="Correo electrónico" id="nombre" name="email" required>
             </div>
 
             <div class="form-group col-md-6">

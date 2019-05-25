@@ -50,9 +50,15 @@
                 fechaInicial = (String) request.getAttribute("fechaInicio");
                 fechaFormateada = (String) request.getAttribute("fechaFinal");
             }
+            
+            String categoria = "Todas";
+
+            if (request.getAttribute("categoria") != null) {
+                categoria = (String) request.getAttribute("categoria");
+            }
         %>
         <div class="container-reportes" style="margin-top: 70px">
-            <h3>Reportes Platillos</h3>
+            <h3>Reporte Platillos por ventas</h3>
 
             <form action="listarReporteCantidadPlatillosVendidos" method="post" class="form-row">
                 <div class="form-group col-md">
@@ -68,12 +74,17 @@
                 <div class="form-group col-md">
                     <label for="inputPassword4">Categoria</label>
                     <select class="form-control" name="categoria">
-                        <option value="todos" selected>Todas</option>
+                        <option value="todos" <% if (categoria.equals("Todas")) {
+                                out.print(" selected");
+                            } %>>Todas</option>
                         <%
                             for (CategoriaPlatillo categoriaPlatillo : listaCategorias) {
                                 // Mostrar el nombre de la categoría y en value
 %>
-                        <option value="<%= categoriaPlatillo.getCategoria()%>">
+                        <option value="<%= categoriaPlatillo.getCategoria()%>"
+                                <% if (categoria.equals(categoriaPlatillo.getCategoria())) {
+                                    out.print(" selected");
+                                }%>>
                             <%= categoriaPlatillo.getCategoria()%>
                         </option>
                         <%

@@ -58,6 +58,7 @@ public class listarReporteCantidadPlatillosSinFechaEnTabla extends HttpServlet {
                 request.setAttribute("listaPlatillos", listaPlatillos); //Se coloca el num del boton seleccionado
                 request.setAttribute("fechaInicio", fechaInicio); //Se coloca el num del boton seleccionado
                 request.setAttribute("fechaFinal", fechaFinal); //Se coloca el num del boton seleccionado
+                request.setAttribute("categoria", categoria); //Se coloca la categoria
 
                 request.getRequestDispatcher("/seccionReportesPlatillosTablaSinFechas.jsp").forward(request, response);//Se envia                
             } else {

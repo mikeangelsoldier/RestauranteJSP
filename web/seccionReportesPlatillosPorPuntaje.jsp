@@ -58,14 +58,14 @@
 
         %>
         <div class="container-reportes" style="margin-top: 70px">
-            <h3>Reportes Platillos</h3>
+            <h3>Reportes Platillos por puntaje</h3>
 
             <form action="listarReportePlatillosPorPuntaje" method="post" class="form-row">
 
                 <div class="form-group col-md">
                     <label for="inputPassword4">Puntaje</label>
                     <select class="form-control" name="puntaje">
-                        <option value="todos" <% if (categoria.equals("Todos")) {
+                        <option value="todos" <% if (puntaje.equals("Todos")) {
                                 out.print(" selected");
                             } %>>Todos</option>
                         <%   for (String puntuacion : listaPuntaje) {
