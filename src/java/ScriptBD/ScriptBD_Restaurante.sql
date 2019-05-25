@@ -250,6 +250,17 @@ select * from platillo;
 call getPlatillos();
 */
 
+DROP PROCEDURE IF EXISTS getListaPlatillosPuntaje;
+CREATE PROCEDURE getListaPlatillosPuntaje(
+puntaje varchar(10)
+)
+select * from platillo as p where p.status=1 
+	and CONVERT(p.puntuacionTotal,CHAR) like (CONCAT(puntaje,'%'));
+/*
+select * from platillo;
+call getListaPlatillosPuntaje(4);
+*/
+
 DROP PROCEDURE IF EXISTS getPlatillosDeUnaOrden;
 CREATE PROCEDURE getPlatillosDeUnaOrden(
 idOrden bigint

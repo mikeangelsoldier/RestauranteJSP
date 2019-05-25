@@ -61,6 +61,45 @@ public class GestorPlatilloBD {
             return null;
         }
     }
+    
+    public List<Platillo> getListaPlatillosPuntaje(String puntuacionAfiltrar) {
+        /*Devuelve una lista con todos los usuarios 
+         leidos de la base de datos*/
+        conexion = ConectaBD.obtenerConexion();
+        List<Platillo> listaPlatillo = new ArrayList<>();
+
+        try {
+            PreparedStatement prest = conexion.prepareStatement("call getListaPlatillosPuntaje(?);");
+
+            prest.setString(1, puntuacionAfiltrar);
+
+            rs = prest.executeQuery();
+
+            while (rs.next()) {
+                Platillo platillo = new Platillo();
+                platillo.setId(rs.getInt(1));
+                platillo.setImagen(rs.getBinaryStream(2));
+                platillo.setNombre(rs.getString(3));
+                platillo.setDescripcion(rs.getString(4));
+                platillo.setPrecio(rs.getDouble(5));
+                platillo.setCategoria(rs.getString(6));
+                platillo.setPuntuacionTotal(rs.getDouble(7));
+                platillo.setNumeroPuntuaciones(rs.getInt(8));
+                platillo.setStatus(rs.getInt(9));
+                listaPlatillo.add(platillo);
+            }
+            rs.close();
+            prest.close();
+            conexion.close();
+            return listaPlatillo;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+    
+    
 
     public void addPlatillo(Platillo platillo) {
         /*Almacena un objeto en la base de datos, 
