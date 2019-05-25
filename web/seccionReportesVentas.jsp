@@ -118,8 +118,8 @@
 
             <!-- Tabla -->
             <div >
-                <table class="table">
-                    <thead>
+                <table class="table table-striped">
+                    <thead class="thead-dark">
                         <tr>
                             <th>Venta</th>
                             <th>Id Cliente</th>
