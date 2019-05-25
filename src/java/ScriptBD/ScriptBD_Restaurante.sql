@@ -192,7 +192,7 @@ call getCliente(1);
  )
  insert into cliente  values(null,nombre,apellidos,correo,usuario,pass,tipo,1);
  
- call insertarCliente('','','','Invitado','','2');
+ call insertarCliente('Cliente Invitado','','','Invitado','','2');
  call insertarCliente('Miguel Ángel','Ramírez Lira','migueram_5@hotmail.com','mike','mike123','1');
  call insertarCliente('jorge','Guani','jorge@hotmail.com','jorge','123','1');
  
