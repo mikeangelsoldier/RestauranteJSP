@@ -208,9 +208,9 @@ call getCliente(1);
  )
  update cliente as c set c.nombre=nombre,c.apellidos=apellidos,c.correo=correo,c.usuario=usuario,c.pass=pass
  where c.id =clave;
-
+/*
 call updateCliente(2,'Miguel','Ramírez Lira','migueram_5@hotmail.com','mike','mike123');
- 
+ */
  
 DROP PROCEDURE IF EXISTS deleteCliente;
 CREATE PROCEDURE deleteCliente(
@@ -615,19 +615,14 @@ call getMeseroNextId();
  )
  insert into mesero  values(null,nombre, apellidos, correo, usuario, password, 5, 1,1);
  
- call insertarMesero('José','Cervera Barbosa','jose85@hotmail.com', '1','1');
-call insertarMesero('Miguel','Ramírez Lira','mike85@hotmail.com', '2','2');
+ call insertarMesero('Magdalena','Ortiz','mag@hotmail.com', '1','1');
+call insertarMesero('Alma','Ortega','ortega@hotmail.com', '2','2');
 call insertarMesero('Alfredo','Valdivia Barajas','frodo85@hotmail.com', '3','3');
-/*
-call insertarMesero('Alfredo Dios Especial','Valdivia Barajas','frodo85@hotmail.com', '4','4');
-*/
-
+call insertarMesero('Ricardo','Milos','frodo85@hotmail.com', '4','4');
 call insertarMesero('Juan','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
-/*
- call insertarMesero('Cinthia','Nava verde','navachin8@outlook.com', 'cinthia','13791379');
-  call insertarMesero('Natalia','Méndez','natymendez20@gmail.com', 'naty','abc');
-  call insertarMesero('Georgina','Aguada','georagua12@hotmail.com','gio','123');
-  */
+ call insertarMesero('Cinthia','Nava verde','navachin8@outlook.com', 'cinty','123');
+  call insertarMesero('Jesús','Andrade','natymendez20@gmail.com', 'chuy','abc');
+  call insertarMesero('Ana','Carrillo Trujillo','ana@hotmail.com','ana','123');
  
  DROP PROCEDURE IF EXISTS updateMesero;
  CREATE PROCEDURE updateMesero(
@@ -640,10 +635,9 @@ call insertarMesero('Juan','Márquez rojas','juan85@hotmail.com', 'juan','pass98
  )
  update mesero as p set p.nombre=nombre,p.apellidos=apellidos,p.correo=correo,p.usuario=usuario,p.pass=pass
  where p.id =clave;
-
 /*
  call updateMesero(1, 'Juan','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
-*/
+
  
 DROP PROCEDURE IF EXISTS deleteMesero;
 CREATE PROCEDURE deleteMesero(
@@ -775,9 +769,8 @@ call getAdministradorNextId();
  )
  insert into administrador values(null,nombre, correo, usuario, password,1);
  
- call insertarAdministrador('Administrador','admin@restaurante.com', 'admin','123');
- call insertarAdministrador('Juana','juan85@hotmail.com', 'juana','pass987');
- call insertarAdministrador('Cinthia','navachin8@outlook.com', 'cinthia','13791379');
+ call insertarAdministrador('Administrador','admin@restaurante.com', 'admin','admin123');
+ call insertarAdministrador('Jose','jose@outlook.com', 'jose','123');
  call insertarAdministrador('Natalia','natymendez20@gmail.com', 'naty','abc');
  call insertarAdministrador('Georgina','georagua12@hotmail.com','gio','123');
  
@@ -791,6 +784,7 @@ call getAdministradorNextId();
  )
  update administrador as p set p.nombre=nombre,p.correo=correo,p.usuario=usuario,p.pass=pass
  where p.id =clave;
+
 /*
  call updateAdministrador(1, 'Juan','juan85@hotmail.com', 'juan','pass987');
 */
