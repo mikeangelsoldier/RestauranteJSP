@@ -255,7 +255,8 @@ CREATE PROCEDURE getListaPlatillosPuntaje(
 puntaje varchar(10)
 )
 select * from platillo as p where p.status=1 
-	and CONVERT(p.puntuacionTotal,CHAR) like (CONCAT(puntaje,'%'));
+	and CONVERT(p.puntuacionTotal,CHAR) like (CONCAT(puntaje,'%'))
+    order by p.puntuacionTotal desc;
 /*
 select * from platillo;
 call getListaPlatillosPuntaje(4);
