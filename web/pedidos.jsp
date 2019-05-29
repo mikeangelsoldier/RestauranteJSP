@@ -162,7 +162,8 @@
                         </button>
                     </div>
                     <div class="modal-body" style="padding: 20px">
-                        <div id="googleMap" style="width:100%;height:300px;"></div>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d12163.174518946937!2d-101.65280736435645!3d21.10881064111831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sPrincipal+de+las+haciendas+205%2CSan+pedro+del+monte+C.P.37600!5e0!3m2!1ses-419!2smx!4v1559102894876!5m2!1ses-419!2smx" width="100%" height="300px" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        <!--   <div id="googleMap" style="width:100%;height:300px;"></div> -->
                         <p>Principal Las Haciendas 205, San Pedro Del Monte
                             <br>C.P.37660 León, Gto.</p>
                     </div>
