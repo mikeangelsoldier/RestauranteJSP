@@ -637,7 +637,7 @@ call insertarMesero('Juan','Márquez rojas','juan85@hotmail.com', 'juan','pass98
  where p.id =clave;
 /*
  call updateMesero(1, 'Juan','Márquez rojas','juan85@hotmail.com', 'juan','pass987');
-
+*/
  
 DROP PROCEDURE IF EXISTS deleteMesero;
 CREATE PROCEDURE deleteMesero(
